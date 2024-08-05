@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HireWise.BLL.Logic.Contracts\HireWise.BLL.Logic.Contracts.csproj" />
+    <ProjectReference Include="..\HireWise.DAL.Repository\HireWise.DAL.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HireWise.Common.Entities\HireWise.Common.Entities.csproj" />
+    <ProjectReference Include="..\HireWise.DAL.Repository.Contracts\HireWise.DAL.Repository.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

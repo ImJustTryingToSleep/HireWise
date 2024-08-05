@@ -16,10 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\HireWise.BLL.Logic.Contracts\HireWise.BLL.Logic.Contracts.csproj" />
+    <ProjectReference Include="..\HireWise.BLL.Logic\HireWise.BLL.Logic.csproj" />
     <ProjectReference Include="..\HireWise.DAL.Repository\HireWise.DAL.Repository.csproj" />
   </ItemGroup>
 
