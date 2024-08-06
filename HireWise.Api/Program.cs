@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureDALDependencies();
 builder.Services.ConfigureBLLDependencies();
+builder.Services.ConfigureAuthorization();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DBContext>(options =>
@@ -29,6 +30,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

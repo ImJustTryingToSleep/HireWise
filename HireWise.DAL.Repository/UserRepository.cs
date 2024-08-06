@@ -1,5 +1,6 @@
 ﻿using HireWise.Common.Entities.UserModels.DB;
 using HireWise.DAL.Repository.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace HireWise.DAL.Repository
 {
@@ -18,5 +19,9 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<User?> GetAsync(string login, string password)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == login && u.Password == password);
+        }
     }
 }

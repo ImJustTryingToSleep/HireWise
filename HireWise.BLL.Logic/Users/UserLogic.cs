@@ -2,6 +2,7 @@
 using HireWise.Common.Entities.Enums;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
+using HireWise.DAL.Repository;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.Extensions.Logging;
 
@@ -10,6 +11,7 @@ namespace HireWise.BLL.Logic.Users
     public class UserLogic : IUserLogic
     {
         private readonly IUserRepository _userRepository;
+
         private readonly ILogger<UserLogic> _logger;
 
         public UserLogic(
@@ -40,6 +42,12 @@ namespace HireWise.BLL.Logic.Users
                 throw;
             }
 
+        }
+
+        public async Task<User> GetAsync(string login, string password)
+        {
+            var user = await _userRepository.GetAsync(login, password);
+            return user;
         }
     }
 }

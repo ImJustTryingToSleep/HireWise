@@ -1,4 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.Users;
+using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,12 +25,7 @@ namespace HireWise.Api.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        
 
         // POST api/<UserController>
         [HttpPost]
