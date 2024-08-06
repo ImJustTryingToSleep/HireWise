@@ -11,12 +11,12 @@ using System.Security.Claims;
 
 namespace HireWise.BLL.Logic.Authorization
 {
-    public class AuthorizationLogic : IAuthorizationLogic
+    public class AuthenticationLogic : IAuthenticationLogic
     {
 
         private readonly IUserRepository _userRepository;
 
-        public AuthorizationLogic(IUserRepository userRepository)
+        public AuthenticationLogic(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

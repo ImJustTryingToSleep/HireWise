@@ -10,9 +10,9 @@ namespace HireWise.Api.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
-        private readonly IAuthorizationLogic _authorizationLogic;
+        private readonly IAuthenticationLogic _authorizationLogic;
 
-        public AuthorizationController(IAuthorizationLogic authorizationLogic)
+        public AuthorizationController(IAuthenticationLogic authorizationLogic)
         {
             _authorizationLogic = authorizationLogic;
         }
@@ -33,7 +33,7 @@ namespace HireWise.Api.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{login}, {password}")]
-        public async Task<IResult> AuthorizationAsync(string login, string password)
+        public async Task<IResult> LoginAsync(string login, string password)
         {
             return await _authorizationLogic.GetJwtAsync(login, password);
         }

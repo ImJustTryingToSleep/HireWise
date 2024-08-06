@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HireWise.BLL.Logic.Contracts.Authorization
 {
-    public interface IAuthorizationLogic
+    public interface IAuthenticationLogic
     {
         Task<IResult> GetJwtAsync(string login, string password);
     }

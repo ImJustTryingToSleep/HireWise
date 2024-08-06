@@ -12,7 +12,7 @@ namespace HireWise.Api.Extensions
         public static IServiceCollection ConfigureBLLDependencies(this IServiceCollection services)
         {
             services.AddScoped<IUserLogic, UserLogic>();
-            services.AddScoped<IAuthorizationLogic, AuthorizationLogic>();
+            services.AddScoped<IAuthenticationLogic, AuthenticationLogic>();
             return services;
         }
 
