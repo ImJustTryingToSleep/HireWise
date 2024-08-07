@@ -36,7 +36,7 @@ namespace HireWise.BLL.Logic.Users
                 await _userRepository.CreateUserAsync(user);
                 _logger.LogInformation("User was created");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _logger.LogError("An error occurred while creating the user");
                 throw;
@@ -44,7 +44,7 @@ namespace HireWise.BLL.Logic.Users
 
         }
 
-        public async Task<User> GetAsync(string login, string password)
+        public async Task<User?> GetAsync(string login, string password)
         {
             var user = await _userRepository.GetAsync(login, password);
             return user;

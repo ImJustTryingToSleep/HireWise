@@ -21,7 +21,8 @@ namespace HireWise.DAL.Repository
 
         public async Task<User?> GetAsync(string login, string password)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == login && u.Password == password);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == login && u.Password == password);
+            return user;
         }
     }
 }

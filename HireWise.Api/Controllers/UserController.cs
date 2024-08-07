@@ -10,7 +10,6 @@ namespace HireWise.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserLogic _userLogic;
@@ -27,10 +26,11 @@ namespace HireWise.Api.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        
 
-        // POST api/<UserController>
+
+        // POST api/<UserController>/Registration
         [HttpPost]
+        [Route("Registration")]
         public async Task Post([FromBody] UserCreateInputModel user)
         {
             await _userLogic.CreateUserAsync(user);
