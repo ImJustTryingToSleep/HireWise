@@ -1,8 +1,8 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.Common.Entities.UserModels.InputModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,7 +42,9 @@ namespace HireWise.Api.Controllers
             }
 
             var token = await _authorizationLogic.GetJwtAsync(request.Login, request.Password);
+
             _logger.LogInformation($"Generated token for user: {request.Login}");
+
             return Ok(token);
         }
 

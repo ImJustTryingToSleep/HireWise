@@ -1,25 +1,25 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Claims;
-//using Microsoft.VisualStudio.Services.TestManagement.TestPlanning.WebApi;
+using System.Text;
 
 namespace HireWise.BLL.Logic.Authorization
 {
     public class AuthenticationLogic : IAuthenticationLogic
     {
-
         private readonly IUserRepository _userRepository;
 
         public AuthenticationLogic(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
+
         public async Task<IResult> GetJwtAsync(string login, string password)
         {
             // находим пользователя 
@@ -27,14 +27,20 @@ namespace HireWise.BLL.Logic.Authorization
             // если пользователь не найден, отправляем статусный код 401
             if (user is null) return Results.Unauthorized();
 
-            var claims = new List<Claim> { new Claim( ClaimTypes.Name, user.Login) };
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Login),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    claims: claims,
-                    expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                issuer: AuthOptions.ISSUER,
+                audience: AuthOptions.AUDIENCE,
+                claims: claims,
+                expires: DateTime.Now.Add(TimeSpan.FromMinutes(2)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
+             );
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -47,6 +53,5 @@ namespace HireWise.BLL.Logic.Authorization
 
             return Results.Json(response);
         }
-        
     }
 }
