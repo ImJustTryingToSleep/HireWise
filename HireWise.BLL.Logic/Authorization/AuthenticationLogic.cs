@@ -34,13 +34,14 @@ namespace HireWise.BLL.Logic.Authorization
             var user = await _userRepository.GetAsync(login);
             // если пользователь не найден, отправляем статусный код 401
             if (user is null 
-                || !_passwordService.VerifyPassword(password, user.Password)
-                ) return Results.Unauthorized();
+                || !_passwordService.VerifyPassword(password, user.Password)) 
+                return Results.Unauthorized();
 
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Login),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, user.AccessLevel.ToString())
             };
 
             // создаем JWT-токен
