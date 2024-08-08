@@ -30,9 +30,9 @@ namespace HireWise.BLL.Logic.Users
             {
                 var user = new User
                 {
-                    Login = userInputModel.Login,
-                    Email = userInputModel.Email,
-                    Password = _passwordService.HashPassword(userInputModel.Password)
+                    Login = userInputModel.Login!,
+                    Email = userInputModel.Email!,
+                    Password = _passwordService.HashPassword(userInputModel.Password!)
                 };
 
                 await _userRepository.CreateUserAsync(user);

@@ -108,7 +108,6 @@ namespace HireWise.DAL.Repository
     }
 }
 
-
 //namespace HireWise.DAL.Repository
 //{
 //    public class DBContext : DbContext

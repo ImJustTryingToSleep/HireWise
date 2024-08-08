@@ -12,7 +12,7 @@ namespace HireWise.BLL.Logic.Authorization
 
         public SymmetricSecurityKey SymmetricSecurityKey // генерация симетричного ключа
         {
-            get => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey!));            
+            get => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey!));
         }
     }
 }

@@ -20,10 +20,9 @@ namespace HireWise.Api.Controllers
 
         // GET: api/<UserController>
         [HttpGet]
-        [Authorize]
         public IActionResult Get()
         {
-            return Ok(new { value = "Well done, Turner!" });
+            return Ok();
         }
 
 

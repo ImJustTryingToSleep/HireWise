@@ -19,5 +19,4 @@
             return _passwordHasher.VerifyPassword(hashedPassword, passwordToCheck);
         }
     }
-
 }

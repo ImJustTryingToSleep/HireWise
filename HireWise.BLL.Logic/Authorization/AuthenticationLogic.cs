@@ -33,7 +33,9 @@ namespace HireWise.BLL.Logic.Authorization
             // находим пользователя 
             var user = await _userRepository.GetAsync(login);
             // если пользователь не найден, отправляем статусный код 401
-            if (user is null || !_passwordService.VerifyPassword(password, user.Password)) return Results.Unauthorized();
+            if (user is null 
+                || !_passwordService.VerifyPassword(password, user.Password)
+                ) return Results.Unauthorized();
 
             var claims = new List<Claim>
             {
