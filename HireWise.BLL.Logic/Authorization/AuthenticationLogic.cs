@@ -40,7 +40,7 @@ namespace HireWise.BLL.Logic.Authorization
                 issuer: _authOptions.Issuer,
                 audience: _authOptions.Audience,
                 claims: claims,
-                expires: DateTime.Now.Add(TimeSpan.FromMinutes(2)),
+                expires: DateTime.Now.Add(TimeSpan.FromMinutes(_authOptions.ExpiryMinutes)),
                 signingCredentials: new SigningCredentials(_authOptions.SymmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
              );
 

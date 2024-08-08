@@ -12,6 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+AuthOptions authOptions = new();
+builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
+builder.Services.AddSingleton(authOptions);
+
 builder.Services.ConfigureDALDependencies();
 builder.Services.ConfigureBLLDependencies();
 builder.Services.ConfigureAuthorization();
@@ -19,10 +23,6 @@ builder.Services.ConfigureAuthorization();
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseNpgsql(connection));
-
-AuthOptions authOptions = new();
-builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
-builder.Services.AddSingleton(authOptions);
 
 var app = builder.Build();
 
