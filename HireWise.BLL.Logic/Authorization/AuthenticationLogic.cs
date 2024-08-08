@@ -1,4 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
+using HireWise.BLL.Logic.Services;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -12,22 +13,27 @@ namespace HireWise.BLL.Logic.Authorization
     {
         private readonly IUserRepository _userRepository;
         private readonly AuthOptions _authOptions;
+        private readonly PasswordService _passwordService;
 
         private readonly ILogger<AuthenticationLogic> _logger;
 
-        public AuthenticationLogic(IUserRepository userRepository, AuthOptions authOptions, ILogger<AuthenticationLogic> logger)
+        public AuthenticationLogic(IUserRepository userRepository, 
+            AuthOptions authOptions,
+            PasswordService passwordService,
+            ILogger<AuthenticationLogic> logger)
         {
             _userRepository = userRepository;
             _authOptions = authOptions;
+            _passwordService = passwordService;
             _logger = logger;
         }
 
         public async Task<IResult> GetJwtAsync(string login, string password)
         {
             // находим пользователя 
-            var user = await _userRepository.GetAsync(login, password);
+            var user = await _userRepository.GetAsync(login);
             // если пользователь не найден, отправляем статусный код 401
-            if (user is null) return Results.Unauthorized();
+            if (user is null || !_passwordService.VerifyPassword(password, user.Password)) return Results.Unauthorized();
 
             var claims = new List<Claim>
             {

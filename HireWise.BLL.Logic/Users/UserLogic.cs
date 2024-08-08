@@ -1,4 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.Users;
+using HireWise.BLL.Logic.Services;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -9,14 +10,17 @@ namespace HireWise.BLL.Logic.Users
     public class UserLogic : IUserLogic
     {
         private readonly IUserRepository _userRepository;
+        private readonly PasswordService _passwordService;
 
         private readonly ILogger<UserLogic> _logger;
 
         public UserLogic(
             IUserRepository userRepository,
+            PasswordService passwordService,
             ILogger<UserLogic> logger)
         {
             _userRepository = userRepository;
+            _passwordService = passwordService;
             _logger = logger;
         }
 
@@ -28,7 +32,7 @@ namespace HireWise.BLL.Logic.Users
                 {
                     Login = userInputModel.Login,
                     Email = userInputModel.Email,
-                    Password = userInputModel.Password
+                    Password = _passwordService.HashPassword(userInputModel.Password)
                 };
 
                 await _userRepository.CreateUserAsync(user);
@@ -42,10 +46,7 @@ namespace HireWise.BLL.Logic.Users
 
         }
 
-        public async Task<User?> GetAsync(string login, string password)
-        {
-            var user = await _userRepository.GetAsync(login, password);
-            return user;
-        }
+        public async Task<User?> GetAsync(string login) =>
+            await _userRepository.GetAsync(login);
     }
 }

@@ -6,6 +6,6 @@ namespace HireWise.DAL.Repository.Contracts
     {
         Task CreateUserAsync(User user);
 
-        Task<User?> GetAsync(string login, string password);
+        Task<User?> GetAsync(string login);
     }
 }
