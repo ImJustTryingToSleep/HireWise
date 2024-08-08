@@ -1,21 +1,18 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HireWise.BLL.Logic.Authorization
 {
     public class AuthOptions
     {
-        const string KEY = "mysupersecret_secretsecretsecretkey!123";   // ключ для шифрации
+        public string? SekerKey { get; set; }   // ключ для шифрации
+        public string? Issuer { get; set; } // издатель токена
+        public string? Audience { get; set; } // потребитель токена
+        public int ExpiryMinutes { get; set; } // время жизни токена
 
-        public const string ISSUER = "localhost"; // издатель токена
-        public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-
-        public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-
+        public SymmetricSecurityKey SymmetricSecurityKey // генерация симетричного ключа
+        {
+            get => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SekerKey!));            
+        }
     }
 }

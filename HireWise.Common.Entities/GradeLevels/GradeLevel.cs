@@ -1,11 +1,6 @@
 ﻿using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.RecordModels.DB;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HireWise.Common.Entities.GradeLevels
 {

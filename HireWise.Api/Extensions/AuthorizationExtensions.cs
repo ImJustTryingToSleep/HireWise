@@ -1,6 +1,5 @@
 ﻿using HireWise.BLL.Logic.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HireWise.Api.Extensions
@@ -9,6 +8,9 @@ namespace HireWise.Api.Extensions
     {
         public static IServiceCollection ConfigureAuthorization(this IServiceCollection services)
         {
+            var serviceProvider = services.BuildServiceProvider();
+            var authOptions = serviceProvider.GetRequiredService<AuthOptions>();
+
             services.AddAuthorization();
             services.AddAuthentication(options =>
             {
@@ -20,11 +22,11 @@ namespace HireWise.Api.Extensions
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = AuthOptions.ISSUER,
+                    ValidIssuer = authOptions.Issuer,
                     ValidateAudience = true,
-                    ValidAudience = AuthOptions.AUDIENCE,
+                    ValidAudience = authOptions.Audience,
                     ValidateLifetime = true,
-                    IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                    IssuerSigningKey = authOptions.SymmetricSecurityKey,
                     ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero
                 };

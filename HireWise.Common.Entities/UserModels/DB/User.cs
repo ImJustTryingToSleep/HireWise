@@ -1,10 +1,5 @@
 ﻿using HireWise.Common.Entities.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HireWise.Common.Entities.UserModels.DB
 {

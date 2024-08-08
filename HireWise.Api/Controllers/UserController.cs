@@ -1,5 +1,4 @@
 ﻿using HireWise.BLL.Logic.Contracts.Users;
-using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

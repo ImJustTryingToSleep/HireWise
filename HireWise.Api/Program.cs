@@ -1,4 +1,5 @@
 using HireWise.Api.Extensions;
+using HireWise.BLL.Logic.Authorization;
 using HireWise.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,10 @@ builder.Services.ConfigureAuthorization();
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseNpgsql(connection));
+
+AuthOptions authOptions = new();
+builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
+builder.Services.AddSingleton(authOptions);
 
 var app = builder.Build();
 

@@ -1,8 +1,6 @@
 ﻿using HireWise.BLL.Logic.Contracts.Users;
-using HireWise.Common.Entities.Enums;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
-using HireWise.DAL.Repository;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.Extensions.Logging;
 

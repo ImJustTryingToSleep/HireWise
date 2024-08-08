@@ -3,21 +3,23 @@ using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.AccessControl;
 using System.Security.Claims;
-using System.Text;
 
 namespace HireWise.BLL.Logic.Authorization
 {
     public class AuthenticationLogic : IAuthenticationLogic
     {
         private readonly IUserRepository _userRepository;
+        private readonly AuthOptions _authOptions;
 
-        public AuthenticationLogic(IUserRepository userRepository)
+        private readonly ILogger<AuthenticationLogic> _logger;
+
+        public AuthenticationLogic(IUserRepository userRepository, AuthOptions authOptions, ILogger<AuthenticationLogic> logger)
         {
             _userRepository = userRepository;
+            _authOptions = authOptions;
+            _logger = logger;
         }
 
         public async Task<IResult> GetJwtAsync(string login, string password)
@@ -35,14 +37,15 @@ namespace HireWise.BLL.Logic.Authorization
 
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
+                issuer: _authOptions.Issuer,
+                audience: _authOptions.Audience,
                 claims: claims,
                 expires: DateTime.Now.Add(TimeSpan.FromMinutes(2)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
+                signingCredentials: new SigningCredentials(_authOptions.SymmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
              );
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            _logger.LogInformation($"Generated token for user: {login}");
 
             // формируем ответ
             var response = new
