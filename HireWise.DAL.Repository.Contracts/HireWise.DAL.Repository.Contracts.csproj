@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HireWise.Common.Entities\HireWise.Common.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
