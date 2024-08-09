@@ -14,6 +14,7 @@ namespace HireWise.Api.Extensions
         {
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IAuthenticationLogic, AuthenticationLogic>();
+            services.AddScoped<IUserGroupRepository, UserGroupRepository>();
             services.AddScoped<PasswordService>();
             services.AddSingleton<PasswordHasher>();
             return services;

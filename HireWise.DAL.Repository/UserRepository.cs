@@ -21,7 +21,10 @@ namespace HireWise.DAL.Repository
 
         public async Task<User?> GetAsync(string login)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == login);
+            var user = await _dbContext.Users
+                    .Include(u => u.UserGroup)
+                        .ThenInclude(ug => ug.Roles)
+                    .FirstOrDefaultAsync(u => u.Login == login);
             return user;
         }
     }

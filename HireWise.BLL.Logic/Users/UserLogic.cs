@@ -10,16 +10,19 @@ namespace HireWise.BLL.Logic.Users
     public class UserLogic : IUserLogic
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserGroupRepository _userGroupRepository;
         private readonly PasswordService _passwordService;
 
         private readonly ILogger<UserLogic> _logger;
 
         public UserLogic(
             IUserRepository userRepository,
+            IUserGroupRepository userGroupRepository,
             PasswordService passwordService,
             ILogger<UserLogic> logger)
         {
             _userRepository = userRepository;
+            _userGroupRepository = userGroupRepository;
             _passwordService = passwordService;
             _logger = logger;
         }
@@ -32,7 +35,8 @@ namespace HireWise.BLL.Logic.Users
                 {
                     Login = userInputModel.Login!,
                     Email = userInputModel.Email!,
-                    Password = _passwordService.HashPassword(userInputModel.Password!)
+                    Password = _passwordService.HashPassword(userInputModel.Password!),
+                    UserGroup = await _userGroupRepository.GetDefaultGroupAsync()
                 };
 
                 await _userRepository.CreateUserAsync(user);

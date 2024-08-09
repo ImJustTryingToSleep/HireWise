@@ -1,6 +1,7 @@
 ﻿using HireWise.Common.Entities.GradeLevels;
 using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.RecordModels.DB;
+using HireWise.Common.Entities.RoleModels.DB;
 using HireWise.Common.Entities.TechTransferModels;
 using HireWise.Common.Entities.UserModels.DB;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ namespace HireWise.DAL.Repository
         public DbSet<Record> Records { get; set; } = null!;
         public DbSet<TechTransfer> TechTransfers { get; set; } = null!;
         public DbSet<GradeLevel> GradeLevels { get; set; } = null!;
+        public DbSet<UserGroup> UserGroups { get; set; } = null!;
+        public DbSet<Role> Roles { get; set; } = null!;
 
         // <summary>
         /// Конфигурирует модель при создании контекста базы данных.
@@ -28,6 +31,14 @@ namespace HireWise.DAL.Repository
             ConfigureUser(modelBuilder);
             ConfigureTechTransfer(modelBuilder);
             ConfigureGradeLevel(modelBuilder);
+            //modelBuilder.Entity<UserGroup>()
+            //    .HasMany(e => e.Roles)
+            //    .WithMany(e => e.)
+            //    .UsingEntity(
+            //        "PostTag",
+            //        l => l.HasOne(typeof(Tag)).WithMany().HasForeignKey("TagsId").HasPrincipalKey(nameof(Tag.Id)),
+            //        r => r.HasOne(typeof(Post)).WithMany().HasForeignKey("PostsId").HasPrincipalKey(nameof(Post.Id)),
+            //        j => j.HasKey("PostsId", "TagsId"));
         }
 
         /// <summary>

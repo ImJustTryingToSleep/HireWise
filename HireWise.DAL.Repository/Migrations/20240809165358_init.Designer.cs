@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HireWise.DAL.Repository.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20240807134205_AddUniqueConstraint")]
-    partial class AddUniqueConstraint
+    [Migration("20240809165358_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,6 +128,23 @@ namespace HireWise.DAL.Repository.Migrations
                     b.ToTable("Records");
                 });
 
+            modelBuilder.Entity("HireWise.Common.Entities.RoleModels.DB.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("HireWise.Common.Entities.TechTransferModels.TechTransfer", b =>
                 {
                     b.Property<int>("Id")
@@ -154,9 +171,6 @@ namespace HireWise.DAL.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("AccessLevel")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -172,6 +186,9 @@ namespace HireWise.DAL.Repository.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<int>("UserGroupId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -180,7 +197,41 @@ namespace HireWise.DAL.Repository.Migrations
                     b.HasIndex("Login")
                         .IsUnique();
 
+                    b.HasIndex("UserGroupId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("HireWise.Common.Entities.UserModels.DB.UserGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserGroups");
+                });
+
+            modelBuilder.Entity("RoleUserGroup", b =>
+                {
+                    b.Property<int>("RolesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserGroupsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RolesId", "UserGroupsId");
+
+                    b.HasIndex("UserGroupsId");
+
+                    b.ToTable("RoleUserGroup");
                 });
 
             modelBuilder.Entity("HireWise.Common.Entities.QuestionModels.DB.Question", b =>
@@ -223,6 +274,32 @@ namespace HireWise.DAL.Repository.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("HireWise.Common.Entities.UserModels.DB.User", b =>
+                {
+                    b.HasOne("HireWise.Common.Entities.UserModels.DB.UserGroup", "UserGroup")
+                        .WithMany("Users")
+                        .HasForeignKey("UserGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserGroup");
+                });
+
+            modelBuilder.Entity("RoleUserGroup", b =>
+                {
+                    b.HasOne("HireWise.Common.Entities.RoleModels.DB.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HireWise.Common.Entities.UserModels.DB.UserGroup", null)
+                        .WithMany()
+                        .HasForeignKey("UserGroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("HireWise.Common.Entities.GradeLevels.GradeLevel", b =>
                 {
                     b.Navigation("Questions");
@@ -235,6 +312,11 @@ namespace HireWise.DAL.Repository.Migrations
                     b.Navigation("Questions");
 
                     b.Navigation("Records");
+                });
+
+            modelBuilder.Entity("HireWise.Common.Entities.UserModels.DB.UserGroup", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

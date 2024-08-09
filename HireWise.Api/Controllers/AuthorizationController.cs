@@ -22,7 +22,7 @@ namespace HireWise.Api.Controllers
 
         // GET api/<AuthorizationController>/
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Read")]
         public IActionResult Get()
         {
             return Ok(new { value = "Well done, Turner!" });

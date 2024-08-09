@@ -41,9 +41,12 @@ namespace HireWise.BLL.Logic.Authorization
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Login),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, user.AccessLevel.ToString())
             };
 
+            foreach (var role in user.UserGroup.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            }
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(
                 issuer: _authOptions.Issuer,
