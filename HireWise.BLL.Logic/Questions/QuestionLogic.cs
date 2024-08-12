@@ -1,6 +1,9 @@
-﻿using HireWise.BLL.Logic.Contracts.Questions;
+﻿using AutoMapper;
+using HireWise.BLL.Logic.Contracts.Questions;
+using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.QuestionModels.InputModels;
+using HireWise.Common.Entities.UserModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.Extensions.Logging;
 
@@ -9,14 +12,20 @@ namespace HireWise.BLL.Logic.Questions
     public class QuestionLogic : IQuestionLogic
     {
         private readonly IQuestionRepository _questionRepository;
+        private readonly IUserLogic _userLogic;
         private readonly ILogger<QuestionLogic> _logger;
+        private readonly IMapper _mapper;
 
         public QuestionLogic(
             IQuestionRepository questionRepository, 
-            ILogger<QuestionLogic> logger)
+            IUserLogic userLogic,
+            ILogger<QuestionLogic> logger,
+            IMapper mapper)
         {
             _questionRepository = questionRepository;
+            _userLogic = userLogic;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public async Task CreateQustionAsync(QuestionCreateInputModel questionInputModel)
@@ -24,14 +33,7 @@ namespace HireWise.BLL.Logic.Questions
             try
             {
                 ValidateQustion(questionInputModel);
-                var question = new Question
-                {
-                    QuestionName = questionInputModel.QuestionName,
-                    QuestionBody = questionInputModel.QuestionBody,
-                    GradeId = questionInputModel.GradeId,
-                    TechTransferId = questionInputModel.TechTransferId,
-                    UserId = questionInputModel.UserId,
-                };
+                var question = _mapper.Map<Question>(questionInputModel);
 
                 await _questionRepository.CreateAsync(question);
                 _logger.LogInformation("Question ID: {question.Id}", question.Id);
@@ -72,6 +74,18 @@ namespace HireWise.BLL.Logic.Questions
         public async Task DeleteQuestion(Guid id)
         {
             await _questionRepository.DeleteQuestion(id);
+        }
+
+        public async Task UpdateQuestion(QuestionCreateInputModel questionInputModel, Guid id) // Переписывать методы без Task?
+        {
+            var question = _questionRepository.GetQuestionAsync(id).Result as Question;
+
+            question.QuestionName = questionInputModel.QuestionName;
+            question.QuestionBody = questionInputModel.QuestionBody;
+            question.GradeLevelId = questionInputModel.GradeLevelId;
+            question.TechTransferId = questionInputModel.TechTransferId;
+
+            await _questionRepository.UpdateQuestion(question);
         }
 
         //-------------------------------------------------Скорее всего не работает--------------------------------------------------

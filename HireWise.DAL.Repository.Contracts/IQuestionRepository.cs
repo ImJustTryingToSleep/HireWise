@@ -16,5 +16,6 @@ namespace HireWise.DAL.Repository.Contracts
         Task<Question> GetQuestionAsync(Guid id);
         Task<List<Question>> GetAllByTechTransferAndGradeLevelAsync(int techTrandferId, int gradeLevelId);
         Task DeleteQuestion(Guid id);
+        Task UpdateQuestion(Question question);
     }
 }

@@ -11,7 +11,7 @@ namespace HireWise.Common.Entities.QuestionModels.DB
         public bool IsPublished { get; set; } = false;
         public Guid UserId { get; set; }
         public User Author { get; set; }
-        public int GradeId { get; set; }
+        public int? GradeLevelId { get; set; }
         public int TechTransferId { get; set; }
 
     }

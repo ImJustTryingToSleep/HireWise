@@ -9,9 +9,9 @@ using HireWise.BLL.Logic.Questions;
 using HireWise.BLL.Logic.Services;
 using HireWise.BLL.Logic.TechTransfers;
 using HireWise.BLL.Logic.Users;
-using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.DAL.Repository;
 using HireWise.DAL.Repository.Contracts;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HireWise.Api.Extensions
 {
@@ -25,6 +25,7 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IQuestionLogic, QuestionLogic>();
             services.AddScoped<IGradeLevelLogic, GradeLevelLogic>();
             services.AddScoped<ITechTransferLogic, TechTransferLogic>();
+            services.AddAutoMapper(typeof(MapperConfig));
             services.AddScoped<PasswordService>();
             services.AddSingleton<PasswordHasher>();
             return services;

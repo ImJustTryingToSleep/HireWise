@@ -1,6 +1,7 @@
 ﻿using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.QuestionModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace HireWise.DAL.Repository
 
         public async Task<List<Question>> GetAllByTechTransferAndGradeLevelAsync(int techTrandferId, int gradeLevelId)
         {
-            var questions = _dbContext.Questions.Where(q => q.GradeId == gradeLevelId && q.TechTransferId == techTrandferId && q.IsPublished == true);
+            var questions = _dbContext.Questions.Where(q => q.GradeLevelId == gradeLevelId && q.TechTransferId == techTrandferId && q.IsPublished == true);
             return await questions.ToListAsync();
         }  //Переименовать? Вынести tech и grade в отдельную сущность?
         #endregion
@@ -65,5 +66,12 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
         #endregion
+
+        public async Task UpdateQuestion (Question question)
+        {
+            //var qest = await GetQuestionAsync(question.Id);
+            _dbContext.Entry(question).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

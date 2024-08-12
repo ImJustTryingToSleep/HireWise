@@ -65,10 +65,12 @@ namespace HireWise.Api.Controllers
         }
 
         // PUT api/<QuestionController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut]
+        [Route("update")]
+        public async Task Put([FromBody] QuestionCreateInputModel inputModel, Guid id)
+        {
+            await _questionLogic.UpdateQuestion(inputModel, id);
+        }
 
         // DELETE api/<QuestionController>/5
         [HttpDelete("{id}")]
