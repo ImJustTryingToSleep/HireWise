@@ -19,6 +19,7 @@ builder.Services.AddSingleton(authOptions);
 builder.Services.ConfigureDALDependencies();
 builder.Services.ConfigureBLLDependencies();
 builder.Services.ConfigureAuthorization();
+builder.Services.ConfigureGrafGL();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 builder.Services.AddDbContext<DBContext>(options =>
@@ -39,5 +40,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGraphQL("/GraphQL");
 
 app.Run();
