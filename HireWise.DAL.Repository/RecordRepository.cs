@@ -1,13 +1,10 @@
 ﻿using HireWise.Common.Entities.RecordModels.DB;
+using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HireWise.DAL.Repository
 {
-    public class RecordRepository
+    public class RecordRepository : IRecordRepository
     {
         private readonly DbContext _context;
 
@@ -29,7 +26,7 @@ namespace HireWise.DAL.Repository
         /// <summary>
         /// Получение записи по Id
         /// </summary>
-        public async Task<Record> GetRecordByIdAsync(Guid id)
+        public async Task<Record?> GetRecordByIdAsync(Guid id)
         {
             return await GetRecordsQuery()
                 .FirstOrDefaultAsync(r => r.Id == id);
