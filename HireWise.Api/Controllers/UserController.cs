@@ -1,4 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.Users;
+using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,10 @@ namespace HireWise.Api.Controllers
         }
 
         // GET: api/<UserController>
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{id}")]
+        public async Task<User> Get(Guid Id)
         {
-            return Ok();
+            return await _userLogic.GetByIdAsync(Id);
         }
 
 

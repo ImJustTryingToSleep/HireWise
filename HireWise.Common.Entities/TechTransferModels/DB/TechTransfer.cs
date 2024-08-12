@@ -2,9 +2,9 @@
 using HireWise.Common.Entities.RecordModels.DB;
 using System.ComponentModel.DataAnnotations;
 
-namespace HireWise.Common.Entities.GradeLevels
+namespace HireWise.Common.Entities.TechTransferModels.DB
 {
-    public class GradeLevel
+    public class TechTransfer
     {
         public int Id { get; set; }
 

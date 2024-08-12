@@ -1,5 +1,8 @@
+using AutoMapper;
 using HireWise.Api.Extensions;
 using HireWise.BLL.Logic.Authorization;
+using HireWise.Common.Entities.QuestionModels.DB;
+using HireWise.Common.Entities.QuestionModels.InputModels;
 using HireWise.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +14,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 AuthOptions authOptions = new();
 builder.Configuration.GetSection("AuthOptions").Bind(authOptions);

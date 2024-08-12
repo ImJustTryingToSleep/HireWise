@@ -52,5 +52,10 @@ namespace HireWise.BLL.Logic.Users
 
         public async Task<User?> GetAsync(string login) =>
             await _userRepository.GetAsync(login);
+
+        public async Task<User?> GetByIdAsync (Guid id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
     }
 }

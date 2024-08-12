@@ -1,11 +1,12 @@
-﻿using HireWise.Common.Entities.GradeLevels;
+﻿using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.RecordModels.DB;
 using HireWise.Common.Entities.RoleModels.DB;
-using HireWise.Common.Entities.TechTransferModels;
+using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 
 namespace HireWise.DAL.Repository

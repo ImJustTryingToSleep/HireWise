@@ -1,4 +1,5 @@
-﻿using HireWise.Common.Entities.TechTransferModels.DB;
+﻿using HireWise.Common.Entities.GradeLevels.DB;
+using HireWise.Common.Entities.GradeLevels.InputModels;
 using HireWise.DAL.Repository.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace HireWise.DAL.Repository
 {
-    public class TechTransferRepository : ITechTransferRepository
+    public class GradeLevelRepository : IGradeLevelRepository
     {
         private readonly DBContext _dbContext;
 
-        public TechTransferRepository(DBContext dbContext)
+        public GradeLevelRepository(DBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task CreateTechTransfer(TechTransfer techTransfer)
+        public async Task CreateGradeAsync(GradeLevel gradeModel)
         {
-            await _dbContext.TechTransfers.AddAsync(techTransfer);
+            await _dbContext.GradeLevels.AddAsync(gradeModel);
             await _dbContext.SaveChangesAsync();
         }
     }

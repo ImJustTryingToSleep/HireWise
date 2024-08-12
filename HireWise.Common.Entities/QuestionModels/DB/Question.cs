@@ -8,10 +8,10 @@ namespace HireWise.Common.Entities.QuestionModels.DB
         public string QuestionName { get; set; }
         public string QuestionBody { get; set; }
         public int Counter { get; set; }
-        public bool IsPublished { get; set; }
+        public bool IsPublished { get; set; } = false;
         public Guid UserId { get; set; }
         public User Author { get; set; }
-        public int GradeId { get; set; }
+        public int? GradeLevelId { get; set; }
         public int TechTransferId { get; set; }
 
     }
