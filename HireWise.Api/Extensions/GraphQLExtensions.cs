@@ -4,10 +4,11 @@ namespace HireWise.Api.Extensions
 {
     public static class GraphQLExtensions
     {
-        public static IServiceCollection ConfigureGrafGL(this IServiceCollection services)
+        public static IServiceCollection ConfigureGraphQL(this IServiceCollection services)
         {
             services.AddGraphQLServer()
-                .AddQueryType<Queries>();
+                .AddQueryType<Queries>()
+                .AddProjections();
 
             return services;
         }
