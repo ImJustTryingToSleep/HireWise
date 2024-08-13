@@ -42,7 +42,17 @@ namespace HireWise.Api.Controllers
 
             var token = await _authorizationLogic.GetJwtAsync(request.Login, request.Password);
 
-            return Ok(token);
+            if (string.IsNullOrEmpty(token)) 
+                return BadRequest(Results.Unauthorized());
+
+            // формируем ответ
+            var response = new
+            {
+                access_token = token,
+                username = request.Login
+            };
+
+            return Ok(Results.Json(response));
         }
 
 

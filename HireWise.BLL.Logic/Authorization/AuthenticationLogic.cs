@@ -1,5 +1,6 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.BLL.Logic.Services;
+using HireWise.Common.Entities.UserModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,7 @@ namespace HireWise.BLL.Logic.Authorization
 
         private readonly ILogger<AuthenticationLogic> _logger;
 
-        public AuthenticationLogic(IUserRepository userRepository, 
+        public AuthenticationLogic(IUserRepository userRepository,
             AuthOptions authOptions,
             PasswordService passwordService,
             ILogger<AuthenticationLogic> logger)
@@ -28,25 +29,51 @@ namespace HireWise.BLL.Logic.Authorization
             _logger = logger;
         }
 
-        public async Task<IResult> GetJwtAsync(string login, string password)
+        /// <summary>
+        /// Получить токен по логину и паролю
+        /// </summary>
+        /// <param name="username">Имя пользователя</param>
+        /// <param name="password">Пароль</param>
+        /// <returns>Токен или null в случае ошибки</returns>
+        public async Task<string?> GetJwtAsync(string username, string password)
         {
-            // находим пользователя 
-            var user = await _userRepository.GetAsync(login);
-            // если пользователь не найден, отправляем статусный код 401
-            if (user is null 
-                || !_passwordService.VerifyPassword(password, user.Password)) 
-                return Results.Unauthorized();
+            var user = await _userRepository.GetAsync(username);
 
+            // если пользователь не найден или пароль неверный
+            if (user is null || !_passwordService.VerifyPassword(password, user.Password))
+            {
+                _logger.LogError($"Invalid login attempt for user {username}.");
+                return null;
+            }
+
+            return await GenerateJwtAsync(user);
+        }
+
+        public async Task<string?> GetJwtAsync(User user) =>
+            await GenerateJwtAsync(user);
+
+        /// <summary>
+        /// Получить токен для указанного пользователя
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Токен</returns>
+        private async Task<string> GenerateJwtAsync(User user)
+        {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Login),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
-            foreach (var role in user.UserGroup.Roles)
+            // Добавляем роли, если они есть
+            if (user.UserGroup.Roles != null)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                foreach (var role in user.UserGroup.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                }
             }
+
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(
                 issuer: _authOptions.Issuer,
@@ -54,19 +81,13 @@ namespace HireWise.BLL.Logic.Authorization
                 claims: claims,
                 expires: DateTime.Now.Add(TimeSpan.FromMinutes(_authOptions.ExpiryMinutes)),
                 signingCredentials: new SigningCredentials(_authOptions.SymmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
-             );
+            );
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            _logger.LogInformation($"Generated token for user: {login}");
+            _logger.LogInformation($"Generated token for user: {user.Login}");
 
-            // формируем ответ
-            var response = new
-            {
-                access_token = encodedJwt,
-                username = user.Login
-            };
-
-            return Results.Json(response);
+            return encodedJwt;
         }
+
     }
 }

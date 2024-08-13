@@ -1,5 +1,6 @@
 ﻿using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.Services;
+using HireWise.Common.Entities.RoleModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -47,8 +48,10 @@ namespace HireWise.BLL.Logic.Users
                 _logger.LogError("An error occurred while creating the user");
                 throw;
             }
-
         }
+
+        public async Task<IEnumerable<Role>?> GetRolesAsync(User user) =>
+            await _userGroupRepository.GetRolesForUserGroupAsync(user.UserGroupId);
 
         public async Task<User?> GetAsync(string login) =>
             await _userRepository.GetAsync(login);

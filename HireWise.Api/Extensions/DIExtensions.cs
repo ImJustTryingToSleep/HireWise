@@ -1,5 +1,6 @@
 ﻿using HireWise.BLL.Logic.Authorization;
 using HireWise.BLL.Logic.Contracts.Authorization;
+using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.Services;
 using HireWise.BLL.Logic.Users;
@@ -15,7 +16,7 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IAuthenticationLogic, AuthenticationLogic>();
             services.AddScoped<IUserGroupRepository, UserGroupRepository>();
-            services.AddScoped<PasswordService>();
+            services.AddScoped<IPasswordService, PasswordService>();
             services.AddSingleton<PasswordHasher>();
             return services;
         }

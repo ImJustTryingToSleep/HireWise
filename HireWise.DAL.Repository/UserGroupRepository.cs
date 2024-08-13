@@ -22,8 +22,7 @@ namespace HireWise.DAL.Repository
         // удаление юзер группы
         // изменение юзер группы
         // получение списка юзеров из конкретной юзер группы
-        // Получение списка ролей из группы
-
+                 
         /// <summary>
         /// Получение дефолтной юзер группы
         /// </summary>
@@ -36,8 +35,11 @@ namespace HireWise.DAL.Repository
             {
                 DefaultCreateUserGroup();
             }
-            return userGroup.FirstOrDefault(r => r.Name == "RegisteredUser");
+            return userGroup.FirstOrDefault(r => r.Name == "RegisteredUser")!;
         }
+
+        public async Task<IEnumerable<Role>?> GetRolesForUserGroupAsync(int GroupId) =>
+            (await _dbContext.UserGroups.FirstOrDefaultAsync(g => GroupId == g.Id))!.Roles;
 
         private async Task DefaultCreateUserGroup()
         {

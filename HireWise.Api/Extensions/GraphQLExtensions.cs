@@ -8,6 +8,7 @@ namespace HireWise.Api.Extensions
         {
             services.AddGraphQLServer()
                 .AddQueryType<Queries>()
+                .AddMutationType<Mutations>()
                 .AddProjections();
 
             return services;
