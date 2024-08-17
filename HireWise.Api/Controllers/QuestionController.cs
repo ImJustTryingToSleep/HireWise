@@ -1,5 +1,4 @@
 ﻿using HireWise.BLL.Logic.Contracts.Questions;
-using HireWise.BLL.Logic.Questions;
 using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.QuestionModels.InputModels;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +22,14 @@ namespace HireWise.Api.Controllers
         // GET: api/<QuestionController>
         [HttpGet]
         [Route("getAll")]
-        public async Task<List<Question>> GetAsync()
+        public async IAsyncEnumerable<Question> GetAsync()
         {
-            return await _questionLogic.GetAllAsync();
+           var questions = _questionLogic.GetAsync();
+
+           await foreach (var item in questions)
+           {
+               yield return item;
+           }
         }
 
         [HttpGet]
@@ -44,15 +48,15 @@ namespace HireWise.Api.Controllers
 
         // GET api/<QuestionController>/5
         [HttpGet("{id}")]
-        public async Task<Question> GetQuestionAsync(Guid id)
+        public async Task<Question> GetAsync(Guid id)
         {
-            return await _questionLogic.GetQuestionAsync(id);
+            return await _questionLogic.GetAsync(id);
         }
 
         [HttpGet("{gradeId}, {techId}")]
-        public async Task<List<Question>> GetByGradeAndTech(int gradeId, int techId)
+        public async Task<List<Question>> GetAsync(int gradeId, int techId)
         {
-            return await _questionLogic.GetByGradeAndTechTransferAsync(gradeId, techId);
+            return await _questionLogic.GetAsync(gradeId, techId);
         }
         #endregion
 
@@ -67,14 +71,14 @@ namespace HireWise.Api.Controllers
         // PUT api/<QuestionController>/5
         [HttpPut]
         [Route("update")]
-        public async Task Put([FromBody] QuestionCreateInputModel inputModel, Guid id)
+        public async Task PutAsync([FromBody] QuestionCreateInputModel inputModel, Guid id)
         {
             await _questionLogic.UpdateQuestion(inputModel, id);
         }
 
         // DELETE api/<QuestionController>/5
         [HttpDelete("{id}")]
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             await _questionLogic.DeleteQuestion(id);
         }

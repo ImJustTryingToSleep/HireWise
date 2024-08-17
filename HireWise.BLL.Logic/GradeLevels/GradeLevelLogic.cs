@@ -1,4 +1,5 @@
-﻿using HireWise.BLL.Logic.Contracts.GradeLevels;
+﻿using AutoMapper;
+using HireWise.BLL.Logic.Contracts.GradeLevels;
 using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.Common.Entities.GradeLevels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -15,6 +16,7 @@ namespace HireWise.BLL.Logic.GradeLevels
     {
         private readonly IGradeLevelRepository _gradeLevelRepository;
         private readonly ILogger<GradeLevelLogic> _logger;
+        private readonly IMapper _mapper;
 
         public GradeLevelLogic(
             IGradeLevelRepository gradeLevelRepository,
@@ -28,11 +30,8 @@ namespace HireWise.BLL.Logic.GradeLevels
         {
             try
             {
-                var gradeLevel = new GradeLevel
-                {
-                    Name = gradeLevelInputModel.Name,
-                };
-
+                var gradeLevel = _mapper.Map<GradeLevel>(gradeLevelInputModel);
+  
                 await _gradeLevelRepository.CreateGradeAsync(gradeLevel);
                 _logger.LogInformation("Уровень был создан");
             }

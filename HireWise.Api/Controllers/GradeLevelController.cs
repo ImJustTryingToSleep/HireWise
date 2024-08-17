@@ -41,13 +41,13 @@ namespace HireWise.Api.Controllers
 
         //// PUT api/<GradeLevelController>/5
         //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
+        //public void PutAsync(int id, [FromBody] string value)
         //{
         //}
 
         //// DELETE api/<GradeLevelController>/5
         //[HttpDelete("{id}")]
-        //public void Delete(int id)
+        //public void DeleteAsync(int id)
         //{
         //}
     }

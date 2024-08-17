@@ -41,14 +41,15 @@ namespace HireWise.Api.Controllers
 
         //// PUT api/<TechTransferController>/5
         //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
+        //public void PutAsync(int id, [FromBody] string value)
         //{
         //}
 
-        //// DELETE api/<TechTransferController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/<TechTransferController>/5
+        [HttpDelete("{id}")]
+        public async Task DeleteAsync(int id)
+        {
+            await _techTransferLogic.DeleteTechTransferAsync(id);
+        }
     }
 }

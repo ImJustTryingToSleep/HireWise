@@ -10,5 +10,6 @@ namespace HireWise.DAL.Repository.Contracts
     public interface ITechTransferRepository
     {
         Task CreateTechTransfer(TechTransfer techTransfer);
+        Task Delete(int id);
     }
 }

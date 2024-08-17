@@ -10,5 +10,6 @@ namespace HireWise.BLL.Logic.Contracts.ITechTransferLogic
     public interface ITechTransferLogic
     {
         Task CreateTechTransferAsync(TechTransferInputModel techTransferInputModel);
+        Task DeleteTechTransferAsync(int id);
     }
 }
