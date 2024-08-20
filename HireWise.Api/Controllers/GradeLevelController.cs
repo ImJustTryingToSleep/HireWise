@@ -15,7 +15,6 @@ namespace HireWise.Api.Controllers
         {
             _gradeLevelLogic = gradeLevelLogic;
         }
-        // GET: api/<GradeLevelController>
 
         [HttpGet]
         [Route("getAll")]
@@ -24,7 +23,6 @@ namespace HireWise.Api.Controllers
             return await _gradeLevelLogic.GetAsync();
         }
 
-        // GET api/<GradeLevelController>/5
         [HttpGet]
         [Route("getById")]
         public async Task<GradeLevel> GetAsync(int id)
@@ -32,7 +30,6 @@ namespace HireWise.Api.Controllers
             return await _gradeLevelLogic.GetAsync(id);
         }
 
-        // POST api/<GradeLevelController>
         [HttpPost]
         [Route("create")]
         public async Task Post([FromBody] GradeLevelInputModel model)
@@ -40,7 +37,6 @@ namespace HireWise.Api.Controllers
             await _gradeLevelLogic.CreateAsync(model);
         }
 
-        // PUT api/<GradeLevelController>/5
         [HttpPut]
         [Route("update")]
         public async Task PutAsync(int id, [FromBody] GradeLevelInputModel gradeLvl)
@@ -48,7 +44,6 @@ namespace HireWise.Api.Controllers
             await _gradeLevelLogic.UpdateAsync(gradeLvl, id);
         }
 
-        // DELETE api/<GradeLevelController>/5
         [HttpDelete]
         [Route("delete")]
         public async Task DeleteAsync(int id)

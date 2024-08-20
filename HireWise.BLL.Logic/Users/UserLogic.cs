@@ -33,7 +33,7 @@ namespace HireWise.BLL.Logic.Users
             _logger = logger;
         }
 
-        public async Task CreateUserAsync(UserInputModel userInputModel)
+        public async Task CreateAsync(UserInputModel userInputModel)
         {
             try
             {

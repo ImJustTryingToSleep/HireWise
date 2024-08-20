@@ -65,7 +65,7 @@ namespace HireWise.Api.Controllers
         [Route("create")]
         public async Task PostAsync([FromBody] QuestionInputModel questionInputModel)
         {
-            await _questionLogic.CreateQustionAsync(questionInputModel);
+            await _questionLogic.CreateAsync(questionInputModel);
         }
 
         // PUT api/<QuestionController>/5
@@ -73,14 +73,14 @@ namespace HireWise.Api.Controllers
         [Route("update")]
         public async Task PutAsync([FromBody] QuestionInputModel inputModel, Guid id)
         {
-            await _questionLogic.UpdateQuestion(inputModel, id);
+            await _questionLogic.UpdateAsync(inputModel, id);
         }
 
         // DELETE api/<QuestionController>/5
         [HttpDelete("{id}")]
         public async Task DeleteAsync(Guid id)
         {
-            await _questionLogic.DeleteQuestion(id);
+            await _questionLogic.DeleteAsync(id);
         }
     }
 }

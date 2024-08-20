@@ -27,7 +27,7 @@ namespace HireWise.BLL.Logic.Questions
             _mapper = mapper;
         }
 
-        public async Task CreateQustionAsync(QuestionInputModel questionInputModel)
+        public async Task CreateAsync(QuestionInputModel questionInputModel)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace HireWise.BLL.Logic.Questions
         }
         #endregion
 
-        public async Task DeleteQuestion(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace HireWise.BLL.Logic.Questions
             }
         } //log+
 
-        public async Task UpdateQuestion(QuestionInputModel questionInputModel, Guid id) // log+
+        public async Task UpdateAsync(QuestionInputModel questionInputModel, Guid id) // log+
         {
             try
             {

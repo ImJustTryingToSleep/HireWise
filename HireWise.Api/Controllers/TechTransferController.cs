@@ -19,7 +19,6 @@ namespace HireWise.Api.Controllers
             _techTransferLogic = techTransferLogic;
         }
 
-        //GET: api/<TechTransferController>
         [HttpGet]
         [Route("getAll")]
         public async Task<List<TechTransfer>> GetAsync()
@@ -27,7 +26,6 @@ namespace HireWise.Api.Controllers
             return await _techTransferLogic.GetAsync();
         }
 
-        // GET api/<TechTransferController>/5
         [HttpGet]
         [Route("getById")]
         public async Task<TechTransfer> GetAsync(int id)
@@ -35,15 +33,13 @@ namespace HireWise.Api.Controllers
             return await _techTransferLogic.GetAsync(id);
         }
 
-        // POST api/<TechTransferController>
         [HttpPost]
         [Route("create")]
         public async Task PostAsync([FromBody] TechTransferInputModel techTransferInputModel)
         {
-            await _techTransferLogic.CreateTechTransferAsync(techTransferInputModel);
+            await _techTransferLogic.CreateAsync(techTransferInputModel);
         }
 
-        // PUT api/<TechTransferController>/5
         [HttpPut]
         [Route("update")]
         public async Task PutAsync([FromBody] TechTransferInputModel techModel, int id)
@@ -51,12 +47,11 @@ namespace HireWise.Api.Controllers
             await _techTransferLogic.UpdateAsync(techModel, id);
         }
 
-        // DELETE api/<TechTransferController>/5
         [HttpDelete]
         [Route("delete")]
         public async Task DeleteAsync(int id)
         {
-            await _techTransferLogic.DeleteTechTransferAsync(id);
+            await _techTransferLogic.DeleteAsync(id);
         }
     }
 }

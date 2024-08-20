@@ -1,6 +1,4 @@
 ﻿using HireWise.Common.Entities.GradeLevels.DB;
-using HireWise.Common.Entities.GradeLevels.InputModels;
-using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,13 +19,6 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
-        {
-            var gradeLevel = await _dbContext.GradeLevels.FirstOrDefaultAsync(g => g.Id == id);
-            _dbContext.GradeLevels.Remove(gradeLevel);
-            await _dbContext.SaveChangesAsync();
-        }
-
         public async Task<List<GradeLevel>> GetAsync()
         {
             return await _dbContext.GradeLevels.ToListAsync();
@@ -36,6 +27,13 @@ namespace HireWise.DAL.Repository
         public async Task<GradeLevel> GetAsync(int id)
         {
             return await _dbContext.GradeLevels.FirstOrDefaultAsync(g => g.Id == id);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var gradeLevel = await _dbContext.GradeLevels.FirstOrDefaultAsync(g => g.Id == id);
+            _dbContext.GradeLevels.Remove(gradeLevel);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(GradeLevel gradeLevel)

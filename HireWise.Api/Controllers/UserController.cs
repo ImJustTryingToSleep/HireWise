@@ -36,7 +36,7 @@ namespace HireWise.Api.Controllers
         [Route("Registration")]
         public async Task PostAsync([FromBody] UserInputModel user)
         {
-            await _userLogic.CreateUserAsync(user);
+            await _userLogic.CreateAsync(user);
         }
 
         

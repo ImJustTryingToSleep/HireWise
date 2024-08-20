@@ -1,12 +1,6 @@
-﻿using HireWise.Common.Entities.GradeLevels.DB;
-using HireWise.Common.Entities.TechTransferModels.DB;
+﻿using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HireWise.DAL.Repository
 {
@@ -25,13 +19,6 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
-        {
-            var techTransfer = await _dbContext.TechTransfers.FirstOrDefaultAsync(t => t.Id == id);
-            _dbContext.TechTransfers.Remove(techTransfer);
-            await _dbContext.SaveChangesAsync();
-        }
-
         public async Task<List<TechTransfer>> GetAsync()
         {
             return await _dbContext.TechTransfers.ToListAsync();
@@ -40,6 +27,13 @@ namespace HireWise.DAL.Repository
         public async Task<TechTransfer> GetAsync(int id)
         {
             return await _dbContext.TechTransfers.FirstOrDefaultAsync(t => t.Id == id);
+        }
+
+        public async Task Delete(int id)
+        {
+            var techTransfer = await _dbContext.TechTransfers.FirstOrDefaultAsync(t => t.Id == id);
+            _dbContext.TechTransfers.Remove(techTransfer);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(TechTransfer techTransfer)

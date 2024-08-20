@@ -1,16 +1,8 @@
 ﻿using AutoMapper;
-using HireWise.BLL.Logic.Contracts.GradeLevels;
 using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.Common.Entities.GradeLevels.InputModels;
-using HireWise.Common.Entities.QuestionModels.DB;
-using HireWise.Common.Entities.QuestionModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HireWise.BLL.Logic.GradeLevels
 {

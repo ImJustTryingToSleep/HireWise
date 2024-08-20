@@ -1,8 +1,6 @@
 using AutoMapper;
 using HireWise.Api.Extensions;
 using HireWise.BLL.Logic.Authorization;
-using HireWise.Common.Entities.QuestionModels.DB;
-using HireWise.Common.Entities.QuestionModels.InputModels;
 using HireWise.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
 
