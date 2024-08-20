@@ -1,9 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-
-namespace HireWise.Common.Entities.UserModels.InputModels
+﻿namespace HireWise.Common.Entities.UserModels.InputModels
 {
-    public class UserCreateInputModel
+    public class UserInputModel
     {
         public string? Login { get; set; }
         public string? Email { get; set; }

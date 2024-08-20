@@ -14,8 +14,9 @@ namespace HireWise.Api.Extensions
     {
         public MapperConfig()
         {
-            CreateMap<QuestionCreateInputModel, Question>();
-            CreateMap<UserCreateInputModel, User>();
+            CreateMap<QuestionInputModel, Question>()
+                .ForMember(q => q.Id, opt => opt.Ignore());
+            CreateMap<UserInputModel, User>();
             CreateMap<GradeLevelInputModel, GradeLevel>();
             CreateMap<TechTransferInputModel, TechTransfer>();
         }

@@ -27,7 +27,7 @@ namespace HireWise.BLL.Logic.Questions
             _mapper = mapper;
         }
 
-        public async Task CreateQustionAsync(QuestionCreateInputModel questionInputModel)
+        public async Task CreateQustionAsync(QuestionInputModel questionInputModel)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace HireWise.BLL.Logic.Questions
             }
         } //log+
 
-        public async Task UpdateQuestion(QuestionCreateInputModel questionInputModel, Guid id) // log+
+        public async Task UpdateQuestion(QuestionInputModel questionInputModel, Guid id) // log+
         {
             try
             {
@@ -105,10 +105,7 @@ namespace HireWise.BLL.Logic.Questions
 
                 if (question != null)
                 {
-                    question.QuestionName = questionInputModel.QuestionName;
-                    question.QuestionBody = questionInputModel.QuestionBody;
-                    question.GradeLevelId = questionInputModel.GradeLevelId;
-                    question.TechTransferId = questionInputModel.TechTransferId;
+                    _mapper.Map(questionInputModel, question);
 
                     await _questionRepository.UpdateQuestion(question);
                     _logger.LogInformation("Question with Id: {question.Id} was updated", question.Id);
@@ -126,7 +123,7 @@ namespace HireWise.BLL.Logic.Questions
             
         }
 
-        private void ValidateQustion(QuestionCreateInputModel question)
+        private void ValidateQustion(QuestionInputModel question)
         {
             var exceptionMessages = new List<string>();
 

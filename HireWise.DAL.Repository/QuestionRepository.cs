@@ -1,6 +1,7 @@
 ﻿using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace HireWise.DAL.Repository
 {
@@ -72,5 +73,13 @@ namespace HireWise.DAL.Repository
             _dbContext.Entry(question).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        //public static async IAsyncEnumerable<T> ToAsyncEnumerable<T>(List<T> list)
+        //{
+        //    foreach (var item in list)
+        //    {
+        //        yield return item;
+        //    }
+        //}
     }
 }

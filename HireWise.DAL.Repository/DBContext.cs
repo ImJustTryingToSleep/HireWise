@@ -6,7 +6,6 @@ using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 
 namespace HireWise.DAL.Repository

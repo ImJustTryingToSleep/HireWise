@@ -1,4 +1,5 @@
-﻿using HireWise.BLL.Logic.Contracts.Users;
+﻿using AutoMapper;
+using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.Services;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
@@ -11,6 +12,7 @@ namespace HireWise.BLL.Logic.Users
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserGroupRepository _userGroupRepository;
+        private readonly IMapper _mapper;
         private readonly PasswordService _passwordService;
 
         private readonly ILogger<UserLogic> _logger;
@@ -18,26 +20,25 @@ namespace HireWise.BLL.Logic.Users
         public UserLogic(
             IUserRepository userRepository,
             IUserGroupRepository userGroupRepository,
-            PasswordService passwordService,
-            ILogger<UserLogic> logger)
+            IMapper mapper,
+            ILogger<UserLogic> logger,
+            PasswordService passwordService
+            )
         {
             _userRepository = userRepository;
             _userGroupRepository = userGroupRepository;
+            _mapper = mapper;
             _passwordService = passwordService;
             _logger = logger;
         }
 
-        public async Task CreateUserAsync(UserCreateInputModel userInputModel)
+        public async Task CreateUserAsync(UserInputModel userInputModel)
         {
             try
             {
-                var user = new User
-                {
-                    Login = userInputModel.Login!,
-                    Email = userInputModel.Email!,
-                    Password = _passwordService.HashPassword(userInputModel.Password!),
-                    UserGroup = await _userGroupRepository.GetDefaultGroupAsync()
-                };
+                userInputModel.Password = _passwordService.HashPassword(userInputModel.Password!);
+                var user = _mapper.Map<User>(userInputModel);
+                user.UserGroup = await _userGroupRepository.GetDefaultGroupAsync();
 
                 await _userRepository.CreateUserAsync(user);
                 _logger.LogInformation("User was created");

@@ -25,11 +25,11 @@ namespace HireWise.Api.Controllers
         public async IAsyncEnumerable<Question> GetAsync()
         {
            var questions = _questionLogic.GetAsync();
-
-           await foreach (var item in questions)
-           {
-               yield return item;
-           }
+            //yield return (Question)questions;
+            await foreach (var item in questions)
+            {
+                yield return item;
+            }
         }
 
         [HttpGet]
@@ -63,7 +63,7 @@ namespace HireWise.Api.Controllers
         // POST api/<QuestionController>/create
         [HttpPost]
         [Route("create")]
-        public async Task PostAsync([FromBody] QuestionCreateInputModel questionInputModel)
+        public async Task PostAsync([FromBody] QuestionInputModel questionInputModel)
         {
             await _questionLogic.CreateQustionAsync(questionInputModel);
         }
@@ -71,7 +71,7 @@ namespace HireWise.Api.Controllers
         // PUT api/<QuestionController>/5
         [HttpPut]
         [Route("update")]
-        public async Task PutAsync([FromBody] QuestionCreateInputModel inputModel, Guid id)
+        public async Task PutAsync([FromBody] QuestionInputModel inputModel, Guid id)
         {
             await _questionLogic.UpdateQuestion(inputModel, id);
         }

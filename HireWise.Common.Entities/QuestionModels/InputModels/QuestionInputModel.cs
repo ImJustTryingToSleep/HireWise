@@ -1,7 +1,7 @@
 ﻿
 namespace HireWise.Common.Entities.QuestionModels.InputModels
 {
-    public class QuestionCreateInputModel
+    public class QuestionInputModel
     {
         public string QuestionName { get; set; }
         public string QuestionBody { get; set; }

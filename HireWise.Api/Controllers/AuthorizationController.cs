@@ -31,7 +31,7 @@ namespace HireWise.Api.Controllers
         // POST api/<AuthorizationController>/login
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] UserCreateInputModel request)
+        public async Task<IActionResult> LoginAsync([FromBody] UserInputModel request)
         {
             if (request == null || string.IsNullOrEmpty(request.Login) || string.IsNullOrEmpty(request.Password))
             {
