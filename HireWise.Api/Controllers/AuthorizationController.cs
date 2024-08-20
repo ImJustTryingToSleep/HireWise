@@ -14,7 +14,9 @@ namespace HireWise.Api.Controllers
         private readonly ILogger<AuthorizationController> _logger;
         private readonly IAuthenticationLogic _authorizationLogic;
 
-        public AuthorizationController(IAuthenticationLogic authorizationLogic, ILogger<AuthorizationController> logger)
+        public AuthorizationController(
+            IAuthenticationLogic authorizationLogic, 
+            ILogger<AuthorizationController> logger)
         {
             _authorizationLogic = authorizationLogic;
             _logger = logger;

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.Services;
+using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -40,7 +41,7 @@ namespace HireWise.BLL.Logic.Users
                 var user = _mapper.Map<User>(userInputModel);
                 user.UserGroup = await _userGroupRepository.GetDefaultGroupAsync();
 
-                await _userRepository.CreateUserAsync(user);
+                await _userRepository.CreateAsync(user);
                 _logger.LogInformation("User was created");
             }
             catch (Exception)
@@ -54,9 +55,45 @@ namespace HireWise.BLL.Logic.Users
         public async Task<User?> GetAsync(string login) =>
             await _userRepository.GetAsync(login);
 
-        public async Task<User?> GetByIdAsync (Guid id)
+        public async Task<User?> GetAsync (Guid id)
         {
-            return await _userRepository.GetUserById(id);
+            return await _userRepository.GetAsync(id);
         }
+
+        public async Task<List<User>> GetAsync()
+        {
+            return await _userRepository.GetAsync();
+        }
+
+        public async Task UpdateAsync(UserInputModel userInputModel, Guid id)
+        {
+            try
+            {
+                var user = GetAsync(id).Result;
+
+                if (user != null)
+                {
+                    _mapper.Map(userInputModel, user);
+
+                    await _userRepository.UpdateAsync(user);
+                    _logger.LogInformation("User with Id: {question.Id} was updated", user.Id);
+                }
+                else
+                {
+                    _logger.LogError("There is no user with this Id: {id}", id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the user");
+            }
+            
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            await _userRepository.DeleteAsync(id);
+        }
+
     }
 }

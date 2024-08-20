@@ -4,8 +4,6 @@ using HireWise.Common.Entities.UserModels.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace HireWise.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -19,35 +17,40 @@ namespace HireWise.Api.Controllers
             _userLogic = userLogic;
         }
 
-        // GET: api/<UserController>
         [HttpGet("{id}")]
-        public async Task<User> Get(Guid Id)
+        public async Task<User> GetAsync(Guid Id)
         {
-            return await _userLogic.GetByIdAsync(Id);
+            return await _userLogic.GetAsync(Id);
+        }
+
+        [HttpGet]
+        [Route("getAll")]
+        public async Task<List<User>> GetAsync()
+        {
+            return await _userLogic.GetAsync();
         }
 
 
-
-        // POST api/<UserController>/Registration
         [HttpPost]
         [Route("Registration")]
-        public async Task Post([FromBody] UserInputModel user)
+        public async Task PostAsync([FromBody] UserInputModel user)
         {
             await _userLogic.CreateUserAsync(user);
         }
 
-        // PUT api/<UserController>/5
         
-        [HttpGet("{Authorize}")] 
-        public void Put()
+        [HttpPut]
+        [Route("update")]
+        public async Task Put([FromBody] UserInputModel userInputModel, Guid id)
         {
-            
+            await _userLogic.UpdateAsync(userInputModel, id);
         }
 
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("delete")]
+        public async Task DeleteAsync(Guid id)
         {
+            await _userLogic.DeleteAsync(id);
         }
     }
 }
