@@ -71,7 +71,7 @@ namespace HireWise.BLL.Logic.GradeLevels
                 {
                     _mapper.Map(gradeLevelInput, gradeLvl);
 
-                    await _gradeLevelRepository.Update(gradeLvl);
+                    await _gradeLevelRepository.UpdateAsync(gradeLvl);
                     _logger.LogInformation("GradeLevel with Id: {gradeLvl.Id} was updated", gradeLvl.Id);
                 }
                 else

@@ -38,7 +38,7 @@ namespace HireWise.DAL.Repository
             return await _dbContext.GradeLevels.FirstOrDefaultAsync(g => g.Id == id);
         }
 
-        public async Task Update(GradeLevel gradeLevel)
+        public async Task UpdateAsync(GradeLevel gradeLevel)
         {
             _dbContext.Entry(gradeLevel).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
