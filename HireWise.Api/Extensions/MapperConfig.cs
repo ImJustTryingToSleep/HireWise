@@ -19,6 +19,7 @@ namespace HireWise.Api.Extensions
             CreateMap<UserInputModel, User>();
             CreateMap<GradeLevelInputModel, GradeLevel>();
             CreateMap<TechTransferInputModel, TechTransfer>();
+            CreateMap<UserGroupInputModel, UserGroup>();
         }
     }
 }
