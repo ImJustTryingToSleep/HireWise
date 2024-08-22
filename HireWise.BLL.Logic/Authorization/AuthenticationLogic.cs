@@ -1,5 +1,6 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.BLL.Logic.Services;
+using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,16 @@ namespace HireWise.BLL.Logic.Authorization
             _passwordService = passwordService;
             _logger = logger;
         }
-
+        public async Task<IResult> GetJwtAsync(UserInputModel inputModel)
+        {
+            if (inputModel == null || string.IsNullOrEmpty(inputModel.Login) || string.IsNullOrEmpty(inputModel.Password))
+            {
+                var errorText = "Login and password must be provided.";
+                _logger.LogError(errorText);
+                return Results.Unauthorized();
+            }
+            return await GetJwtAsync(inputModel.Login, inputModel.Password);
+        }
         public async Task<IResult> GetJwtAsync(string login, string password)
         {
             // находим пользователя 
@@ -36,6 +46,11 @@ namespace HireWise.BLL.Logic.Authorization
             if (user is null 
                 || !_passwordService.VerifyPassword(password, user.Password)) 
                 return Results.Unauthorized();
+
+            if(user.IsBanned)
+            {
+                throw new Exception("User is banned");
+            }
 
             var claims = new List<Claim>
             {
