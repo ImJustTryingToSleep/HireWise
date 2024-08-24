@@ -1,5 +1,4 @@
-﻿
-namespace HireWise.Common.Entities.QuestionModels.InputModels
+﻿namespace HireWise.Common.Entities.QuestionModels.InputModels
 {
     public class QuestionInputModel
     {

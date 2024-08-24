@@ -11,8 +11,8 @@ namespace HireWise.BLL.Logic.Contracts.Questions
         Task<Question> GetAsync(Guid id);
         Task<List<Question>> GetAsync(int gradeId, int techTrasferId);
         IAsyncEnumerable<Question> GetAsync();
-        Task CreateQustionAsync(QuestionInputModel questionInputModel);
-        Task DeleteQuestion(Guid id);
-        Task UpdateQuestion(QuestionInputModel questionInputModel, Guid id);
+        Task CreateAsync(QuestionInputModel questionInputModel);
+        Task UpdateAsync(QuestionInputModel questionInputModel, Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

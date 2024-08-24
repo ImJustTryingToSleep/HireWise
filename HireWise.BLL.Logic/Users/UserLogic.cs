@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.Services;
-using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -14,9 +13,10 @@ namespace HireWise.BLL.Logic.Users
         private readonly IUserRepository _userRepository;
         private readonly IUserGroupRepository _userGroupRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<UserLogic> _logger;
+
         private readonly PasswordService _passwordService;
 
-        private readonly ILogger<UserLogic> _logger;
 
         public UserLogic(
             IUserRepository userRepository,
@@ -33,7 +33,7 @@ namespace HireWise.BLL.Logic.Users
             _logger = logger;
         }
 
-        public async Task CreateUserAsync(UserInputModel userInputModel)
+        public async Task CreateAsync(UserInputModel userInputModel)
         {
             try
             {
@@ -53,9 +53,9 @@ namespace HireWise.BLL.Logic.Users
         }
 
         public async Task<User?> GetAsync(string login) =>
-            await _userRepository.GetAsync(login);
+            await _userRepository.GetAsync(login);//?
 
-        public async Task<User?> GetAsync (Guid id)
+        public async Task<User?> GetAsync(Guid id)
         {
             return await _userRepository.GetAsync(id);
         }
@@ -87,12 +87,37 @@ namespace HireWise.BLL.Logic.Users
             {
                 _logger.LogError(ex, "An error occurred while updating the user");
             }
-            
+
         }
 
         public async Task DeleteAsync(Guid id)
         {
             await _userRepository.DeleteAsync(id);
+        }
+
+        public async Task BanAsync(Guid id)
+        {
+            try
+            {
+                var user = await _userRepository.GetAsync(id);
+
+                if (user != null)
+                {
+                    user.IsBanned = true;
+                    _logger.LogInformation($"Banned {user.Id}");
+                }
+                else
+                {
+                    _logger.LogError("There is no user with Id: {user.Id}", user.Id);
+                }
+
+                await _userRepository.UpdateAsync(user);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while banning the user");
+            }
+            
         }
 
     }

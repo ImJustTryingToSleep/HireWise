@@ -17,7 +17,8 @@ namespace HireWise.Api.Controllers
             _userLogic = userLogic;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("getById")]
         public async Task<User> GetAsync(Guid Id)
         {
             return await _userLogic.GetAsync(Id);
@@ -35,7 +36,7 @@ namespace HireWise.Api.Controllers
         [Route("Registration")]
         public async Task PostAsync([FromBody] UserInputModel user)
         {
-            await _userLogic.CreateUserAsync(user);
+            await _userLogic.CreateAsync(user);
         }
 
         
@@ -51,6 +52,13 @@ namespace HireWise.Api.Controllers
         public async Task DeleteAsync(Guid id)
         {
             await _userLogic.DeleteAsync(id);
+        }
+
+        [HttpPost]
+        [Route("ban")]
+        public async Task BanAsync(Guid id)
+        {
+            await _userLogic.BanAsync(id);
         }
     }
 }

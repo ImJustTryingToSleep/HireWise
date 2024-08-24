@@ -1,7 +1,6 @@
 ﻿using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace HireWise.DAL.Repository
 {

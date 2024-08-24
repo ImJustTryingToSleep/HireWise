@@ -1,5 +1,4 @@
-﻿using HireWise.Common.Entities.QuestionModels.DB;
-using HireWise.Common.Entities.UserModels.DB;
+﻿using HireWise.Common.Entities.UserModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 
