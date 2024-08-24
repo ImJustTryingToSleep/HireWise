@@ -1,5 +1,4 @@
 ﻿using HireWise.BLL.Logic.Contracts.UserGroup;
-using HireWise.BLL.Logic.UserGroupLogic;
 using HireWise.Common.Entities.RoleModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;

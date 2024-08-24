@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using HireWise.BLL.Logic.Contracts.UserGroup;
 using HireWise.Common.Entities.RoleModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
-using HireWise.DAL.Repository;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.Extensions.Logging;
 
