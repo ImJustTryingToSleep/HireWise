@@ -1,4 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
+using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.BLL.Logic.Services;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -14,13 +15,13 @@ namespace HireWise.BLL.Logic.Authorization
     {
         private readonly IUserRepository _userRepository;
         private readonly AuthOptions _authOptions;
-        private readonly PasswordService _passwordService;
+        private readonly IPasswordService _passwordService;
 
         private readonly ILogger<AuthenticationLogic> _logger;
 
         public AuthenticationLogic(IUserRepository userRepository, 
             AuthOptions authOptions,
-            PasswordService passwordService,
+            IPasswordService passwordService,
             ILogger<AuthenticationLogic> logger)
         {
             _userRepository = userRepository;

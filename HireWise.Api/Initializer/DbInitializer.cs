@@ -26,6 +26,15 @@ namespace HireWise.Api.Initializer
             var regUserGroup = new UserGroup { Id = 1, Name = "RegisteredUsers" };
             var sprUser = new UserGroup { Id = 2, Name = "SuperUser" };
 
+            // добавляем группы ролям
+            userRole.UserGroups.AddRange([sprUser, regUserGroup]);
+            adminRole.UserGroups.Add(sprUser);
+            rootRole.UserGroups.Add(sprUser);
+
+            //добавляем ролям группы
+            regUserGroup.Roles.Add(userRole);
+            sprUser.Roles.AddRange([userRole, adminRole, rootRole]);
+
             // Добавляем роли и группы в контекст
             context.Roles.AddRange(userRole, adminRole, rootRole);
             context.UserGroups.AddRange(regUserGroup, sprUser);
@@ -37,6 +46,7 @@ namespace HireWise.Api.Initializer
             var rootUser = new User
             {
                 Login = "root",
+                Email = "",
                 Password = passwordService.HashPassword("root"),
                 UserGroupId = sprUser.Id,
                 UserGroup = sprUser

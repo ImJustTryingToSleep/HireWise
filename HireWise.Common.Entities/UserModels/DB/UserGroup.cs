@@ -6,7 +6,7 @@ namespace HireWise.Common.Entities.UserModels.DB
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Role>? Roles { get;} = [];
+        public List<Role> Roles { get;} = [];
         public List<User>? Users { get; set; }
     }
 }

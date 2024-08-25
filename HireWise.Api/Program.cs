@@ -14,7 +14,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 AuthOptions authOptions = new();
 builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
 builder.Services.AddSingleton(authOptions);

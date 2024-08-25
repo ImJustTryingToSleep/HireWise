@@ -6,6 +6,6 @@ namespace HireWise.Common.Entities.RoleModels.DB
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<UserGroup>? UserGroups { get; } = [];
+        public List<UserGroup> UserGroups { get; } = [];
     }
 }

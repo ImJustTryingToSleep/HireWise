@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.Services;
 using HireWise.Common.Entities.UserModels.DB;
@@ -15,7 +16,7 @@ namespace HireWise.BLL.Logic.Users
         private readonly IMapper _mapper;
         private readonly ILogger<UserLogic> _logger;
 
-        private readonly PasswordService _passwordService;
+        private readonly IPasswordService _passwordService;
 
 
         public UserLogic(
@@ -23,7 +24,7 @@ namespace HireWise.BLL.Logic.Users
             IUserGroupRepository userGroupRepository,
             IMapper mapper,
             ILogger<UserLogic> logger,
-            PasswordService passwordService
+            IPasswordService passwordService
             )
         {
             _userRepository = userRepository;

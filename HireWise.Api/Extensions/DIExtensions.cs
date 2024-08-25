@@ -27,6 +27,7 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IGradeLevelLogic, GradeLevelLogic>();
             services.AddScoped<ITechTransferLogic, TechTransferLogic>();
             services.AddScoped<IUserGroupLogic, UserGroupLogic>();
+
             services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddAutoMapper(typeof(MapperConfig));
