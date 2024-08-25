@@ -106,7 +106,9 @@ namespace HireWise.DAL.Repository
         private IQueryable<Record> GetRecordsQuery()
         {
             return _context.Set<Record>()
-                .Include(r => r.User); // Подключаем пользователя
+                .Include(r => r.User) // Подключаем пользователя
+                .Include(r => r.TechTransfer) // Подключаем трансфер 
+                .Include(r => r.Grade); // Подключаем грейд
         }
     }
 }

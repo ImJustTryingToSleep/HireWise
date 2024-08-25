@@ -1,4 +1,3 @@
-using AutoMapper;
 using HireWise.Api.Extensions;
 using HireWise.BLL.Logic.Authorization;
 using HireWise.DAL.Repository;

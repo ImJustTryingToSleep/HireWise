@@ -1,5 +1,5 @@
-﻿using HireWise.Common.Entities.GradeLevels;
-using HireWise.Common.Entities.TechTransferModels;
+﻿using HireWise.Common.Entities.GradeLevels.DB;
+using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 
 namespace HireWise.Common.Entities.RecordModels.DB
