@@ -1,9 +1,7 @@
 ﻿using HireWise.BLL.Logic.Contracts.GradeLevels;
+using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.Common.Entities.GradeLevels.InputModels;
-using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace HireWise.Api.Controllers
 {
@@ -17,38 +15,40 @@ namespace HireWise.Api.Controllers
         {
             _gradeLevelLogic = gradeLevelLogic;
         }
-        // GET: api/<GradeLevelController>
-        //[HttpGet]
-        //public IEnumerable<string> GetAsync()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
 
-        //// GET api/<GradeLevelController>/5
-        //[HttpGet("{id}")]
-        //public string GetAsync(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpGet]
+        [Route("getAll")]
+        public async Task<List<GradeLevel>> GetAsync()
+        {
+            return await _gradeLevelLogic.GetAsync();
+        }
 
-        // POST api/<GradeLevelController>
+        [HttpGet]
+        [Route("getById")]
+        public async Task<GradeLevel> GetAsync(int id)
+        {
+            return await _gradeLevelLogic.GetAsync(id);
+        }
+
         [HttpPost]
         [Route("create")]
         public async Task Post([FromBody] GradeLevelInputModel model)
         {
-            await _gradeLevelLogic.CreateGradeAsync(model);
+            await _gradeLevelLogic.CreateAsync(model);
         }
 
-        //// PUT api/<GradeLevelController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut]
+        [Route("update")]
+        public async Task PutAsync(int id, [FromBody] GradeLevelInputModel gradeLvl)
+        {
+            await _gradeLevelLogic.UpdateAsync(gradeLvl, id);
+        }
 
-        //// DELETE api/<GradeLevelController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete]
+        [Route("delete")]
+        public async Task DeleteAsync(int id)
+        {
+            await _gradeLevelLogic.DeleteAsync(id);
+        }
     }
 }

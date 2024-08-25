@@ -6,7 +6,6 @@ using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 
 namespace HireWise.DAL.Repository
@@ -72,6 +71,10 @@ namespace HireWise.DAL.Repository
 
                 ConfigureRequiredUniqueProperty(entity, g => g.Name);
             });
+            modelBuilder.Entity<TechTransfer>().HasData(
+                new TechTransfer { Id = 1, Name = "Java" },
+                new TechTransfer { Id = 2, Name = "C#" },
+                new TechTransfer { Id = 3, Name = "Python" });
         }
 
         /// <summary>
@@ -86,6 +89,10 @@ namespace HireWise.DAL.Repository
 
                 ConfigureRequiredUniqueProperty(entity, g => g.Name);
             });
+            modelBuilder.Entity<GradeLevel>().HasData(
+               new GradeLevel { Id = 1, Name = "Junior" },
+               new GradeLevel { Id = 2, Name = "Middle" },
+               new GradeLevel { Id = 3, Name = "Senior" });
         }
 
         /// <summary>

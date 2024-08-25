@@ -7,7 +7,6 @@ using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.Common.Entities.TechTransferModels.InputModels;
 using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
-using System;
 
 namespace HireWise.Api.Extensions
 {
@@ -15,7 +14,12 @@ namespace HireWise.Api.Extensions
     {
         public MapperConfig()
         {
-            CreateMap<QuestionCreateInputModel, Question>();
+            CreateMap<QuestionInputModel, Question>()
+                .ForMember(q => q.Id, opt => opt.Ignore());
+            CreateMap<UserInputModel, User>();
+            CreateMap<GradeLevelInputModel, GradeLevel>();
+            CreateMap<TechTransferInputModel, TechTransfer>();
+            CreateMap<UserGroupInputModel, UserGroup>();
         }
     }
 }

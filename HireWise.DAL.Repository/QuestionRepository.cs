@@ -1,13 +1,6 @@
 ﻿using HireWise.Common.Entities.QuestionModels.DB;
-using HireWise.Common.Entities.QuestionModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HireWise.DAL.Repository
 {
@@ -29,9 +22,15 @@ namespace HireWise.DAL.Repository
         #endregion
 
         #region "Get"
-        public async Task<List<Question>> GetAllAsync()
+        public async IAsyncEnumerable<Question> GetAsync()
         {
-            return await _dbContext.Questions.ToListAsync();
+            //return await _dbContext.Questions.ToListAsync();
+            var questions = await _dbContext.Questions.ToListAsync();
+
+            foreach (var item in questions)
+            {
+                yield return item;
+            }
         }
 
         public async Task<List<Question>> GetAllPublichedAsync()
@@ -46,14 +45,14 @@ namespace HireWise.DAL.Repository
             return await publishedQuestions.ToListAsync();
         }
 
-        public async Task<Question> GetQuestionAsync(Guid id)
+        public async Task<Question> GetAsync(Guid id)
         {
             return await _dbContext.Questions.FirstOrDefaultAsync(q => q.Id == id); // Добавить обработку при случае, если вопрос null
         }
 
-        public async Task<List<Question>> GetAllByTechTransferAndGradeLevelAsync(int techTrandferId, int gradeLevelId)
+        public async Task<List<Question>> GetAsync(int techTransferId, int gradeLevelId)
         {
-            var questions = _dbContext.Questions.Where(q => q.GradeLevelId == gradeLevelId && q.TechTransferId == techTrandferId && q.IsPublished == true);
+            var questions = _dbContext.Questions.Where(q => q.GradeLevelId == gradeLevelId && q.TechTransferId == techTransferId && q.IsPublished == true);
             return await questions.ToListAsync();
         }  //Переименовать? Вынести tech и grade в отдельную сущность?
         #endregion
@@ -69,9 +68,17 @@ namespace HireWise.DAL.Repository
 
         public async Task UpdateQuestion (Question question)
         {
-            //var qest = await GetQuestionAsync(question.Id);
+            //var qest = await GetAsync(question.Id);
             _dbContext.Entry(question).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        //public static async IAsyncEnumerable<T> ToAsyncEnumerable<T>(List<T> list)
+        //{
+        //    foreach (var item in list)
+        //    {
+        //        yield return item;
+        //    }
+        //}
     }
 }

@@ -1,13 +1,12 @@
 ﻿using HireWise.Common.Entities.RoleModels.DB;
 using HireWise.Common.Entities.UserModels.DB;
-using System.Threading.Tasks;
+using HireWise.Common.Entities.UserModels.InputModels;
 
-namespace HireWise.DAL.Repository.Contracts
+namespace HireWise.BLL.Logic.Contracts.UserGroup
 {
-    public interface IUserGroupRepository
+    public interface IUserGroupLogic
     {
-        Task<UserGroup> GetDefaultGroupAsync();
-        Task CreateAsync(UserGroup userGroup);
+        Task CreateAsync(UserGroupInputModel inputModel);
         Task DeleteAsync(int id);
         Task<List<User>> GetUsers(int id);
         Task<List<Role>> GetRoles(int id);

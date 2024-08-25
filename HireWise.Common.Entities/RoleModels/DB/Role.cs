@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HireWise.Common.Entities.UserModels.DB;
+﻿using HireWise.Common.Entities.UserModels.DB;
 
 namespace HireWise.Common.Entities.RoleModels.DB
 {

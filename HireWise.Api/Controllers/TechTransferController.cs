@@ -1,4 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.ITechTransferLogic;
+using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.Common.Entities.TechTransferModels.InputModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,38 +18,40 @@ namespace HireWise.Api.Controllers
         {
             _techTransferLogic = techTransferLogic;
         }
-        // GET: api/<TechTransferController>
-        //[HttpGet]
-        //public IEnumerable<string> GetAsync()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
 
-        //// GET api/<TechTransferController>/5
-        //[HttpGet("{id}")]
-        //public string GetAsync(int id)
-        //{
-        //    return "value";
-        //}
-
-        // POST api/<TechTransferController>
-        [HttpPost]
-        [Route("create")]
-        public async Task Post([FromBody] TechTransferInputModel techTransferInputModel)
+        [HttpGet]
+        [Route("getAll")]
+        public async Task<List<TechTransfer>> GetAsync()
         {
-            await _techTransferLogic.CreateTechTransferAsync(techTransferInputModel);
+            return await _techTransferLogic.GetAsync();
         }
 
-        //// PUT api/<TechTransferController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpGet]
+        [Route("getById")]
+        public async Task<TechTransfer> GetAsync(int id)
+        {
+            return await _techTransferLogic.GetAsync(id);
+        }
 
-        //// DELETE api/<TechTransferController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpPost]
+        [Route("create")]
+        public async Task PostAsync([FromBody] TechTransferInputModel techTransferInputModel)
+        {
+            await _techTransferLogic.CreateAsync(techTransferInputModel);
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task PutAsync([FromBody] TechTransferInputModel techModel, int id)
+        {
+            await _techTransferLogic.UpdateAsync(techModel, id);
+        }
+
+        [HttpDelete]
+        [Route("delete")]
+        public async Task DeleteAsync(int id)
+        {
+            await _techTransferLogic.DeleteAsync(id);
+        }
     }
 }

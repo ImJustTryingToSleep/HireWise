@@ -3,7 +3,6 @@ using HireWise.BLL.Logic.Contracts.Questions;
 using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.QuestionModels.InputModels;
-using HireWise.Common.Entities.UserModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.Extensions.Logging;
 
@@ -28,7 +27,7 @@ namespace HireWise.BLL.Logic.Questions
             _mapper = mapper;
         }
 
-        public async Task CreateQustionAsync(QuestionCreateInputModel questionInputModel)
+        public async Task CreateAsync(QuestionInputModel questionInputModel)
         {
             try
             {
@@ -36,18 +35,23 @@ namespace HireWise.BLL.Logic.Questions
                 var question = _mapper.Map<Question>(questionInputModel);
 
                 await _questionRepository.CreateAsync(question);
-                _logger.LogInformation("Question ID: {question.Id}", question.Id);
+                _logger.LogInformation("Question was created with ID: {question.Id}", question.Id);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Произошла ошибка при создании вопроса");
+                _logger.LogError(ex, "An error occurred while creating the question");
             }
-        }
+        } //log+
 
         #region "Get"
-        public async Task<List<Question>> GetAllAsync()
+        public async IAsyncEnumerable<Question> GetAsync()
         {
-            return await _questionRepository.GetAllAsync();
+            var questions = _questionRepository.GetAsync();
+
+            await foreach (var item in questions)
+            {
+                yield return item;
+            }
         }
 
         public async Task<List<Question>> GetAllPublishedAsync()
@@ -60,46 +64,76 @@ namespace HireWise.BLL.Logic.Questions
             return await _questionRepository.GetAllUnPublichedAsync();
         }
 
-        public async Task<Question> GetQuestionAsync(Guid id)
+        public async Task<Question> GetAsync(Guid id) // log+
         {
-            return await _questionRepository.GetQuestionAsync(id);
+            try
+            {
+                return await _questionRepository.GetAsync(id);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "There is no question with this Id");
+                throw;
+            }
         }
 
-        public async Task<List<Question>> GetByGradeAndTechTransferAsync(int gradeId, int techTrasferId)
+        public async Task<List<Question>> GetAsync(int gradeId, int techTrasferId)
         {
-            return await _questionRepository.GetAllByTechTransferAndGradeLevelAsync(gradeId, techTrasferId);
+            return await _questionRepository.GetAsync(gradeId, techTrasferId);
         }
         #endregion
 
-        public async Task DeleteQuestion(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            await _questionRepository.DeleteQuestion(id);
+            try
+            {
+                await _questionRepository.DeleteQuestion(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "There is no question with this Id");
+                throw;
+            }
+        } //log+
+
+        public async Task UpdateAsync(QuestionInputModel questionInputModel, Guid id) // log+
+        {
+            try
+            {
+                ValidateQustion(questionInputModel);
+                var question = _questionRepository.GetAsync(id).Result as Question;
+
+                if (question != null)
+                {
+                    _mapper.Map(questionInputModel, question);
+
+                    await _questionRepository.UpdateQuestion(question);
+                    _logger.LogInformation("Question with Id: {question.Id} was updated", question.Id);
+                }
+                else
+                {
+                    _logger.LogError("There is no question with this Id: {id}", id);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while updating the question");
+            }
+            
         }
 
-        public async Task UpdateQuestion(QuestionCreateInputModel questionInputModel, Guid id) // Переписывать методы без Task?
-        {
-            var question = _questionRepository.GetQuestionAsync(id).Result as Question;
-
-            question.QuestionName = questionInputModel.QuestionName;
-            question.QuestionBody = questionInputModel.QuestionBody;
-            question.GradeLevelId = questionInputModel.GradeLevelId;
-            question.TechTransferId = questionInputModel.TechTransferId;
-
-            await _questionRepository.UpdateQuestion(question);
-        }
-
-        //-------------------------------------------------Скорее всего не работает--------------------------------------------------
-        private void ValidateQustion(QuestionCreateInputModel question)
+        private void ValidateQustion(QuestionInputModel question)
         {
             var exceptionMessages = new List<string>();
 
             if (question == null)
             {
-                exceptionMessages.Add("Вопрос не может быть пустым");
+                exceptionMessages.Add("Question can't be null");
             }
-            if (question.QuestionName == null || question.QuestionBody == null)
+            if (string.IsNullOrWhiteSpace(question.QuestionName) || string.IsNullOrEmpty(question.QuestionBody))
             {
-                exceptionMessages.Add("Заголовок или тело вопроса не могут быть пустыми");
+                exceptionMessages.Add("QuestionName or QuestionBody can't be null");
             }
             if (exceptionMessages.Any())
             {
@@ -107,7 +141,7 @@ namespace HireWise.BLL.Logic.Questions
                 {
                     _logger.LogError(exception);
                 }
-                throw new ArgumentException("Произошла ошибка при создании вопроса");
+                throw new ArgumentException("An error occurred while validating the question");
             }
         }
     }

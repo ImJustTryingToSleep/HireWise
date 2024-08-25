@@ -14,7 +14,9 @@ namespace HireWise.Api.Controllers
         private readonly ILogger<AuthorizationController> _logger;
         private readonly IAuthenticationLogic _authorizationLogic;
 
-        public AuthorizationController(IAuthenticationLogic authorizationLogic, ILogger<AuthorizationController> logger)
+        public AuthorizationController(
+            IAuthenticationLogic authorizationLogic, 
+            ILogger<AuthorizationController> logger)
         {
             _authorizationLogic = authorizationLogic;
             _logger = logger;
@@ -31,19 +33,9 @@ namespace HireWise.Api.Controllers
         // POST api/<AuthorizationController>/login
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] UserCreateInputModel request)
-        {
-            if (request == null || string.IsNullOrEmpty(request.Login) || string.IsNullOrEmpty(request.Password))
-            {
-                var errorText = "Login and password must be provided.";
-                _logger.LogError(errorText);
-                return BadRequest(errorText);
-            }
+        public async Task<IActionResult> LoginAsync([FromBody] UserInputModel request) => 
+            Ok(await _authorizationLogic.GetJwtAsync(request));
 
-            var token = await _authorizationLogic.GetJwtAsync(request.Login, request.Password);
-
-            return Ok(token);
-        }
 
 
         // POST api/<AuthorizationController>
