@@ -3,6 +3,7 @@ using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.BLL.Logic.Contracts.GradeLevels;
 using HireWise.BLL.Logic.Contracts.ITechTransferLogic;
 using HireWise.BLL.Logic.Contracts.Questions;
+using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.BLL.Logic.Contracts.UserGroup;
 using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.GradeLevels;
@@ -26,9 +27,10 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IGradeLevelLogic, GradeLevelLogic>();
             services.AddScoped<ITechTransferLogic, TechTransferLogic>();
             services.AddScoped<IUserGroupLogic, UserGroupLogic>();
+            services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddAutoMapper(typeof(MapperConfig));
-            services.AddScoped<PasswordService>();
+            
             services.AddSingleton<PasswordHasher>();
 
             return services;

@@ -42,40 +42,37 @@ namespace HireWise.DAL.Repository
             return users.ToList();
         }
 
-        public async Task<List<Role>> GetRoles(int id)             // Добавить связь между ролями и юзер группой
+        public async Task<List<Role>> GetRoles(int id) // Добавить связь между ролями и юзер группой
         {
-            var userGroup = GetAsync(id).Result;
+            var userGroup = await GetAsync(id);
             return userGroup.Roles.ToList();
         }
 
-        /// <summary>
-        /// Получение дефолтной юзер группы
-        /// </summary>
-        /// <returns>Дефолтная юзер группа</returns>
-        public async Task<UserGroup> GetDefaultGroupAsync()
+        public async Task UpdateAsync(UserGroup userGroup)
         {
-            //DefaultCreateUserGroup();
-            List<UserGroup>? userGroup = await _dbContext.UserGroups.ToListAsync();
-            if (userGroup == null || userGroup.Count == 0)
-            {
-                DefaultCreateUserGroup();
-            }
-            return userGroup.FirstOrDefault(r => r.Name == "RegisteredUser");
-        }
+            var existingGroup = await GetAsync(userGroup.Id);
 
-        private async Task DefaultCreateUserGroup()
-        {
-            var role = new Role { Id = 1, Name = "Read" };
-            _dbContext.Roles.Add(role);
+            if (existingGroup is null)
+                throw new KeyNotFoundException($"UserGroup with ID {userGroup.Id} not found.");
 
-            var userGroup = new UserGroup { Id = 1, Name = "RegisteredUser" };
-            _dbContext.UserGroups.Add(userGroup);
+            existingGroup.Name = userGroup.Name;
             
-            role.UserGroups.Add(userGroup);
-            userGroup.Roles.Add(role);
+            if (userGroup.Roles is not null
+                && !existingGroup.Roles.Equals(userGroup.Roles))
+            {
+                existingGroup.Roles.Clear();
+                existingGroup.Roles.AddRange(userGroup.Roles);
+            }
+                
 
             await _dbContext.SaveChangesAsync();
-
         }
+
+        /// <summary>
+        /// Получение базовой группы для зарегистрированного пользователя.
+        /// </summary>
+        /// <returns>Базовая группа</returns>
+        public async Task<UserGroup> GetDefaultGroupAsync() =>
+            await _dbContext.UserGroups.FirstOrDefaultAsync(r => r.Name == "RegisteredUsers");        
     }
 }

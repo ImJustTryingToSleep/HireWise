@@ -1,6 +1,8 @@
-﻿namespace HireWise.BLL.Logic.Services
+﻿using HireWise.BLL.Logic.Contracts.Services;
+
+namespace HireWise.BLL.Logic.Services
 {
-    public class PasswordService
+    public class PasswordService : IPasswordService
     {
         private readonly PasswordHasher _passwordHasher;
 
