@@ -60,9 +60,9 @@ namespace HireWise.BLL.Logic.Users
             return await _userRepository.GetAsync(id);
         }
 
-        public async Task<List<User>> GetAsync()
+        public IAsyncEnumerable<User> GetAsync()
         {
-            return await _userRepository.GetAsync();
+            return _userRepository.GetAsync();
         }
 
         public async Task UpdateAsync(UserInputModel userInputModel, Guid id)

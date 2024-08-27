@@ -5,7 +5,7 @@ namespace HireWise.DAL.Repository.Contracts
     public interface ITechTransferRepository
     {
         Task CreateTechTransfer(TechTransfer techTransfer);
-        Task<List<TechTransfer>> GetAsync();
+        IAsyncEnumerable<TechTransfer> GetAsync();
         Task<TechTransfer> GetAsync(int id);
         Task Delete(int id);
         Task UpdateAsync(TechTransfer techTransfer);

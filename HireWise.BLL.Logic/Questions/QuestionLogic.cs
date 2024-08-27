@@ -31,7 +31,7 @@ namespace HireWise.BLL.Logic.Questions
         {
             try
             {
-                ValidateQustion(questionInputModel);
+                ValidateQuestion(questionInputModel);
                 var question = _mapper.Map<Question>(questionInputModel);
 
                 await _questionRepository.CreateAsync(question);
@@ -44,24 +44,19 @@ namespace HireWise.BLL.Logic.Questions
         } //log+
 
         #region "Get"
-        public async IAsyncEnumerable<Question> GetAsync()
+        public IAsyncEnumerable<Question> GetAsync()
         {
-            var questions = _questionRepository.GetAsync();
-
-            await foreach (var item in questions)
-            {
-                yield return item;
-            }
+            return _questionRepository.GetAsync();
         }
 
-        public async Task<List<Question>> GetAllPublishedAsync()
+        public IAsyncEnumerable<Question> GetAllPublishedAsync()
         {
-            return await _questionRepository.GetAllPublichedAsync();
+            return _questionRepository.GetAllPublichedAsync();
         }
 
-        public async Task<List<Question>> GetAllUnPublishedAsync()
+        public IAsyncEnumerable<Question> GetAllUnPublishedAsync()
         {
-            return await _questionRepository.GetAllUnPublichedAsync();
+            return _questionRepository.GetAllUnPublichedAsync();
         }
 
         public async Task<Question> GetAsync(Guid id) // log+
@@ -77,9 +72,9 @@ namespace HireWise.BLL.Logic.Questions
             }
         }
 
-        public async Task<List<Question>> GetAsync(int gradeId, int techTrasferId)
+        public IAsyncEnumerable<Question> GetAsync(int gradeId, int techTrasferId)
         {
-            return await _questionRepository.GetAsync(gradeId, techTrasferId);
+            return _questionRepository.GetAsync(gradeId, techTrasferId);
         }
         #endregion
 
@@ -100,30 +95,29 @@ namespace HireWise.BLL.Logic.Questions
         {
             try
             {
-                ValidateQustion(questionInputModel);
-                var question = _questionRepository.GetAsync(id).Result as Question;
+                ValidateQuestion(questionInputModel);
+                var question = _questionRepository.GetAsync(id).Result;
 
-                if (question != null)
+                if (question is null)
                 {
-                    _mapper.Map(questionInputModel, question);
+                    _logger.LogError("There is no record with Id: {question.Id}", question.Id);
+                    throw new NullReferenceException("Question is null");
+                }
 
-                    await _questionRepository.UpdateQuestion(question);
-                    _logger.LogInformation("Question with Id: {question.Id} was updated", question.Id);
-                }
-                else
-                {
-                    _logger.LogError("There is no question with this Id: {id}", id);
-                }
-                
+                _mapper.Map(questionInputModel, question);
+
+                await _questionRepository.UpdateQuestion(question);
+                _logger.LogDebug("Question with Id: {question.Id} was updated", question.Id);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while updating the question");
+                throw;
             }
             
         }
 
-        private void ValidateQustion(QuestionInputModel question)
+        private void ValidateQuestion(QuestionInputModel question)
         {
             var exceptionMessages = new List<string>();
 
@@ -131,7 +125,7 @@ namespace HireWise.BLL.Logic.Questions
             {
                 exceptionMessages.Add("Question can't be null");
             }
-            if (string.IsNullOrWhiteSpace(question.QuestionName) || string.IsNullOrEmpty(question.QuestionBody))
+            if (string.IsNullOrWhiteSpace(question.QuestionName) || string.IsNullOrWhiteSpace(question.QuestionBody))
             {
                 exceptionMessages.Add("QuestionName or QuestionBody can't be null");
             }

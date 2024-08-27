@@ -26,9 +26,9 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getAll")]
-        public async Task<List<User>> GetAsync()
+        public IAsyncEnumerable<User> GetAsync()
         {
-            return await _userLogic.GetAsync();
+            return _userLogic.GetAsync();
         }
 
 

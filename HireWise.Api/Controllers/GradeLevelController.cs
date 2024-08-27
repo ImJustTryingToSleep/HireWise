@@ -2,6 +2,7 @@
 using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.Common.Entities.GradeLevels.InputModels;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace HireWise.Api.Controllers
 {
@@ -16,20 +17,6 @@ namespace HireWise.Api.Controllers
             _gradeLevelLogic = gradeLevelLogic;
         }
 
-        [HttpGet]
-        [Route("getAll")]
-        public async Task<List<GradeLevel>> GetAsync()
-        {
-            return await _gradeLevelLogic.GetAsync();
-        }
-
-        [HttpGet]
-        [Route("getById")]
-        public async Task<GradeLevel> GetAsync(int id)
-        {
-            return await _gradeLevelLogic.GetAsync(id);
-        }
-
         [HttpPost]
         [Route("create")]
         public async Task Post([FromBody] GradeLevelInputModel model)
@@ -37,16 +24,30 @@ namespace HireWise.Api.Controllers
             await _gradeLevelLogic.CreateAsync(model);
         }
 
+        [HttpGet]
+        [Route("getAll")]
+        public IAsyncEnumerable<GradeLevel> GetAsync()
+        {
+            return _gradeLevelLogic.GetAsync();
+        }
+
+        [HttpGet]
+        [Route("getById")]
+        public async Task<GradeLevel> GetAsync([Required] int id)
+        {
+            return await _gradeLevelLogic.GetAsync(id);
+        }
+
         [HttpPut]
         [Route("update")]
-        public async Task PutAsync(int id, [FromBody] GradeLevelInputModel gradeLvl)
+        public async Task PutAsync([Required] int id, [FromBody] GradeLevelInputModel gradeLvl)
         {
             await _gradeLevelLogic.UpdateAsync(gradeLvl, id);
         }
 
         [HttpDelete]
         [Route("delete")]
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync([Required] int id)
         {
             await _gradeLevelLogic.DeleteAsync(id);
         }

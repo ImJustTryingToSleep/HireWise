@@ -22,45 +22,36 @@ namespace HireWise.DAL.Repository
         #endregion
 
         #region "Get"
-        public async IAsyncEnumerable<Question> GetAsync()
+        public IAsyncEnumerable<Question> GetAsync()
         {
-            //return await _dbContext.Questions.ToListAsync();
-            var questions = await _dbContext.Questions.ToListAsync();
-
-            foreach (var item in questions)
-            {
-                yield return item;
-            }
+            return _dbContext.Questions.AsAsyncEnumerable();
         }
 
-        public async Task<List<Question>> GetAllPublichedAsync()
+        public IAsyncEnumerable<Question> GetAllPublichedAsync()
         {
-            var publishedQuestions = _dbContext.Questions.Where(q => q.IsPublished == true);
-            return await publishedQuestions.ToListAsync();
+            return _dbContext.Questions.Where(q => q.IsPublished == true).AsAsyncEnumerable();
         }
 
-        public async Task<List<Question>> GetAllUnPublichedAsync()
+        public IAsyncEnumerable<Question> GetAllUnPublichedAsync()
         {
-            var publishedQuestions = _dbContext.Questions.Where(q => q.IsPublished == false);
-            return await publishedQuestions.ToListAsync();
+            return _dbContext.Questions.Where(q => q.IsPublished == false).AsAsyncEnumerable();
         }
 
-        public async Task<Question> GetAsync(Guid id)
+        public async Task<Question?> GetAsync(Guid id)
         {
             return await _dbContext.Questions.FirstOrDefaultAsync(q => q.Id == id); // Добавить обработку при случае, если вопрос null
         }
 
-        public async Task<List<Question>> GetAsync(int techTransferId, int gradeLevelId)
+        public IAsyncEnumerable<Question> GetAsync(int techTransferId, int gradeLevelId)
         {
-            var questions = _dbContext.Questions.Where(q => q.GradeLevelId == gradeLevelId && q.TechTransferId == techTransferId && q.IsPublished == true);
-            return await questions.ToListAsync();
-        }  //Переименовать? Вынести tech и grade в отдельную сущность?
+            return _dbContext.Questions.Where(q => q.GradeLevelId == gradeLevelId && q.TechTransferId == techTransferId && q.IsPublished == true).AsAsyncEnumerable();
+        }
         #endregion
 
         #region "Delete"
         public async Task DeleteQuestion(Guid id)
         {
-            var question = await _dbContext.Questions.FirstOrDefaultAsync(q => q.Id == id);
+            var question = await GetAsync(id);
             _dbContext.Remove(question);
             await _dbContext.SaveChangesAsync();
         }
@@ -68,7 +59,6 @@ namespace HireWise.DAL.Repository
 
         public async Task UpdateQuestion (Question question)
         {
-            //var qest = await GetAsync(question.Id);
             _dbContext.Entry(question).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }

@@ -1,4 +1,5 @@
-﻿using HireWise.Common.Entities.TechTransferModels.DB;
+﻿using HireWise.Common.Entities.GradeLevels.DB;
+using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,9 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<TechTransfer>> GetAsync()
+        public IAsyncEnumerable<TechTransfer> GetAsync()
         {
-            return await _dbContext.TechTransfers.ToListAsync();
+            return _dbContext.TechTransfers.AsAsyncEnumerable();
         }
 
         public async Task<TechTransfer> GetAsync(int id)

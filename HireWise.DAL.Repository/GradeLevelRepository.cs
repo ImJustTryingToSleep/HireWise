@@ -1,4 +1,5 @@
 ﻿using HireWise.Common.Entities.GradeLevels.DB;
+using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,14 +20,20 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<GradeLevel>> GetAsync()
+        public IAsyncEnumerable<GradeLevel> GetAsync()
         {
-            return await _dbContext.GradeLevels.ToListAsync();
+            return _dbContext.GradeLevels.AsAsyncEnumerable();
         }
 
         public async Task<GradeLevel> GetAsync(int id)
         {
             return await _dbContext.GradeLevels.FirstOrDefaultAsync(g => g.Id == id);
+        }
+
+        public async Task UpdateAsync(GradeLevel gradeLevel)
+        {
+            _dbContext.Entry(gradeLevel).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -36,10 +43,5 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(GradeLevel gradeLevel)
-        {
-            _dbContext.Entry(gradeLevel).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-        }
     }
 }

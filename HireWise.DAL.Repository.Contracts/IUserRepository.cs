@@ -7,7 +7,7 @@ namespace HireWise.DAL.Repository.Contracts
         Task CreateAsync(User user);
         Task<User?> GetAsync(string login);
         Task<User?> GetAsync(Guid id);
-        Task<List<User>> GetAsync();
+        IAsyncEnumerable<User> GetAsync();
         Task DeleteAsync(Guid id);
         Task UpdateAsync(User user);
     }

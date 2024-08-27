@@ -5,12 +5,11 @@ namespace HireWise.BLL.Logic.Contracts.Questions
 {
     public interface IQuestionLogic
     {
-        //Task<List<Question>> GetAsync();
-        Task<List<Question>> GetAllPublishedAsync();
-        Task<List<Question>> GetAllUnPublishedAsync();
-        Task<Question> GetAsync(Guid id);
-        Task<List<Question>> GetAsync(int gradeId, int techTrasferId);
+        IAsyncEnumerable<Question> GetAllPublishedAsync();
+        IAsyncEnumerable<Question> GetAllUnPublishedAsync();
+        IAsyncEnumerable<Question> GetAsync(int gradeId, int techTrasferId);
         IAsyncEnumerable<Question> GetAsync();
+        Task<Question> GetAsync(Guid id);
         Task CreateAsync(QuestionInputModel questionInputModel);
         Task UpdateAsync(QuestionInputModel questionInputModel, Guid id);
         Task DeleteAsync(Guid id);

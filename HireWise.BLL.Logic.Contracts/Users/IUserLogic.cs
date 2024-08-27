@@ -8,7 +8,7 @@ namespace HireWise.BLL.Logic.Contracts.Users
         Task CreateAsync(UserInputModel userInputModel);
         Task<User?> GetAsync(string login);
         Task<User> GetAsync(Guid id);
-        Task<List<User>> GetAsync();
+        IAsyncEnumerable<User> GetAsync();
         Task UpdateAsync(UserInputModel userInputModel, Guid id);
         Task DeleteAsync(Guid id);
         Task BanAsync(Guid id);
