@@ -31,7 +31,6 @@ namespace HireWise.BLL.Logic.Questions
         {
             try
             {
-                ValidateQuestion(questionInputModel);
                 var question = _mapper.Map<Question>(questionInputModel);
 
                 await _questionRepository.CreateAsync(question);
@@ -95,7 +94,6 @@ namespace HireWise.BLL.Logic.Questions
         {
             try
             {
-                ValidateQuestion(questionInputModel);
                 var question = _questionRepository.GetAsync(id).Result;
 
                 if (question is null)
@@ -115,28 +113,6 @@ namespace HireWise.BLL.Logic.Questions
                 throw;
             }
             
-        }
-
-        private void ValidateQuestion(QuestionInputModel question)
-        {
-            var exceptionMessages = new List<string>();
-
-            if (question == null)
-            {
-                exceptionMessages.Add("Question can't be null");
-            }
-            if (string.IsNullOrWhiteSpace(question.QuestionName) || string.IsNullOrWhiteSpace(question.QuestionBody))
-            {
-                exceptionMessages.Add("QuestionName or QuestionBody can't be null");
-            }
-            if (exceptionMessages.Any())
-            {
-                foreach (var exception in exceptionMessages)
-                {
-                    _logger.LogError(exception);
-                }
-                throw new ArgumentException("An error occurred while validating the question");
-            }
         }
     }
 }

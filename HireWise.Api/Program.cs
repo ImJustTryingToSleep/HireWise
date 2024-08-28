@@ -1,4 +1,3 @@
-using AutoMapper;
 using HireWise.Api.Extensions;
 using HireWise.BLL.Logic.Authorization;
 using HireWise.DAL.Repository;
@@ -13,14 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 AuthOptions authOptions = new();
 builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
 builder.Services.AddSingleton(authOptions);
 
+builder.AddFluentValidationEndpointFilter();
+
 builder.Services.ConfigureDALDependencies();
 builder.Services.ConfigureBLLDependencies();
 builder.Services.ConfigureAuthorization();
+builder.Services.ConfigureValidationDependencies();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 builder.Services.AddDbContext<DBContext>(options =>
