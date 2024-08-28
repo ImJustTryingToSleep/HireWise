@@ -10,6 +10,16 @@ namespace HireWise.DAL.Repository.Contracts
         Task<Record> AddRecordAsync(Record record);
 
         /// <summary>
+        /// Обновление записи
+        /// </summary>
+        Task<Record> UpdateRecordAsync(Record record);
+
+        /// <summary>
+        /// Удаление записи
+        /// </summary>
+        Task<bool> DeleteRecordAsync(Guid id);
+
+        /// <summary>
         /// Получение записи по Id
         /// </summary>
         Task<Record?> GetRecordByIdAsync(Guid id);
@@ -38,15 +48,5 @@ namespace HireWise.DAL.Repository.Contracts
         /// Получение записей по TechTransferId
         /// </summary>
         Task<List<Record>> GetRecordsByTechTransferIdAsync(int techTransferId);
-
-        /// <summary>
-        /// Обновление записи
-        /// </summary>
-        Task<Record> UpdateRecordAsync(Record record);
-
-        /// <summary>
-        /// Удаление записи
-        /// </summary>
-        Task<bool> DeleteRecordAsync(Guid id);
     }
 }

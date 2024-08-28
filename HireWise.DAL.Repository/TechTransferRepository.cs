@@ -6,9 +6,9 @@ namespace HireWise.DAL.Repository
 {
     public class TechTransferRepository : ITechTransferRepository
     {
-        private readonly DBContext _dbContext;
+        private readonly HireWiseDBContext _dbContext;
 
-        public TechTransferRepository(DBContext dbContext)
+        public TechTransferRepository(HireWiseDBContext dbContext)
         {
             _dbContext = dbContext;
         }

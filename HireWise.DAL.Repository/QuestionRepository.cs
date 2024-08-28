@@ -6,9 +6,9 @@ namespace HireWise.DAL.Repository
 {
     public class QuestionRepository : IQuestionRepository
     {
-        private readonly DBContext _dbContext;
+        private readonly HireWiseDBContext _dbContext;
 
-        public QuestionRepository(DBContext dbContext)
+        public QuestionRepository(HireWiseDBContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -22,24 +22,16 @@ namespace HireWise.DAL.Repository
         #endregion
 
         #region "Get"
-        public async IAsyncEnumerable<Question> GetAsync()
-        {
-            //return await _dbContext.Questions.ToListAsync();
-            var questions = await _dbContext.Questions.ToListAsync();
+        public IAsyncEnumerable<Question> GetAsync() => 
+            _dbContext.Questions.AsAsyncEnumerable();
 
-            foreach (var item in questions)
-            {
-                yield return item;
-            }
-        }
-
-        public async Task<List<Question>> GetAllPublichedAsync()
+        public async Task<List<Question>> GetAllPublishedAsync()
         {
             var publishedQuestions = _dbContext.Questions.Where(q => q.IsPublished == true);
             return await publishedQuestions.ToListAsync();
         }
 
-        public async Task<List<Question>> GetAllUnPublichedAsync()
+        public async Task<List<Question>> GetAllUnPublishedAsync()
         {
             var publishedQuestions = _dbContext.Questions.Where(q => q.IsPublished == false);
             return await publishedQuestions.ToListAsync();

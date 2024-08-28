@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HireWise.DAL.Repository.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(HireWiseDBContext))]
     [Migration("20240820191908_add_flag_isBanned")]
     partial class add_flag_isBanned
     {

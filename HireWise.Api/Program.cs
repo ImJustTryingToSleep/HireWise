@@ -23,7 +23,7 @@ builder.Services.ConfigureBLLDependencies();
 builder.Services.ConfigureAuthorization();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
-builder.Services.AddDbContext<DBContext>(options =>
+builder.Services.AddDbContext<HireWiseDBContext>(options =>
     options.UseNpgsql(connection));
 
 var app = builder.Build();
@@ -32,7 +32,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<DBContext>();
+    var context = services.GetRequiredService<HireWiseDBContext>();
     var passwordService = services.GetRequiredService<IPasswordService>();
 
     DbInitializer.Initialize(context, passwordService);

@@ -6,9 +6,9 @@ namespace HireWise.DAL.Repository
 {
     public class RecordRepository : IRecordRepository
     {
-        private readonly DbContext _context;
+        private readonly HireWiseDBContext _context;
 
-        public RecordRepository(DbContext context)
+        public RecordRepository(HireWiseDBContext context)
         {
             _context = context;
         }
@@ -21,63 +21,6 @@ namespace HireWise.DAL.Repository
             await _context.Set<Record>().AddAsync(record);
             await _context.SaveChangesAsync();
             return record;
-        }
-
-        /// <summary>
-        /// Получение записи по Id
-        /// </summary>
-        public async Task<Record?> GetRecordByIdAsync(Guid id)
-        {
-            return await GetRecordsQuery()
-                .FirstOrDefaultAsync(r => r.Id == id);
-        }
-
-        /// <summary>
-        /// Получение всех записей
-        /// </summary>
-        public async Task<List<Record>> GetAllRecordsAsync()
-        {
-            return await GetRecordsQuery().ToListAsync();
-        }
-
-        /// <summary>
-        /// Получение всех опубликованных записей
-        /// </summary>
-        public async Task<List<Record>> GetPublishedRecordsAsync()
-        {
-            return await GetRecordsQuery()
-                .Where(r => r.IsPublished)
-                .ToListAsync();
-        }
-
-        /// <summary>
-        /// Получение записей по UserId
-        /// </summary>
-        public async Task<List<Record>> GetRecordsByUserIdAsync(Guid userId)
-        {
-            return await GetRecordsQuery()
-                .Where(r => r.UserId == userId)
-                .ToListAsync();
-        }
-
-        /// <summary>
-        /// Получение записей по GradeId
-        /// </summary>
-        public async Task<List<Record>> GetRecordsByGradeIdAsync(int gradeId)
-        {
-            return await GetRecordsQuery()
-                .Where(r => r.GradeId == gradeId)
-                .ToListAsync();
-        }
-
-        /// <summary>
-        /// Получение записей по TechTransferId
-        /// </summary>
-        public async Task<List<Record>> GetRecordsByTechTransferIdAsync(int techTransferId)
-        {
-            return await GetRecordsQuery()
-                .Where(r => r.TechTransferId == techTransferId)
-                .ToListAsync();
         }
 
         /// <summary>
@@ -102,6 +45,54 @@ namespace HireWise.DAL.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        #region GET
+        /// <summary>
+        /// Получение записи по Id
+        /// </summary>
+        public async Task<Record?> GetRecordByIdAsync(Guid id) => 
+            await GetRecordsQuery().FirstOrDefaultAsync(r => r.Id == id);
+
+        /// <summary>
+        /// Получение всех записей
+        /// </summary>
+        public async Task<List<Record>> GetAllRecordsAsync() =>
+            await GetRecordsQuery().ToListAsync();
+        
+
+        /// <summary>
+        /// Получение всех опубликованных записей
+        /// </summary>
+        public async Task<List<Record>> GetPublishedRecordsAsync() =>
+            await GetRecordsQuery()
+                .Where(r => r.IsPublished)
+                .ToListAsync();
+
+        /// <summary>
+        /// Получение записей по UserId
+        /// </summary>
+        public async Task<List<Record>> GetRecordsByUserIdAsync(Guid userId) =>
+            await GetRecordsQuery()
+                .Where(r => r.UserId == userId)
+                .ToListAsync();
+
+        /// <summary>
+        /// Получение записей по GradeId
+        /// </summary>
+        public async Task<List<Record>> GetRecordsByGradeIdAsync(int gradeId) =>
+            await GetRecordsQuery()
+                .Where(r => r.GradeId == gradeId)
+                .ToListAsync();
+
+        /// <summary>
+        /// Получение записей по TechTransferId
+        /// </summary>
+        public async Task<List<Record>> GetRecordsByTechTransferIdAsync(int techTransferId) =>
+            await GetRecordsQuery()
+                .Where(r => r.TechTransferId == techTransferId)
+                .ToListAsync();
+
+        #endregion
 
         private IQueryable<Record> GetRecordsQuery()
         {

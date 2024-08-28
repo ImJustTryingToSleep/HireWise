@@ -3,11 +3,13 @@ using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.BLL.Logic.Contracts.GradeLevels;
 using HireWise.BLL.Logic.Contracts.ITechTransferLogic;
 using HireWise.BLL.Logic.Contracts.Questions;
+using HireWise.BLL.Logic.Contracts.Records;
 using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.BLL.Logic.Contracts.UserGroup;
 using HireWise.BLL.Logic.Contracts.Users;
 using HireWise.BLL.Logic.GradeLevels;
 using HireWise.BLL.Logic.Questions;
+using HireWise.BLL.Logic.Records;
 using HireWise.BLL.Logic.Services;
 using HireWise.BLL.Logic.TechTransfers;
 using HireWise.BLL.Logic.UserGroupLogic;
@@ -27,6 +29,7 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IGradeLevelLogic, GradeLevelLogic>();
             services.AddScoped<ITechTransferLogic, TechTransferLogic>();
             services.AddScoped<IUserGroupLogic, UserGroupLogic>();
+            services.AddScoped<IRecordLogic, RecordLogic>();
 
             services.AddScoped<IPasswordService, PasswordService>();
 
@@ -44,6 +47,7 @@ namespace HireWise.Api.Extensions
             services.AddScoped<ITechTransferRepository, TechTransferRepository>();
             services.AddScoped<IGradeLevelRepository, GradeLevelRepository>();
             services.AddScoped<IUserGroupRepository, UserGroupRepository>();
+            services.AddScoped<IRecordRepository, RecordRepository>();
 
             return services;
         }

@@ -8,7 +8,7 @@ namespace HireWise.Api.Initializer
 {
     public static class DbInitializer
     {
-        public static void Initialize(DBContext context, IPasswordService passwordService)
+        public static void Initialize(HireWiseDBContext context, IPasswordService passwordService)
         {
             context.Database.EnsureCreated();
 

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HireWise.DAL.Repository.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(HireWiseDBContext))]
     [Migration("20240812184657_rework_question")]
     partial class rework_question
     {

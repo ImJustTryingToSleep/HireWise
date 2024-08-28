@@ -44,24 +44,17 @@ namespace HireWise.BLL.Logic.Questions
         } //log+
 
         #region "Get"
-        public async IAsyncEnumerable<Question> GetAsync()
-        {
-            var questions = _questionRepository.GetAsync();
-
-            await foreach (var item in questions)
-            {
-                yield return item;
-            }
-        }
+        public IAsyncEnumerable<Question> GetAsync() =>
+            _questionRepository.GetAsync();
 
         public async Task<List<Question>> GetAllPublishedAsync()
         {
-            return await _questionRepository.GetAllPublichedAsync();
+            return await _questionRepository.GetAllPublishedAsync();
         }
 
         public async Task<List<Question>> GetAllUnPublishedAsync()
         {
-            return await _questionRepository.GetAllUnPublichedAsync();
+            return await _questionRepository.GetAllUnPublishedAsync();
         }
 
         public async Task<Question> GetAsync(Guid id) // log+

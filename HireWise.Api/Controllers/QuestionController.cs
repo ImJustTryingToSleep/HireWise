@@ -22,15 +22,8 @@ namespace HireWise.Api.Controllers
         // GET: api/<QuestionController>
         [HttpGet]
         [Route("getAll")]
-        public async IAsyncEnumerable<Question> GetAsync()
-        {
-           var questions = _questionLogic.GetAsync();
-            //yield return (Question)questions;
-            await foreach (var item in questions)
-            {
-                yield return item;
-            }
-        }
+        public IAsyncEnumerable<Question> GetAsync() =>
+            _questionLogic.GetAsync();
 
         [HttpGet]
         [Route("getAllPublished")]

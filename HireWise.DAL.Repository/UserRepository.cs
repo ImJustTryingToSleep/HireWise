@@ -6,9 +6,9 @@ namespace HireWise.DAL.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DBContext _dbContext;
+        private readonly HireWiseDBContext _dbContext;
 
-        public UserRepository(DBContext dbContext)
+        public UserRepository(HireWiseDBContext dbContext)
         {
             _dbContext = dbContext; 
         }
