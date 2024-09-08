@@ -2,8 +2,7 @@
 using HireWise.Common.Entities.QuestionModels.DB;
 using HireWise.Common.Entities.QuestionModels.InputModels;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.ComponentModel.DataAnnotations;
 
 namespace HireWise.Api.Controllers
 {
@@ -13,64 +12,62 @@ namespace HireWise.Api.Controllers
     {
         private readonly IQuestionLogic _questionLogic;
 
-        public QuestionController(IQuestionLogic questionLogic)
-        {
-            _questionLogic = questionLogic;
-        }
-
-        #region "Get"
-        // GET: api/<QuestionController>
-        [HttpGet]
-        [Route("getAll")]
-        public IAsyncEnumerable<Question> GetAsync() =>
-            _questionLogic.GetAsync();
-
-        [HttpGet]
-        [Route("getAllPublished")]
-        public async Task<List<Question>> GetAllPublishedAsync()
-        {
-            return await _questionLogic.GetAllPublishedAsync();
-        }
-
-        [HttpGet]
-        [Route("getAllUnPublished")]
-        public async Task<List<Question>> GetAllUnPublishedAsync()
-        {
-            return await _questionLogic.GetAllUnPublishedAsync();
-        }
-
-        // GET api/<QuestionController>/5
-        [HttpGet("{id}")]
-        public async Task<Question> GetAsync(Guid id)
-        {
-            return await _questionLogic.GetAsync(id);
-        }
-
-        [HttpGet("{gradeId}, {techId}")]
-        public async Task<List<Question>> GetAsync(int gradeId, int techId)
-        {
-            return await _questionLogic.GetAsync(gradeId, techId);
-        }
-        #endregion
-
-        // POST api/<QuestionController>/create
         [HttpPost]
         [Route("create")]
         public async Task PostAsync([FromBody] QuestionInputModel questionInputModel)
         {
             await _questionLogic.CreateAsync(questionInputModel);
         }
+        public QuestionController(IQuestionLogic questionLogic)
+        {
+            _questionLogic = questionLogic;
+        }
 
-        // PUT api/<QuestionController>/5
+        #region "Get"
+        [HttpGet]
+        [Route("getAll")]
+        public IAsyncEnumerable<Question> GetAsync()
+        {
+           return _questionLogic.GetAsync();
+        }
+
+        [HttpGet]
+        [Route("getAllPublished")]
+        public IAsyncEnumerable<Question> GetAllPublishedAsync()
+        {
+            return _questionLogic.GetAllPublishedAsync();
+        }
+
+        [HttpGet]
+        [Route("getAllUnPublished")]
+        public IAsyncEnumerable<Question> GetAllUnPublishedAsync()
+        {
+            return _questionLogic.GetAllUnPublishedAsync();
+        }
+
+        [HttpGet]
+        [Route("getById")]
+        public async Task<Question> GetAsync(Guid id)
+        {
+            return await _questionLogic.GetAsync(id);
+        }
+
+        [HttpGet("{gradeId}, {techId}")]
+        public IAsyncEnumerable<Question> GetAsync(int gradeId, int techId)
+        {
+            return _questionLogic.GetAsync(gradeId, techId);
+        }
+        #endregion
+
         [HttpPut]
         [Route("update")]
-        public async Task PutAsync([FromBody] QuestionInputModel inputModel, Guid id)
+        public async Task PutAsync([Required] Guid id, [FromBody] QuestionInputModel inputModel)
         {
             await _questionLogic.UpdateAsync(inputModel, id);
         }
 
-        // DELETE api/<QuestionController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("delete")]
         public async Task DeleteAsync(Guid id)
         {
             await _questionLogic.DeleteAsync(id);

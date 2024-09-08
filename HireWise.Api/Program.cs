@@ -18,9 +18,12 @@ AuthOptions authOptions = new();
 builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
 builder.Services.AddSingleton(authOptions);
 
+builder.AddFluentValidationEndpointFilter();
+
 builder.Services.ConfigureDALDependencies();
 builder.Services.ConfigureBLLDependencies();
 builder.Services.ConfigureAuthorization();
+builder.Services.ConfigureValidationDependencies();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 builder.Services.AddDbContext<HireWiseDBContext>(options =>

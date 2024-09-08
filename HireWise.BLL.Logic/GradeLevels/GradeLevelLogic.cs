@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HireWise.BLL.Logic.Contracts.GradeLevels;
 using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.Common.Entities.GradeLevels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HireWise.BLL.Logic.GradeLevels
 {
-    public class GradeLevelLogic : Contracts.GradeLevels.IGradeLevelLogic
+    public class GradeLevelLogic : IGradeLevelLogic
     {
         private readonly IGradeLevelRepository _gradeLevelRepository;
         private readonly ILogger<GradeLevelLogic> _logger;
@@ -29,11 +30,11 @@ namespace HireWise.BLL.Logic.GradeLevels
                 var gradeLevel = _mapper.Map<GradeLevel>(gradeLevelInputModel);
   
                 await _gradeLevelRepository.CreateAsync(gradeLevel);
-                _logger.LogInformation("Уровень был создан");
+                _logger.LogInformation("Grade Level was crated with Id: {gradeLevel.Id}", gradeLevel.Id);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка при создании уровня");
+                _logger.LogError(ex, "An error occurred while creating the Grade Level");
             }
             
         }
@@ -43,9 +44,9 @@ namespace HireWise.BLL.Logic.GradeLevels
             await _gradeLevelRepository.DeleteAsync(id);
         }
 
-        public async Task<List<GradeLevel>> GetAsync()
+        public IAsyncEnumerable<GradeLevel> GetAsync()
         {
-            return await _gradeLevelRepository.GetAsync();
+            return _gradeLevelRepository.GetAsync();
         }
 
         public async Task<GradeLevel> GetAsync(int id)

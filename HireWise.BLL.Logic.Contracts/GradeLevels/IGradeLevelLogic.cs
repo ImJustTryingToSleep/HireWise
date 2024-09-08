@@ -6,9 +6,9 @@ namespace HireWise.BLL.Logic.Contracts.GradeLevels
     public interface IGradeLevelLogic
     {
         Task CreateAsync(GradeLevelInputModel gradeLevelInputModel);
-        Task<List<GradeLevel>> GetAsync();
+        IAsyncEnumerable<GradeLevel> GetAsync();
         Task<GradeLevel> GetAsync(int id);
-        Task DeleteAsync(int id);
         Task UpdateAsync(GradeLevelInputModel gradeLevelInput, int id);
+        Task DeleteAsync(int id);
     }
 }

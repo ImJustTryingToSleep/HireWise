@@ -1,4 +1,5 @@
-﻿using HireWise.Common.Entities.UserModels.DB;
+﻿using HireWise.Common.Entities.TechTransferModels.DB;
+using HireWise.Common.Entities.UserModels.DB;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,9 +34,9 @@ namespace HireWise.DAL.Repository
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<List<User>> GetAsync()
+        public IAsyncEnumerable<User> GetAsync()
         {
-            return await _dbContext.Users.ToListAsync();
+            return _dbContext.Users.AsAsyncEnumerable();
         }
 
         public async Task UpdateAsync(User user)

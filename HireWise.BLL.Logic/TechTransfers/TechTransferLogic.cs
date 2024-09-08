@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HireWise.BLL.Logic.Contracts.ITechTransferLogic;
+using HireWise.BLL.Logic.Contracts.TechTransfers;
 using HireWise.Common.Entities.TechTransferModels.DB;
 using HireWise.Common.Entities.TechTransferModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
@@ -29,9 +29,9 @@ namespace HireWise.BLL.Logic.TechTransfers
             await _techTransferRepository.CreateTechTransfer(techTransfer);
         }
 
-        public async Task<List<TechTransfer>> GetAsync()
+        public IAsyncEnumerable<TechTransfer> GetAsync()
         {
-            return await _techTransferRepository.GetAsync();
+            return _techTransferRepository.GetAsync();
         }
 
         public async Task<TechTransfer> GetAsync(int id)

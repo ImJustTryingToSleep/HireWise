@@ -1,7 +1,7 @@
 ﻿using HireWise.BLL.Logic.Authorization;
 using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.BLL.Logic.Contracts.GradeLevels;
-using HireWise.BLL.Logic.Contracts.ITechTransferLogic;
+using HireWise.BLL.Logic.Contracts.TechTransfers;
 using HireWise.BLL.Logic.Contracts.Questions;
 using HireWise.BLL.Logic.Contracts.Records;
 using HireWise.BLL.Logic.Contracts.Services;
@@ -16,6 +16,10 @@ using HireWise.BLL.Logic.UserGroupLogic;
 using HireWise.BLL.Logic.Users;
 using HireWise.DAL.Repository;
 using HireWise.DAL.Repository.Contracts;
+using FluentValidation;
+using HireWise.Common.Entities.QuestionModels.InputModels;
+using FluentValidation.AspNetCore;
+using HireWise.Common.Entities.UserModels.InputModels;
 
 namespace HireWise.Api.Extensions
 {
@@ -48,6 +52,17 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IGradeLevelRepository, GradeLevelRepository>();
             services.AddScoped<IUserGroupRepository, UserGroupRepository>();
             services.AddScoped<IRecordRepository, RecordRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureValidationDependencies(this IServiceCollection services)
+        {
+            services.AddControllers()
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<QuestionValidator>());
+
+            services.AddControllers()
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>());
 
             return services;
         }
