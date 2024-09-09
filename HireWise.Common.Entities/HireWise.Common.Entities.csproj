@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="RecordModels\InputModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ForEvolve.FluentValidation.AspNetCore.Http" Version="1.0.26" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>

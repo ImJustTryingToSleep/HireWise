@@ -30,9 +30,6 @@ namespace HireWise.BLL.Logic.Records
 
         public async Task CreateAsync(RecordInputModel inputRecord)
         {
-            //if (ValidateInputData(inputRecord))
-            //    return;
-
             var record = _mapper.Map<Record>(inputRecord);
 
             try
@@ -51,9 +48,6 @@ namespace HireWise.BLL.Logic.Records
         {
             try
             {
-                //if (ValidateInputData(inputRecord))
-                //    return;
-
                 var record = await _recordRepository.GetRecordByIdAsync(id);
 
                 if (record is null)
@@ -87,21 +81,28 @@ namespace HireWise.BLL.Logic.Records
             }
         }
 
-        //private bool ValidateInputData(RecordInputModel record) =>
-        //    Validate(() => record != null, "No data on the record.") &&
-        //    Validate(() => !string.IsNullOrWhiteSpace(record.Name), "Record title is null.") &&
-        //    Validate(() => record.Link != null, "Record link is null.") &&
-        //    Validate(() => record.Grade != null, "Grade level missing.") &&
-        //    Validate(() => record.TechTransfer != null, "Technical transfer missing.");
+        public async Task<Record?> GetRecordByIdAsync(Guid id) => 
+            await _recordRepository.GetRecordByIdAsync(id);
 
+        public IAsyncEnumerable<Record> GetAllRecordsAsync() =>
+             _recordRepository.GetAllRecordsAsync();
 
-        //private bool Validate(Func<bool> validationFunc, string errorMessage)
-        //{
-        //    if (validationFunc())
-        //        return true;
+        public IAsyncEnumerable<Record> GetPublishedRecordsAsync() => 
+            _recordRepository.GetPublishedRecordsAsync();
 
-        //    _logger.LogError(errorMessage);
-        //    return false;
-        //}
+        public IAsyncEnumerable<Record> GetPublishedByGradeAndTechIdsAsync(int techTransferId, int gradeId) =>
+            _recordRepository.GetPublishedByGradeAndTechIdsAsync(techTransferId, gradeId);
+
+        public IAsyncEnumerable<Record> GetPublishedByTechIdAsync(int techTransferId) => 
+            _recordRepository.GetPublishedByTechIdAsync(techTransferId);
+
+        public IAsyncEnumerable<Record> GetRecordsByUserIdAsync(Guid userId) => 
+            _recordRepository.GetRecordsByUserIdAsync(userId);
+
+        public IAsyncEnumerable<Record> GetRecordsByGradeIdAsync(int gradeId) => 
+            _recordRepository.GetRecordsByGradeIdAsync(gradeId);
+
+        public IAsyncEnumerable<Record> GetRecordsByTechTransferIdAsync(int techTransferId) => 
+            _recordRepository.GetRecordsByTechTransferIdAsync(techTransferId);
     }
 }

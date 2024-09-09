@@ -50,56 +50,73 @@ namespace HireWise.DAL.Repository
         /// <summary>
         /// Получение записи по Id
         /// </summary>
-        public async Task<Record?> GetRecordByIdAsync(Guid id) => 
+        public async Task<Record?> GetRecordByIdAsync(Guid id) =>
             await GetRecordsQuery().FirstOrDefaultAsync(r => r.Id == id);
 
         /// <summary>
         /// Получение всех записей
         /// </summary>
-        public async Task<List<Record>> GetAllRecordsAsync() =>
-            await GetRecordsQuery().ToListAsync();
-        
-
-        /// <summary>
-        /// Получение всех опубликованных записей
-        /// </summary>
-        public async Task<List<Record>> GetPublishedRecordsAsync() =>
-            await GetRecordsQuery()
-                .Where(r => r.IsPublished)
-                .ToListAsync();
+        public IAsyncEnumerable<Record> GetAllRecordsAsync() =>
+            GetRecordsQuery().AsAsyncEnumerable();
 
         /// <summary>
         /// Получение записей по UserId
         /// </summary>
-        public async Task<List<Record>> GetRecordsByUserIdAsync(Guid userId) =>
-            await GetRecordsQuery()
+        public IAsyncEnumerable<Record> GetRecordsByUserIdAsync(Guid userId) =>
+            GetRecordsQuery()
                 .Where(r => r.UserId == userId)
-                .ToListAsync();
+                .AsAsyncEnumerable();
 
         /// <summary>
         /// Получение записей по GradeId
         /// </summary>
-        public async Task<List<Record>> GetRecordsByGradeIdAsync(int gradeId) =>
-            await GetRecordsQuery()
+        public IAsyncEnumerable<Record> GetRecordsByGradeIdAsync(int gradeId) =>
+            GetRecordsQuery()
                 .Where(r => r.GradeId == gradeId)
-                .ToListAsync();
+                .AsAsyncEnumerable();
 
         /// <summary>
         /// Получение записей по TechTransferId
         /// </summary>
-        public async Task<List<Record>> GetRecordsByTechTransferIdAsync(int techTransferId) =>
-            await GetRecordsQuery()
+        public IAsyncEnumerable<Record> GetRecordsByTechTransferIdAsync(int techTransferId) =>
+            GetRecordsQuery()
                 .Where(r => r.TechTransferId == techTransferId)
-                .ToListAsync();
+                .AsAsyncEnumerable();
 
+        public IAsyncEnumerable<Record> GetPublishedRecordsAsync() =>
+            GetPublishedRecords().AsAsyncEnumerable();
+
+        /// <summary>
+        /// Получение записей по GradeId
+        /// </summary>
+        public IAsyncEnumerable<Record> GetPublishedByGradeAndTechIdsAsync(int techTransferId, int gradeId) =>
+            GetPublishedRecords()
+            .Where(r => r.TechTransferId == techTransferId)
+                .Where(r => r.GradeId == gradeId)
+                .AsAsyncEnumerable();
+
+        /// <summary>
+        /// Получение записей по TechTransferId
+        /// </summary>
+        public IAsyncEnumerable<Record> GetPublishedByTechIdAsync(int techTransferId) =>
+            GetRecordsQuery()
+                .Where(r => r.TechTransferId == techTransferId)
+                .AsAsyncEnumerable();
         #endregion
+
+        /// <summary>
+        /// Получение всех опубликованных записей
+        /// </summary>
+        private IQueryable<Record> GetPublishedRecords() =>
+            GetRecordsQuery()
+                .Where(r => r.IsPublished);
 
         private IQueryable<Record> GetRecordsQuery()
         {
-            return _context.Set<Record>()
-                .Include(r => r.User) // Подключаем пользователя
-                .Include(r => r.TechTransfer) // Подключаем трансфер 
-                .Include(r => r.Grade); // Подключаем грейд
+            return _context.Set<Record>();
+                //.Include(r => r.User) // Подключаем пользователя
+                //.Include(r => r.TechTransfer) // Подключаем трансфер 
+                //.Include(r => r.Grade); // Подключаем грейд
         }
     }
 }

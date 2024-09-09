@@ -20,6 +20,7 @@ using FluentValidation;
 using HireWise.Common.Entities.QuestionModels.InputModels;
 using FluentValidation.AspNetCore;
 using HireWise.Common.Entities.UserModels.InputModels;
+using HireWise.Common.Entities.RecordModels.InputModels;
 
 namespace HireWise.Api.Extensions
 {
@@ -63,6 +64,8 @@ namespace HireWise.Api.Extensions
 
             services.AddControllers()
             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>());
+
+            services.AddValidatorsFromAssemblyContaining<RecordValidator>();
 
             return services;
         }

@@ -8,9 +8,9 @@ namespace HireWise.Common.Entities.RecordModels.InputModels
     {
         public string Name { get; set; }
         public Uri Link { get; set; }
-        public GradeLevel? Grade { get; set; }
-        public User? User { get; set; }
+        public int GradeId { get; set; }
+        public Guid UserId { get; set; }
         public bool IsPublished { get; set; }
-        public TechTransfer? TechTransfer { get; set; }
+        public int TechTransferId { get; set; }
     }
 }

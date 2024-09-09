@@ -46,7 +46,7 @@ namespace HireWise.Api.Initializer
             var rootUser = new User
             {
                 Login = "root",
-                Email = "",
+                Email = "root",
                 Password = passwordService.HashPassword("root"),
                 UserGroupId = sprUser.Id,
                 UserGroup = sprUser

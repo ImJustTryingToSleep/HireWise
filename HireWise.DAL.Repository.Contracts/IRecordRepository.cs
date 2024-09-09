@@ -27,26 +27,33 @@ namespace HireWise.DAL.Repository.Contracts
         /// <summary>
         /// Получение всех записей
         /// </summary>
-        Task<List<Record>> GetAllRecordsAsync();
+        IAsyncEnumerable<Record> GetAllRecordsAsync();
 
         /// <summary>
         /// Получение всех опубликованных записей
         /// </summary>
-        Task<List<Record>> GetPublishedRecordsAsync();
+        IAsyncEnumerable<Record> GetPublishedRecordsAsync();
+
+        /// <summary>
+        /// Получение опубликованных записей по грейду и TechTransfer
+        /// </summary>
+        IAsyncEnumerable<Record> GetPublishedByGradeAndTechIdsAsync(int techTransferId, int gradeId);
+
+        IAsyncEnumerable<Record> GetPublishedByTechIdAsync(int techTransferId);
 
         /// <summary>
         /// Получение записей по UserId
         /// </summary>
-        Task<List<Record>> GetRecordsByUserIdAsync(Guid userId);
+        IAsyncEnumerable<Record> GetRecordsByUserIdAsync(Guid userId);
 
         /// <summary>
         /// Получение записей по GradeId
         /// </summary>
-        Task<List<Record>> GetRecordsByGradeIdAsync(int gradeId);
+        IAsyncEnumerable<Record> GetRecordsByGradeIdAsync(int gradeId);
 
         /// <summary>
         /// Получение записей по TechTransferId
         /// </summary>
-        Task<List<Record>> GetRecordsByTechTransferIdAsync(int techTransferId);
+        IAsyncEnumerable<Record> GetRecordsByTechTransferIdAsync(int techTransferId);
     }
 }
