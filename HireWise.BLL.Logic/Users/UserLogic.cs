@@ -119,5 +119,29 @@ namespace HireWise.BLL.Logic.Users
             
         }
 
+        public async Task ChangePasswordAsync(ChangePasswordModel model)
+        {
+            try
+            {
+                var user = _userRepository.GetAsync(model.Email).Result;
+
+                if (user is null || model.SecretWord != user.SecretWord)
+                {
+                    _logger.LogError("there is no user with email {model.email}", model.Email);
+                    throw new ArgumentException("There is no user with this Email or Secret Word is incorrect");
+                }
+
+                user.Password = _passwordService.HashPassword(model.NewPassword);
+
+                await _userRepository.UpdateAsync(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while changing the password");
+                throw;
+            }
+            
+        }
+
     }
 }

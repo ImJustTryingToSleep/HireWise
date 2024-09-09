@@ -12,5 +12,6 @@ namespace HireWise.BLL.Logic.Contracts.Users
         Task UpdateAsync(UserInputModel userInputModel);
         Task DeleteAsync(Guid id);
         Task BanAsync(Guid id);
+        Task ChangePasswordAsync(ChangePasswordModel model);
     }
 }
