@@ -65,23 +65,22 @@ namespace HireWise.BLL.Logic.Users
             return _userRepository.GetAsync();
         }
 
-        public async Task UpdateAsync(UserInputModel userInputModel, Guid id)
+        public async Task UpdateAsync(UserInputModel userInputModel)
         {
             try
             {
-                var user = GetAsync(id).Result;
+                var user = GetAsync(userInputModel.Email).Result;
 
-                if (user != null)
+                if (user is null)
                 {
-                    _mapper.Map(userInputModel, user);
+                    _logger.LogError("There is no user with this Email: {email}", userInputModel.Email);
+                }
 
-                    await _userRepository.UpdateAsync(user);
-                    _logger.LogInformation("User with Id: {question.Id} was updated", user.Id);
-                }
-                else
-                {
-                    _logger.LogError("There is no user with this Id: {id}", id);
-                }
+                userInputModel.Password = _passwordService.HashPassword(userInputModel.Password!);
+                _mapper.Map(userInputModel, user);
+
+                await _userRepository.UpdateAsync(user);
+                _logger.LogInformation("User with Id: {question.Id} was updated", user.Id);
             }
             catch (Exception ex)
             {

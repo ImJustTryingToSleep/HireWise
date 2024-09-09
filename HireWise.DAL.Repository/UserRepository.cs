@@ -20,12 +20,13 @@ namespace HireWise.DAL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<User?> GetAsync(string login) //???
+        public async Task<User?> GetAsync(string email) //???
         {
             var user = await _dbContext.Users
                     .Include(u => u.UserGroup)
                         .ThenInclude(ug => ug.Roles)
-                    .FirstOrDefaultAsync(u => u.Login == login);
+                    .FirstOrDefaultAsync(u => u.Email == email);
+
             return user;
         }
 

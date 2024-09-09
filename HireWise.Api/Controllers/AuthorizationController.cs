@@ -22,7 +22,6 @@ namespace HireWise.Api.Controllers
             _logger = logger;
         }
 
-        // GET api/<AuthorizationController>/
         [HttpGet]
         [Authorize(Roles = "Read")]
         public IActionResult Get()
@@ -30,30 +29,9 @@ namespace HireWise.Api.Controllers
             return Ok(new { value = "Well done, Turner!" });
         }
 
-        // POST api/<AuthorizationController>/login
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserInputModel request) => 
             Ok(await _authorizationLogic.GetJwtAsync(request));
-
-
-
-        // POST api/<AuthorizationController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<AuthorizationController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<AuthorizationController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

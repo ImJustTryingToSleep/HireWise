@@ -30,18 +30,18 @@ namespace HireWise.BLL.Logic.Authorization
         }
         public async Task<IResult> GetJwtAsync(UserInputModel inputModel)
         {
-            if (inputModel == null || string.IsNullOrEmpty(inputModel.Login) || string.IsNullOrEmpty(inputModel.Password))
+            if (inputModel == null || string.IsNullOrEmpty(inputModel.Email) || string.IsNullOrEmpty(inputModel.Password))
             {
                 var errorText = "Login and password must be provided.";
                 _logger.LogError(errorText);
                 return Results.Unauthorized();
             }
-            return await GetJwtAsync(inputModel.Login, inputModel.Password);
+            return await GetJwtAsync(inputModel.Email, inputModel.Password);
         }
-        public async Task<IResult> GetJwtAsync(string login, string password)
+        public async Task<IResult> GetJwtAsync(string email, string password)
         {
             // находим пользователя 
-            var user = await _userRepository.GetAsync(login);
+            var user = await _userRepository.GetAsync(email);
             // если пользователь не найден, отправляем статусный код 401
             if (user is null 
                 || !_passwordService.VerifyPassword(password, user.Password)) 
@@ -54,7 +54,7 @@ namespace HireWise.BLL.Logic.Authorization
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Login),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
@@ -73,13 +73,13 @@ namespace HireWise.BLL.Logic.Authorization
              );
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            _logger.LogInformation($"Generated token for user: {login}");
+            _logger.LogInformation($"Generated token for user: {email}");
 
             // формируем ответ
             var response = new
             {
                 access_token = encodedJwt,
-                username = user.Login
+                username = user.Email
             };
 
             return Results.Json(response);
