@@ -31,14 +31,6 @@ namespace HireWise.DAL.Repository
             ConfigureUser(modelBuilder);
             ConfigureTechTransfer(modelBuilder);
             ConfigureGradeLevel(modelBuilder);
-            //modelBuilder.Entity<UserGroup>()
-            //    .HasMany(e => e.Roles)
-            //    .WithMany(e => e.)
-            //    .UsingEntity(
-            //        "PostTag",
-            //        l => l.HasOne(typeof(Tag)).WithMany().HasForeignKey("TagsId").HasPrincipalKey(nameof(Tag.Id)),
-            //        r => r.HasOne(typeof(Post)).WithMany().HasForeignKey("PostsId").HasPrincipalKey(nameof(Post.Id)),
-            //        j => j.HasKey("PostsId", "TagsId"));
         }
 
         /// <summary>
@@ -126,58 +118,3 @@ namespace HireWise.DAL.Repository
         }
     }
 }
-
-//namespace HireWise.DAL.Repository
-//{
-//    public class DBContext : DbContext
-//    {
-//        public DBContext(DbContextOptions<DBContext> options) : base(options) { }
-
-//        public DbSet<User> Users { get; set; } = null!;
-//        public DbSet<Question> Questions { get; set; } = null!;
-//        public DbSet<Record> Records { get; set; } = null!;
-//        public DbSet<TechTransfer> TechTransfers { get; set; } = null!;
-//        public DbSet<GradeLevel> GradeLevel { get; set; } = null!;
-
-//        protected override void OnModelCreating(ModelBuilder modelBuilder)
-//        {
-//            modelBuilder.Entity<User>(entity =>
-//            {
-//                entity.HasKey(u => u.Id);
-
-//                entity.Property(u => u.Login)
-//                    .IsRequired()
-//                    .HasMaxLength(50); // Пример ограничения длины
-
-//                entity.HasIndex(u => u.Login)
-//                    .IsUnique(); // Указывает, что значение должно быть уникальным
-
-//                entity.Property(u => u.Email)
-//                    .IsRequired()
-//                    .HasMaxLength(100); // Пример ограничения длины
-
-//                entity.HasIndex(u => u.Email)
-//                    .IsUnique(); // Указывает, что значение должно быть уникальным
-
-//                entity.Property(u => u.Password)
-//                    .HasMaxLength(256); // Пример ограничения длины
-//            });
-
-//            modelBuilder.Entity<TechTransfer>()
-//                .Property(g => g.Name)
-//                .IsRequired(); // Указывает, что значение не может быть null
-
-//            modelBuilder.Entity<TechTransfer>()
-//                .HasIndex(g => g.Name)
-//                .IsUnique(); // Указывает, что значение должно быть уникальным
-
-//            modelBuilder.Entity<GradeLevel>()
-//                .Property(g => g.Name)
-//                .IsRequired(); // Указывает, что значение не может быть null
-
-//            modelBuilder.Entity<GradeLevel>()
-//                .HasIndex(g => g.Name)
-//                .IsUnique(); // Указывает, что значение должно быть уникальным
-//        }
-//    }
-//}
