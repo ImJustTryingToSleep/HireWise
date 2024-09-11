@@ -5,7 +5,7 @@ namespace HireWise.DAL.Repository.Contracts
     public interface IUserRepository
     {
         Task CreateAsync(User user);
-        Task<User?> GetAsync(string login);
+        Task<User?> GetAsync(string email);
         Task<User?> GetAsync(Guid id);
         IAsyncEnumerable<User> GetAsync();
         Task DeleteAsync(Guid id);

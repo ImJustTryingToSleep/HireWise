@@ -26,9 +26,9 @@ namespace HireWise.Api.Controllers
         #region "Get"
         [HttpGet]
         [Route("getAll")]
-        public IAsyncEnumerable<Question> GetAsync()
+        public  IAsyncEnumerable<Question> GetAsync()
         {
-           return _questionLogic.GetAsync();
+             return _questionLogic.GetAsync();
         }
 
         [HttpGet]

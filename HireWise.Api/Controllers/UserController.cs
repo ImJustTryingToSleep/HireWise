@@ -39,12 +39,20 @@ namespace HireWise.Api.Controllers
             await _userLogic.CreateAsync(user);
         }
 
-        
+        [HttpPost]
+        [Route("ChangePassword")]
+        [AllowAnonymous]
+        public async Task ChangePassword(ChangePasswordModel model)
+        {
+            await _userLogic.ChangePasswordAsync(model);
+        }
+
+
         [HttpPut]
         [Route("update")]
         public async Task Put([FromBody] UserInputModel userInputModel, Guid id)
         {
-            await _userLogic.UpdateAsync(userInputModel, id);
+            await _userLogic.UpdateAsync(userInputModel);
         }
 
         [HttpDelete]

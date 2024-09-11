@@ -60,11 +60,8 @@ namespace HireWise.Api.Extensions
 
         public static IServiceCollection ConfigureValidationDependencies(this IServiceCollection services)
         {
-            services.AddControllers()
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<QuestionValidator>());
-
-            services.AddControllers()
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>());
+            services.AddValidatorsFromAssemblyContaining<QuestionValidator>();
+            services.AddValidatorsFromAssemblyContaining<UserValidator>();
 
             services.AddValidatorsFromAssemblyContaining<RecordValidator>();
 

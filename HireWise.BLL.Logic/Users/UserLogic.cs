@@ -39,6 +39,7 @@ namespace HireWise.BLL.Logic.Users
             try
             {
                 userInputModel.Password = _passwordService.HashPassword(userInputModel.Password!);
+                userInputModel.SecretWord = _passwordService.HashPassword(userInputModel.Password!);
                 var user = _mapper.Map<User>(userInputModel);
                 user.UserGroup = await _userGroupRepository.GetDefaultGroupAsync();
 
@@ -54,7 +55,7 @@ namespace HireWise.BLL.Logic.Users
         }
 
         public async Task<User?> GetAsync(string login) =>
-            await _userRepository.GetAsync(login);//?
+            await _userRepository.GetAsync(login);
 
         public async Task<User?> GetAsync(Guid id)
         {
@@ -66,23 +67,22 @@ namespace HireWise.BLL.Logic.Users
             return _userRepository.GetAsync();
         }
 
-        public async Task UpdateAsync(UserInputModel userInputModel, Guid id)
+        public async Task UpdateAsync(UserInputModel userInputModel)
         {
             try
             {
-                var user = GetAsync(id).Result;
+                var user = GetAsync(userInputModel.Email).Result;
 
-                if (user != null)
+                if (user is null)
                 {
-                    _mapper.Map(userInputModel, user);
+                    _logger.LogError("There is no user with this Email: {email}", userInputModel.Email);
+                }
 
-                    await _userRepository.UpdateAsync(user);
-                    _logger.LogInformation("User with Id: {question.Id} was updated", user.Id);
-                }
-                else
-                {
-                    _logger.LogError("There is no user with this Id: {id}", id);
-                }
+                userInputModel.Password = _passwordService.HashPassword(userInputModel.Password!);
+                _mapper.Map(userInputModel, user);
+
+                await _userRepository.UpdateAsync(user);
+                _logger.LogInformation("User with Id: {question.Id} was updated", user.Id);
             }
             catch (Exception ex)
             {
@@ -119,6 +119,28 @@ namespace HireWise.BLL.Logic.Users
                 _logger.LogError(ex, "An error occurred while banning the user");
             }
             
+        }
+
+        public async Task ChangePasswordAsync(ChangePasswordModel model)
+        {
+            try
+            {
+                var user = _userRepository.GetAsync(model.Email).Result;
+
+                if (user is null || _passwordService.VerifyPassword(model.SecretWord, user.SecretWord))
+                {
+                    _logger.LogDebug("there is no user with email {model.email}", model.Email);
+                    throw new ArgumentException("There is no user with this Email or Secret Word is incorrect");
+                }
+
+                user.Password = _passwordService.HashPassword(model.NewPassword);
+                await _userRepository.UpdateAsync(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while changing the password");
+                throw;
+            }
         }
 
     }
