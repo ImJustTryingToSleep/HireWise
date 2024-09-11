@@ -1,9 +1,8 @@
 ﻿using HireWise.BLL.Logic.Contracts.Users;
+using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace HireWise.Api.Controllers
 {
@@ -18,35 +17,56 @@ namespace HireWise.Api.Controllers
             _userLogic = userLogic;
         }
 
-        // GET: api/<UserController>
         [HttpGet]
-        public IActionResult Get()
+        [Route("getById")]
+        public async Task<User> GetAsync(Guid Id)
         {
-            return Ok();
+            return await _userLogic.GetAsync(Id);
+        }
+
+        [HttpGet]
+        [Route("getAll")]
+        public IAsyncEnumerable<User> GetAsync()
+        {
+            return _userLogic.GetAsync();
         }
 
 
-
-        // POST api/<UserController>/Registration
         [HttpPost]
         [Route("Registration")]
-        public async Task Post([FromBody] UserCreateInputModel user)
+        public async Task PostAsync([FromBody] UserInputModel user)
         {
-            await _userLogic.CreateUserAsync(user);
+            await _userLogic.CreateAsync(user);
         }
 
-        // PUT api/<UserController>/5
-        
-        [HttpGet("{Authorize}")] 
-        public void Put()
+        [HttpPost]
+        [Route("ChangePassword")]
+        [AllowAnonymous]
+        public async Task ChangePassword(ChangePasswordModel model)
         {
-            
+            await _userLogic.ChangePasswordAsync(model);
         }
 
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        [HttpPut]
+        [Route("update")]
+        public async Task Put([FromBody] UserInputModel userInputModel, Guid id)
         {
+            await _userLogic.UpdateAsync(userInputModel);
+        }
+
+        [HttpDelete]
+        [Route("delete")]
+        public async Task DeleteAsync(Guid id)
+        {
+            await _userLogic.DeleteAsync(id);
+        }
+
+        [HttpPost]
+        [Route("ban")]
+        public async Task BanAsync(Guid id)
+        {
+            await _userLogic.BanAsync(id);
         }
     }
 }

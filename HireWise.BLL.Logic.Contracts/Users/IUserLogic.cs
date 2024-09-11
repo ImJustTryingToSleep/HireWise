@@ -5,8 +5,13 @@ namespace HireWise.BLL.Logic.Contracts.Users
 {
     public interface IUserLogic
     {
-        Task CreateUserAsync(UserCreateInputModel userInputModel);
-
+        Task CreateAsync(UserInputModel userInputModel);
         Task<User?> GetAsync(string login);
+        Task<User> GetAsync(Guid id);
+        IAsyncEnumerable<User> GetAsync();
+        Task UpdateAsync(UserInputModel userInputModel);
+        Task DeleteAsync(Guid id);
+        Task BanAsync(Guid id);
+        Task ChangePasswordAsync(ChangePasswordModel model);
     }
 }

@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="19.225.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HireWise.BLL.Logic.Contracts\HireWise.BLL.Logic.Contracts.csproj" />
-    <ProjectReference Include="..\HireWise.DAL.Repository\HireWise.DAL.Repository.csproj" />
+    <ProjectReference Include="..\HireWise.Common.Entities\HireWise.Common.Entities.csproj" />
+    <ProjectReference Include="..\HireWise.Common.Utilities\HireWise.Common.Utilities.csproj" />
+    <ProjectReference Include="..\HireWise.DAL.Repository.Contracts\HireWise.DAL.Repository.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

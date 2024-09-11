@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,6 +20,9 @@
   <ItemGroup>
     <ProjectReference Include="..\HireWise.BLL.Logic.Contracts\HireWise.BLL.Logic.Contracts.csproj" />
     <ProjectReference Include="..\HireWise.BLL.Logic\HireWise.BLL.Logic.csproj" />
+    <ProjectReference Include="..\HireWise.Common.Entities\HireWise.Common.Entities.csproj" />
+    <ProjectReference Include="..\HireWise.Common.Utilities\HireWise.Common.Utilities.csproj" />
+    <ProjectReference Include="..\HireWise.DAL.Repository.Contracts\HireWise.DAL.Repository.Contracts.csproj" />
     <ProjectReference Include="..\HireWise.DAL.Repository\HireWise.DAL.Repository.csproj" />
   </ItemGroup>
 

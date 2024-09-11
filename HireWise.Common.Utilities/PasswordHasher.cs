@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace HireWise.BLL.Logic.Services
+namespace HireWise.Common.Utilities
 {
     public class PasswordHasher
     {
