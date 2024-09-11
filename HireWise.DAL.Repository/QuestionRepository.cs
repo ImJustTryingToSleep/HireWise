@@ -6,9 +6,9 @@ namespace HireWise.DAL.Repository
 {
     public class QuestionRepository : IQuestionRepository
     {
-        private readonly DBContext _dbContext;
+        private readonly HireWiseDBContext _dbContext;
 
-        public QuestionRepository(DBContext dbContext)
+        public QuestionRepository(HireWiseDBContext dbContext)
         {
             _dbContext = dbContext;
         }

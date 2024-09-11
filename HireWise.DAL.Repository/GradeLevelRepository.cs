@@ -7,9 +7,9 @@ namespace HireWise.DAL.Repository
 {
     public class GradeLevelRepository : IGradeLevelRepository
     {
-        private readonly DBContext _dbContext;
+        private readonly HireWiseDBContext _dbContext;
 
-        public GradeLevelRepository(DBContext dbContext)
+        public GradeLevelRepository(HireWiseDBContext dbContext)
         {
             _dbContext = dbContext;
         }

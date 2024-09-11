@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HireWise.DAL.Repository.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(HireWiseDBContext))]
     [Migration("20240909154225_add_SecretWord_for_User")]
     partial class add_SecretWord_for_User
     {

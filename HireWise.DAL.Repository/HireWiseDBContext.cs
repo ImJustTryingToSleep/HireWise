@@ -10,9 +10,9 @@ using System.Linq.Expressions;
 
 namespace HireWise.DAL.Repository
 {
-    public class DBContext : DbContext
+    public class HireWiseDBContext : DbContext
     {
-        public DBContext(DbContextOptions<DBContext> options) : base(options) { }
+        public HireWiseDBContext(DbContextOptions<HireWiseDBContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Question> Questions { get; set; } = null!;
@@ -129,9 +129,9 @@ namespace HireWise.DAL.Repository
 
 //namespace HireWise.DAL.Repository
 //{
-//    public class DBContext : DbContext
+//    public class HireWiseDBContext : DbContext
 //    {
-//        public DBContext(DbContextOptions<DBContext> options) : base(options) { }
+//        public HireWiseDBContext(DbContextOptions<HireWiseDBContext> options) : base(options) { }
 
 //        public DbSet<User> Users { get; set; } = null!;
 //        public DbSet<Question> Questions { get; set; } = null!;

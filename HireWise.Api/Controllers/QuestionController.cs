@@ -29,11 +29,6 @@ namespace HireWise.Api.Controllers
         public  IAsyncEnumerable<Question> GetAsync()
         {
              return _questionLogic.GetAsync();
-
-            //await foreach (var question in questions)
-            //{
-            //    yield return question;
-            //}
         }
 
         [HttpGet]

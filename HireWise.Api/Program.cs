@@ -27,7 +27,7 @@ builder.Services.ConfigureAuthorization();
 builder.Services.ConfigureValidationDependencies();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
-builder.Services.AddDbContext<DBContext>(options =>
+builder.Services.AddDbContext<HireWiseDBContext>(options =>
     options.UseNpgsql(connection));
 
 var app = builder.Build();

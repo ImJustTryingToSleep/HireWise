@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HireWise.DAL.Repository.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(HireWiseDBContext))]
     partial class DBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
