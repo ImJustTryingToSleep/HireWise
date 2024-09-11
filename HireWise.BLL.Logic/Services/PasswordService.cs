@@ -1,4 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.Services;
+using HireWise.Common.Utilities;
 
 namespace HireWise.BLL.Logic.Services
 {

@@ -18,44 +18,44 @@ namespace HireWise.Api.Initializer
                 return; // База данных уже инициализирована
             }
 
-            // Создаем роли и группы пользователей
-            var userRole = new Role { Id = 1, Name = "User" };
-            var adminRole = new Role { Id = 2, Name = "Admin" };
-            var rootRole = new Role { Id = 3, Name = "Root" };
+            //// Создаем роли и группы пользователей
+            //var userRole = new Role { Id = 1, Name = "User" };
+            //var adminRole = new Role { Id = 2, Name = "Admin" };
+            //var rootRole = new Role { Id = 3, Name = "Root" };
 
-            var regUserGroup = new UserGroup { Id = 1, Name = "RegisteredUsers" };
-            var sprUser = new UserGroup { Id = 2, Name = "SuperUser" };
+            //var regUserGroup = new UserGroup { Id = 1, Name = "RegisteredUsers" };
+            //var sprUser = new UserGroup { Id = 2, Name = "SuperUser" };
 
-            // добавляем группы ролям
-            userRole.UserGroups.AddRange([sprUser, regUserGroup]);
-            adminRole.UserGroups.Add(sprUser);
-            rootRole.UserGroups.Add(sprUser);
+            //// добавляем группы ролям
+            //userRole.UserGroups.AddRange([sprUser, regUserGroup]);
+            //adminRole.UserGroups.Add(sprUser);
+            //rootRole.UserGroups.Add(sprUser);
 
-            //добавляем ролям группы
-            regUserGroup.Roles.Add(userRole);
-            sprUser.Roles.AddRange([userRole, adminRole, rootRole]);
+            ////добавляем ролям группы
+            //regUserGroup.Roles.Add(userRole);
+            //sprUser.Roles.AddRange([userRole, adminRole, rootRole]);
 
-            // Добавляем роли и группы в контекст
-            context.Roles.AddRange(userRole, adminRole, rootRole);
-            context.UserGroups.AddRange(regUserGroup, sprUser);
+            //// Добавляем роли и группы в контекст
+            //context.Roles.AddRange(userRole, adminRole, rootRole);
+            //context.UserGroups.AddRange(regUserGroup, sprUser);
 
-            // Сохраняем изменения
-            context.SaveChanges();
+            //// Сохраняем изменения
+            //context.SaveChanges();
 
-            // Создаем root пользователя
-            var rootUser = new User
-            {
-                Login = "root",
-                Email = "root",
-                Password = passwordService.HashPassword("root"),
-                UserGroupId = sprUser.Id,
-                UserGroup = sprUser
-            };
+            //// Создаем root пользователя
+            //var rootUser = new User
+            //{
+            //    Login = "root",
+            //    Email = "root",
+            //    Password = passwordService.HashPassword("root"),
+            //    UserGroupId = sprUser.Id,
+            //    UserGroup = sprUser
+            //};
 
-            context.Users.Add(rootUser);
-            context.SaveChanges();
+            //context.Users.Add(rootUser);
+            //context.SaveChanges();
 
-            context.SaveChanges();
+            //context.SaveChanges();
         }
     }
 

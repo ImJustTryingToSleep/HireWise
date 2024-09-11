@@ -21,6 +21,7 @@ using HireWise.Common.Entities.QuestionModels.InputModels;
 using FluentValidation.AspNetCore;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.Common.Entities.RecordModels.InputModels;
+using HireWise.Common.Utilities;
 
 namespace HireWise.Api.Extensions
 {

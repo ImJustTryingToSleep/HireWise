@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HireWise.BLL.Logic.Contracts\HireWise.BLL.Logic.Contracts.csproj" />
     <ProjectReference Include="..\HireWise.Common.Entities\HireWise.Common.Entities.csproj" />
+    <ProjectReference Include="..\HireWise.Common.Utilities\HireWise.Common.Utilities.csproj" />
     <ProjectReference Include="..\HireWise.DAL.Repository.Contracts\HireWise.DAL.Repository.Contracts.csproj" />
   </ItemGroup>
 
