@@ -42,7 +42,7 @@ namespace HireWise.Api.Controllers
         #region Gets
 
         [HttpGet]
-        [Route("getAllById")]
+        [Route("getById")]
         public async Task<Record?> GetRecordByIdAsync(Guid id) =>
             await _recordLogic.GetRecordByIdAsync(id);
 

@@ -37,8 +37,6 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<HireWiseDBContext>();
     var passwordService = services.GetRequiredService<IPasswordService>();
-
-    DbInitializer.Initialize(context, passwordService);
 }
 
 // Configure the HTTP request pipeline.
