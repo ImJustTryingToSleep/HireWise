@@ -102,7 +102,7 @@ namespace HireWise.BLL.Logic.Users
             {
                 var user = await _userRepository.GetAsync(id);
 
-                if (user != null)
+                if (user != null && user.UserGroupId == 1) //переписать
                 {
                     user.IsBanned = true;
                     _logger.LogInformation($"Banned {user.Id}");

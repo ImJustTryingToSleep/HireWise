@@ -40,7 +40,7 @@ namespace HireWise.BLL.Logic.Questions
             {
                 _logger.LogError(ex, "An error occurred while creating the question");
             }
-        } //log+
+        }
 
         #region "Get"
         public IAsyncEnumerable<Question> GetAsync()
@@ -58,7 +58,7 @@ namespace HireWise.BLL.Logic.Questions
             return _questionRepository.GetAllUnPublichedAsync();
         }
 
-        public async Task<Question> GetAsync(Guid id) // log+
+        public async Task<Question> GetAsync(Guid id)
         {
             try
             {

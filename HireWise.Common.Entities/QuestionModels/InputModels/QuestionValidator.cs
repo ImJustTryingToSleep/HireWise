@@ -6,8 +6,8 @@ namespace HireWise.Common.Entities.QuestionModels.InputModels
     {
         public QuestionValidator()
         {
-            RuleFor(q => q.Name).NotEmpty();
-            RuleFor(q => q.Body).NotEmpty();
+            RuleFor(q => q.QuestionName).NotEmpty();
+            RuleFor(q => q.QuestionBody).NotEmpty();
             RuleFor(q => q.GradeLevelId).NotEmpty();
             RuleFor(q => q.TechTransferId).NotEmpty();
         }

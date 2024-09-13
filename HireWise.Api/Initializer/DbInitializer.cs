@@ -19,12 +19,12 @@ namespace HireWise.Api.Initializer
             }
 
             //// Создаем роли и группы пользователей
-            //var userRole = new Role { Id = 1, Name = "User" };
-            //var adminRole = new Role { Id = 2, Name = "Admin" };
-            //var rootRole = new Role { Id = 3, Name = "Root" };
+            //var userRole = new Role { Id = 1, QuestionName = "User" };
+            //var adminRole = new Role { Id = 2, QuestionName = "Admin" };
+            //var rootRole = new Role { Id = 3, QuestionName = "Root" };
 
-            //var regUserGroup = new UserGroup { Id = 1, Name = "RegisteredUsers" };
-            //var sprUser = new UserGroup { Id = 2, Name = "SuperUser" };
+            //var regUserGroup = new UserGroup { Id = 1, QuestionName = "RegisteredUsers" };
+            //var sprUser = new UserGroup { Id = 2, QuestionName = "SuperUser" };
 
             //// добавляем группы ролям
             //userRole.UserGroups.AddRange([sprUser, regUserGroup]);
