@@ -1,5 +1,4 @@
 using HireWise.Api.Extensions;
-using HireWise.Api.Initializer;
 using HireWise.BLL.Logic.Authorization;
 using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.DAL.Repository;

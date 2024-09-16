@@ -88,7 +88,10 @@ namespace HireWise.BLL.Logic.Records
              _recordRepository.GetAllRecordsAsync();
 
         public IAsyncEnumerable<Record> GetPublishedRecordsAsync() => 
-            _recordRepository.GetPublishedRecordsAsync();
+            _recordRepository.GetRecordsByPublishStatusAsync(true);
+
+        public IAsyncEnumerable<Record> GetUnpublishedRecordsAsync() =>
+            _recordRepository.GetRecordsByPublishStatusAsync(false);
 
         public IAsyncEnumerable<Record> GetPublishedByGradeAndTechIdsAsync(int techTransferId, int gradeId) =>
             _recordRepository.GetPublishedByGradeAndTechIdsAsync(techTransferId, gradeId);

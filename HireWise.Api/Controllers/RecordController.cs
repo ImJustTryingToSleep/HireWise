@@ -1,6 +1,7 @@
 ﻿using HireWise.BLL.Logic.Contracts.Records;
 using HireWise.Common.Entities.RecordModels.DB;
 using HireWise.Common.Entities.RecordModels.InputModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HireWise.Api.Controllers
@@ -27,7 +28,7 @@ namespace HireWise.Api.Controllers
         {
             await _recordLogic.UpdateAsync(record, id);
 
-           return Ok();
+            return Ok();
         }
 
         [HttpDelete]
@@ -53,8 +54,15 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getAllPublished")]
+        [Authorize(Roles = "User")]
         public IAsyncEnumerable<Record> GetPublishedRecordsAsync() =>
             _recordLogic.GetPublishedRecordsAsync();
+
+        [HttpGet]
+        [Route("getAllPublished")]
+        [Authorize(Roles = "User")]
+        public IAsyncEnumerable<Record> GetUnpublishedRecordsAsync() =>
+            _recordLogic.GetUnpublishedRecordsAsync();
 
         [HttpGet]
         [Route("getPublishedByGradeAndTech")]

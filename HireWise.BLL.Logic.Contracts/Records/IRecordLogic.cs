@@ -30,6 +30,8 @@ namespace HireWise.BLL.Logic.Contracts.Records
 
         IAsyncEnumerable<Record> GetPublishedRecordsAsync();
 
+        IAsyncEnumerable<Record> GetUnpublishedRecordsAsync();
+
         IAsyncEnumerable<Record> GetPublishedByGradeAndTechIdsAsync(int techTransferId, int gradeId);
 
         IAsyncEnumerable<Record> GetPublishedByTechIdAsync(int techTransferId);

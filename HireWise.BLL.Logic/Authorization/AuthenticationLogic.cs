@@ -59,9 +59,12 @@ namespace HireWise.BLL.Logic.Authorization
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
-            foreach (var role in user.UserGroup.Roles)
+            if (user.UserGroup.Roles != null)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                foreach (var role in user.UserGroup.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                }
             }
 
             // создаем JWT-токен
@@ -69,12 +72,12 @@ namespace HireWise.BLL.Logic.Authorization
                 issuer: _authOptions.Issuer,
                 audience: _authOptions.Audience,
                 claims: claims,
-                expires: DateTime.Now.Add(TimeSpan.FromMinutes(_authOptions.ExpiryMinutes)),
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(_authOptions.ExpiryMinutes)),
                 signingCredentials: new SigningCredentials(_authOptions.SymmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
              );
 
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            _logger.LogInformation($"Generated token for user: {login}");
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt).ToString().Replace("Bearer", string.Empty);
+            _logger.LogInformation($"Generated token for user: {login}: {jwt}");
 
             // формируем ответ
             var response = new
