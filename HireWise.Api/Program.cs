@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 AuthOptions authOptions = new();
 builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
@@ -26,6 +25,15 @@ builder.Services.AddDbContext<HireWiseDBContext>(options =>
 
 var app = builder.Build();
 
+// Инициализация базы данных
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<HireWiseDBContext>();
+    var passwordService = services.GetRequiredService<IPasswordService>();
+}
+
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
