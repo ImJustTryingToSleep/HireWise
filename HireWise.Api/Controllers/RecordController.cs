@@ -64,7 +64,7 @@ namespace HireWise.Api.Controllers
             _recordLogic.GetPublishedRecordsAsync();
 
         [HttpGet]
-        [Route("getAllPublished")]
+        [Route("getAllUnpublished")]
         [Authorize(Roles = "Admin")]
         public IAsyncEnumerable<Record> GetUnpublishedRecordsAsync() =>
             _recordLogic.GetUnpublishedRecordsAsync();
