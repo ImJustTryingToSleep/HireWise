@@ -1,6 +1,5 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
-using HireWise.Common.Entities.UserModels.InputModels;
-using Microsoft.AspNetCore.Authorization;
+using HireWise.Common.Entities.LoginModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HireWise.Api.Controllers
@@ -23,7 +22,7 @@ namespace HireWise.Api.Controllers
         // POST api/<AuthorizationController>/login
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] UserInputModel request) => 
-            Ok(await _authorizationLogic.GetJwtAsync(request));
+        public async Task<IActionResult> LoginAsync([FromBody] LoginModel loginModel) => 
+            Ok(await _authorizationLogic.GetJwtAsync(loginModel));
     }
 }

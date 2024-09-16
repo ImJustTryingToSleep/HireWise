@@ -95,53 +95,5 @@ namespace HireWise.BLL.Logic.Users
         {
             await _userRepository.DeleteAsync(id);
         }
-
-        public async Task BanAsync(Guid id)
-        {
-            try
-            {
-                var user = await _userRepository.GetAsync(id);
-
-                if (user != null && user.UserGroupId == 1) //переписать
-                {
-                    user.IsBanned = true;
-                    _logger.LogInformation($"Banned {user.Id}");
-                }
-                else
-                {
-                    _logger.LogError("There is no user with Id: {user.Id}", user.Id);
-                }
-
-                await _userRepository.UpdateAsync(user);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while banning the user");
-            }
-            
-        }
-
-        public async Task ChangePasswordAsync(ChangePasswordModel model)
-        {
-            try
-            {
-                var user = _userRepository.GetAsync(model.Email).Result;
-
-                if (user is null || _passwordService.VerifyPassword(model.SecretWord, user.SecretWord))
-                {
-                    _logger.LogDebug("there is no user with email {model.email}", model.Email);
-                    throw new ArgumentException("There is no user with this Email or Secret Word is incorrect");
-                }
-
-                user.Password = _passwordService.HashPassword(model.NewPassword);
-                await _userRepository.UpdateAsync(user);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while changing the password");
-                throw;
-            }
-        }
-
     }
 }

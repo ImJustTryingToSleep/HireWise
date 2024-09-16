@@ -27,6 +27,11 @@ namespace HireWise.BLL.Logic.Questions
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Создание вопроса
+        /// </summary>
+        /// <param name="questionInputModel"></param>
+        /// <returns></returns>
         public async Task CreateAsync(QuestionInputModel questionInputModel)
         {
             try
@@ -43,21 +48,37 @@ namespace HireWise.BLL.Logic.Questions
         }
 
         #region "Get"
+        /// <summary>
+        /// Поулчение всех вопросов
+        /// </summary>
+        /// <returns></returns>
         public IAsyncEnumerable<Question> GetAsync()
         {
             return _questionRepository.GetAsync();
         }
 
+        /// <summary>
+        /// Получение всех опубликованных
+        /// </summary>
+        /// <returns></returns>
         public IAsyncEnumerable<Question> GetAllPublishedAsync()
         {
             return _questionRepository.GetAllPublichedAsync();
         }
 
+        /// <summary>
+        /// Получение всех неопубликованных
+        /// </summary>
+        /// <returns></returns>
         public IAsyncEnumerable<Question> GetAllUnPublishedAsync()
         {
             return _questionRepository.GetAllUnPublichedAsync();
         }
 
+        /// <summary>
+        /// Получение вопроса по Id
+        /// </summary>
+        /// <returns></returns>
         public async Task<Question> GetAsync(Guid id)
         {
             try
@@ -71,12 +92,20 @@ namespace HireWise.BLL.Logic.Questions
             }
         }
 
+        /// <summary>
+        /// Получение опубликованных вопросов по предметной области и уровню
+        /// </summary>
+        /// <returns></returns>
         public IAsyncEnumerable<Question> GetAsync(int gradeId, int techTrasferId)
         {
             return _questionRepository.GetAsync(gradeId, techTrasferId);
         }
         #endregion
 
+        /// <summary>
+        /// Удаление вопроса
+        /// </summary>
+        /// <returns></returns>
         public async Task DeleteAsync(Guid id)
         {
             try
@@ -88,9 +117,13 @@ namespace HireWise.BLL.Logic.Questions
                 _logger.LogError(ex, "There is no question with this Id");
                 throw;
             }
-        } //log+
+        }
 
-        public async Task UpdateAsync(QuestionInputModel questionInputModel, Guid id) // log+
+        /// <summary>
+        /// Обновление вопроса
+        /// </summary>
+        /// <returns></returns>
+        public async Task UpdateAsync(QuestionInputModel questionInputModel, Guid id)
         {
             try
             {
@@ -113,6 +146,31 @@ namespace HireWise.BLL.Logic.Questions
                 throw;
             }
             
+        }
+
+        /// <summary>
+        /// Публикация вопроса
+        /// </summary>
+        /// <returns></returns>
+        public async Task PublishAsync(Guid id)
+        {
+            try
+            {
+                var question = _questionRepository.GetAsync(id).Result;
+
+                if (question is null)
+                {
+                    _logger.LogError("There is no question with Id: {qustion.Id}", id);
+                }
+
+                question.IsPublished = true;
+                await _questionRepository.UpdateQuestion(question);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error while posting question");
+                throw;
+            }
         }
     }
 }

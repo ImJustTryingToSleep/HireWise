@@ -1,12 +1,9 @@
 using HireWise.Api.Extensions;
-using HireWise.Api.Initializer;
 using HireWise.BLL.Logic.Authorization;
-using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -28,16 +25,6 @@ builder.Services.AddDbContext<HireWiseDBContext>(options =>
     options.UseNpgsql(connection));
 
 var app = builder.Build();
-
-// Инициализация базы данных
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<HireWiseDBContext>();
-    var passwordService = services.GetRequiredService<IPasswordService>();
-
-    DbInitializer.Initialize(context, passwordService);
-}
 
 if (app.Environment.IsDevelopment())
 {
