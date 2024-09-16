@@ -66,22 +66,9 @@ namespace HireWise.BLL.Logic.UserGroupLogic
             }
 
             var roleIdSet = new HashSet<int>(roleIds); // Используем HashSet для оптимизации поиска            
-            var missingRoles = new List<Role>(); // Список для хранения отсутствующих ролей
-
-            foreach (var role in userGroup.Roles) // Проходим по всем ролям в userGroup
-            {
-                if (!roleIdSet.Contains(role.Id))
-                {
-                    missingRoles.Add(role); // Если роль отсутствует в roleIds, добавляем в missingRoles
-                }
-            }
-
-            foreach (var role in missingRoles) // Выполняем действия с отсутствующими ролями
-            {
-                Console.WriteLine($"Missing Role: Id = {role.Id}, Name = {role.Name}"); // Например, выводим информацию о роли
-            }
-            
+            var missingRoles = new List<Role>(); // Список для хранения отсутствующих ролей            
             var newRoles = new List<Role>(); // Получаем новые роли асинхронно
+
             foreach (var roleId in roleIds)
             {
                 var role = await _userGroupRepository.GetRoleById(roleId);
