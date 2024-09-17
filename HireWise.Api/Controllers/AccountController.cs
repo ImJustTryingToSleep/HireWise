@@ -28,9 +28,9 @@ namespace HireWise.Api.Controllers
         [HttpPost]
         [Route("ban")]
         //[Authorize(Roles = "Admin")]
-        public async Task BanAsync([FromBody] Guid userToBanId, string bannersEmail)
+        public async Task BanAsync([FromBody] Guid userToBanId, Guid bannersId)
         {
-            await _accountLogic.BanAsync(userToBanId, bannersEmail);
+            await _accountLogic.BanAsync(userToBanId, bannersId);
         }
 
         [HttpPost]

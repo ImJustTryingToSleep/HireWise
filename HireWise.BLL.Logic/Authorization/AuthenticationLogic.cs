@@ -1,7 +1,6 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.Common.Entities.LoginModels;
-using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -77,7 +76,7 @@ namespace HireWise.BLL.Logic.Authorization
              );
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt).ToString().Replace("Bearer", string.Empty);
-            _logger.LogInformation($"Generated token for user: {login}: {jwt}");
+            _logger.LogInformation($"Generated token for user: {email}: {jwt}");
 
             // формируем ответ
             var response = new

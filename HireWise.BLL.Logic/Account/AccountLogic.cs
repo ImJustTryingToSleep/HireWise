@@ -1,5 +1,6 @@
 ﻿using HireWise.BLL.Logic.Contracts.Account;
 using HireWise.BLL.Logic.Contracts.Services;
+using HireWise.Common.Entities.UserModels.DB;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.Extensions.Logging;
@@ -53,12 +54,12 @@ namespace HireWise.BLL.Logic.Account
 
                 if (bannersUser.UserGroup.Id == 2)
                 {
-                    await Ban(userToBan.Id);
+                    await Ban(userToBan);
                 }
 
                 if (bannersUser.UserGroupId > 1 && userToBan.UserGroupId == 1)
                 {
-                    await Ban(userToBan.Id);
+                    await Ban(userToBan);
                 }
                 else
                 {
@@ -95,19 +96,18 @@ namespace HireWise.BLL.Logic.Account
             }
         }
 
-        private async Task Ban(Guid userToBanId)
+        private async Task Ban(User userToBan)
         {
-            var user = await _userRepository.GetAsync(userToBanId);
-
-            if (user is null)
+            
+            if (userToBan is null)
             {
-                _logger.LogError("There is no user with Id: {user.Id}", user.Id);
+                _logger.LogError("There is no user with Id: {user.Id}", userToBan.Id);
                 throw new ArgumentException("Wrong Id");
             }
 
-            user.IsBanned = true;
-            _logger.LogInformation($"Banned {user.Id}");
-            await _userRepository.UpdateAsync(user);
+            userToBan.IsBanned = true;
+            _logger.LogInformation($"Banned {userToBan.Id}");
+            await _userRepository.UpdateAsync(userToBan);
         }
     }
 }

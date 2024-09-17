@@ -7,7 +7,6 @@ namespace HireWise.Common.Entities.QuestionModels.DB
         public Guid Id { get; set; }
         public string QuestionName { get; set; }
         public string QuestionBody { get; set; }
-        public int Counter { get; set; }
         public bool IsPublished { get; set; } = false;
         public Guid UserId { get; set; }
         public User Author { get; set; }

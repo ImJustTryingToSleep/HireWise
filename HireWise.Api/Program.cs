@@ -1,5 +1,6 @@
 using HireWise.Api.Extensions;
 using HireWise.BLL.Logic.Authorization;
+using HireWise.BLL.Logic.Contracts.Services;
 using HireWise.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
 
