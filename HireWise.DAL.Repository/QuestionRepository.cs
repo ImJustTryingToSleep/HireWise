@@ -39,7 +39,7 @@ namespace HireWise.DAL.Repository
 
         public async Task<Question?> GetAsync(Guid id)
         {
-            return await _dbContext.Questions.FirstOrDefaultAsync(q => q.Id == id); // Добавить обработку при случае, если вопрос null
+            return await _dbContext.Questions.FirstOrDefaultAsync(q => q.Id == id);
         }
 
         public IAsyncEnumerable<Question> GetAsync(int techTransferId, int gradeLevelId)
@@ -62,13 +62,5 @@ namespace HireWise.DAL.Repository
             _dbContext.Entry(question).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
-
-        //public static async IAsyncEnumerable<T> ToAsyncEnumerable<T>(List<T> list)
-        //{
-        //    foreach (var item in list)
-        //    {
-        //        yield return item;
-        //    }
-        //}
     }
 }

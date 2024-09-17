@@ -45,7 +45,7 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getAllPublished")]
-        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public IAsyncEnumerable<Question> GetAllPublishedAsync()
         {
             return _questionLogic.GetAllPublishedAsync();
@@ -61,14 +61,14 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getById")]
-        [Authorize(Roles = "User")]
+        [AllowAnonymous]
         public async Task<Question> GetAsync(Guid id)
         {
             return await _questionLogic.GetAsync(id);
         }
 
         [HttpGet("{gradeId}, {techId}")]
-        [Authorize(Roles = "User")]
+        [AllowAnonymous]
         public IAsyncEnumerable<Question> GetAsync(int gradeId, int techId)
         {
             return _questionLogic.GetAsync(gradeId, techId);
