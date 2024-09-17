@@ -32,7 +32,7 @@ namespace HireWise.DAL.Repository.Contracts
         /// <summary>
         /// Получение всех опубликованных записей
         /// </summary>
-        IAsyncEnumerable<Record> GetPublishedRecordsAsync();
+        IAsyncEnumerable<Record> GetRecordsByPublishStatusAsync(bool isPublish);
 
         /// <summary>
         /// Получение опубликованных записей по грейду и TechTransfer

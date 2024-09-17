@@ -13,5 +13,6 @@ namespace HireWise.BLL.Logic.Contracts.Questions
         Task CreateAsync(QuestionInputModel questionInputModel);
         Task UpdateAsync(QuestionInputModel questionInputModel, Guid id);
         Task DeleteAsync(Guid id);
+        Task PublishAsync(Guid id);
     }
 }

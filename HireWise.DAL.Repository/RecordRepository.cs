@@ -83,14 +83,14 @@ namespace HireWise.DAL.Repository
                 .Where(r => r.TechTransferId == techTransferId)
                 .AsAsyncEnumerable();
 
-        public IAsyncEnumerable<Record> GetPublishedRecordsAsync() =>
-            GetPublishedRecords().AsAsyncEnumerable();
+        public IAsyncEnumerable<Record> GetRecordsByPublishStatusAsync(bool isPublish) =>
+            GetPublishedRecords(isPublish).AsAsyncEnumerable();
 
         /// <summary>
         /// Получение записей по GradeId
         /// </summary>
         public IAsyncEnumerable<Record> GetPublishedByGradeAndTechIdsAsync(int techTransferId, int gradeId) =>
-            GetPublishedRecords()
+            GetPublishedRecords(true)
             .Where(r => r.TechTransferId == techTransferId)
                 .Where(r => r.GradeId == gradeId)
                 .AsAsyncEnumerable();
@@ -107,9 +107,9 @@ namespace HireWise.DAL.Repository
         /// <summary>
         /// Получение всех опубликованных записей
         /// </summary>
-        private IQueryable<Record> GetPublishedRecords() =>
+        private IQueryable<Record> GetPublishedRecords(bool isPublish) =>
             GetRecordsQuery()
-                .Where(r => r.IsPublished);
+                .Where(r => r.IsPublished == isPublish);
 
         private IQueryable<Record> GetRecordsQuery()
         {

@@ -18,10 +18,11 @@ using HireWise.DAL.Repository;
 using HireWise.DAL.Repository.Contracts;
 using FluentValidation;
 using HireWise.Common.Entities.QuestionModels.InputModels;
-using FluentValidation.AspNetCore;
 using HireWise.Common.Entities.UserModels.InputModels;
 using HireWise.Common.Entities.RecordModels.InputModels;
 using HireWise.Common.Utilities;
+using HireWise.BLL.Logic.Contracts.Account;
+using HireWise.BLL.Logic.Account;
 
 namespace HireWise.Api.Extensions
 {
@@ -36,12 +37,13 @@ namespace HireWise.Api.Extensions
             services.AddScoped<ITechTransferLogic, TechTransferLogic>();
             services.AddScoped<IUserGroupLogic, UserGroupLogic>();
             services.AddScoped<IRecordLogic, RecordLogic>();
+            services.AddScoped<IAccountLogic, AccountLogic>();
 
             services.AddScoped<IPasswordService, PasswordService>();
 
-            services.AddAutoMapper(typeof(MapperConfig));
-            
-            services.AddSingleton<PasswordHasher>();
+            services.AddAutoMapper(typeof(MapperConfig));              //
+                                                                      // Вынести в Program?
+            services.AddSingleton<PasswordHasher>();                 //
 
             return services;
         }
@@ -62,7 +64,6 @@ namespace HireWise.Api.Extensions
         {
             services.AddValidatorsFromAssemblyContaining<QuestionValidator>();
             services.AddValidatorsFromAssemblyContaining<UserValidator>();
-
             services.AddValidatorsFromAssemblyContaining<RecordValidator>();
 
             return services;

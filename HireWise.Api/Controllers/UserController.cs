@@ -19,6 +19,7 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getById")]
+        [Authorize(Roles = "Admin")]
         public async Task<User> GetAsync(Guid Id)
         {
             return await _userLogic.GetAsync(Id);
@@ -26,6 +27,7 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getAll")]
+        [Authorize(Roles = "Admin")]
         public IAsyncEnumerable<User> GetAsync()
         {
             return _userLogic.GetAsync();
@@ -34,22 +36,16 @@ namespace HireWise.Api.Controllers
 
         [HttpPost]
         [Route("Registration")]
+        [AllowAnonymous]
         public async Task PostAsync([FromBody] UserInputModel user)
         {
             await _userLogic.CreateAsync(user);
         }
 
-        [HttpPost]
-        [Route("ChangePassword")]
-        [AllowAnonymous]
-        public async Task ChangePassword(ChangePasswordModel model)
-        {
-            await _userLogic.ChangePasswordAsync(model);
-        }
-
 
         [HttpPut]
         [Route("update")]
+        [Authorize(Roles = "User")]
         public async Task Put([FromBody] UserInputModel userInputModel, Guid id)
         {
             await _userLogic.UpdateAsync(userInputModel);
@@ -57,16 +53,10 @@ namespace HireWise.Api.Controllers
 
         [HttpDelete]
         [Route("delete")]
+        [Authorize(Roles = "Root")]
         public async Task DeleteAsync(Guid id)
         {
             await _userLogic.DeleteAsync(id);
-        }
-
-        [HttpPost]
-        [Route("ban")]
-        public async Task BanAsync(Guid id)
-        {
-            await _userLogic.BanAsync(id);
         }
     }
 }

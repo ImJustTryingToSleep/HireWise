@@ -1,7 +1,6 @@
 ﻿using HireWise.BLL.Logic.Contracts.Authorization;
 using HireWise.BLL.Logic.Contracts.Services;
-using HireWise.BLL.Logic.Services;
-using HireWise.Common.Entities.UserModels.InputModels;
+using HireWise.Common.Entities.LoginModels;
 using HireWise.DAL.Repository.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -29,15 +28,15 @@ namespace HireWise.BLL.Logic.Authorization
             _passwordService = passwordService;
             _logger = logger;
         }
-        public async Task<IResult> GetJwtAsync(UserInputModel inputModel)
+        public async Task<IResult> GetJwtAsync(LoginModel loginModel) //Другую модельку
         {
-            if (inputModel == null || string.IsNullOrEmpty(inputModel.Email) || string.IsNullOrEmpty(inputModel.Password))
+            if (loginModel == null || string.IsNullOrEmpty(loginModel.Email) || string.IsNullOrEmpty(loginModel.Password))
             {
                 var errorText = "Login and password must be provided.";
                 _logger.LogError(errorText);
                 return Results.Unauthorized();
             }
-            return await GetJwtAsync(inputModel.Email, inputModel.Password);
+            return await GetJwtAsync(loginModel.Email, loginModel.Password);
         }
         public async Task<IResult> GetJwtAsync(string email, string password)
         {
@@ -59,9 +58,12 @@ namespace HireWise.BLL.Logic.Authorization
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
-            foreach (var role in user.UserGroup.Roles)
+            if (user.UserGroup.Roles != null)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                foreach (var role in user.UserGroup.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                }
             }
 
             // создаем JWT-токен
@@ -69,12 +71,12 @@ namespace HireWise.BLL.Logic.Authorization
                 issuer: _authOptions.Issuer,
                 audience: _authOptions.Audience,
                 claims: claims,
-                expires: DateTime.Now.Add(TimeSpan.FromMinutes(_authOptions.ExpiryMinutes)),
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(_authOptions.ExpiryMinutes)),
                 signingCredentials: new SigningCredentials(_authOptions.SymmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
              );
 
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            _logger.LogInformation($"Generated token for user: {email}");
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt).ToString().Replace("Bearer", string.Empty);
+            _logger.LogInformation($"Generated token for user: {email}: {jwt}");
 
             // формируем ответ
             var response = new

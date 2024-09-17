@@ -1,6 +1,7 @@
 ﻿using HireWise.BLL.Logic.Contracts.GradeLevels;
 using HireWise.Common.Entities.GradeLevels.DB;
 using HireWise.Common.Entities.GradeLevels.InputModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,6 +20,7 @@ namespace HireWise.Api.Controllers
 
         [HttpPost]
         [Route("create")]
+        [Authorize(Roles = "Admin")]
         public async Task Post([FromBody] GradeLevelInputModel model)
         {
             await _gradeLevelLogic.CreateAsync(model);
@@ -26,6 +28,7 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getAll")]
+        [Authorize(Roles = "Admin")]
         public IAsyncEnumerable<GradeLevel> GetAsync()
         {
             return _gradeLevelLogic.GetAsync();
@@ -33,6 +36,7 @@ namespace HireWise.Api.Controllers
 
         [HttpGet]
         [Route("getById")]
+        [Authorize(Roles = "Admin")]
         public async Task<GradeLevel> GetAsync([Required] int id)
         {
             return await _gradeLevelLogic.GetAsync(id);
@@ -40,6 +44,7 @@ namespace HireWise.Api.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize(Roles = "Admin")]
         public async Task PutAsync([Required] int id, [FromBody] GradeLevelInputModel gradeLvl)
         {
             await _gradeLevelLogic.UpdateAsync(gradeLvl, id);
@@ -47,6 +52,7 @@ namespace HireWise.Api.Controllers
 
         [HttpDelete]
         [Route("delete")]
+        [Authorize(Roles = "Admin")]
         public async Task DeleteAsync([Required] int id)
         {
             await _gradeLevelLogic.DeleteAsync(id);
