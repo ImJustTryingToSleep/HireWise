@@ -28,29 +28,16 @@ namespace HireWise.BLL.Logic.Authorization
             _passwordService = passwordService;
             _logger = logger;
         }
-        public async Task<IResult> GetJwtAsync(LoginModel loginModel) //Другую модельку
-        {
-            if (loginModel == null || string.IsNullOrEmpty(loginModel.Email) || string.IsNullOrEmpty(loginModel.Password))
-            {
-                var errorText = "Login and password must be provided.";
-                _logger.LogError(errorText);
-                return Results.Unauthorized();
-            }
-            return await GetJwtAsync(loginModel.Email, loginModel.Password);
-        }
-        public async Task<IResult> GetJwtAsync(string email, string password)
+
+        public async Task<IResult> GetJwtAsync(LoginModel loginModel)
         {
             // находим пользователя 
-            var user = await _userRepository.GetAsync(email);
+            var user = await _userRepository.GetAsync(loginModel.Email);
             // если пользователь не найден, отправляем статусный код 401
             if (user is null 
-                || !_passwordService.VerifyPassword(password, user.Password)) 
+                || !_passwordService.VerifyPassword(loginModel.Password, user.Password)
+                || user.IsBanned) 
                 return Results.Unauthorized();
-
-            if(user.IsBanned)
-            {
-                throw new Exception("User is banned");
-            }
 
             var claims = new List<Claim>
             {
@@ -76,7 +63,7 @@ namespace HireWise.BLL.Logic.Authorization
              );
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt).ToString().Replace("Bearer", string.Empty);
-            _logger.LogInformation($"Generated token for user: {email}: {jwt}");
+            _logger.LogInformation($"Generated token for user: {loginModel.Email}: {jwt}");
 
             // формируем ответ
             var response = new

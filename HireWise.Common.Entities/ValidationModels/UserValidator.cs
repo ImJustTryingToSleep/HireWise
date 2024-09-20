@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
+using HireWise.Common.Entities.UserModels.InputModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HireWise.Common.Entities.UserModels.InputModels
+namespace HireWise.Common.Entities.ValidationModels
 {
     public class UserValidator : AbstractValidator<UserInputModel>
     {
