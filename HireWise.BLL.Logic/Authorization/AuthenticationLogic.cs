@@ -35,13 +35,9 @@ namespace HireWise.BLL.Logic.Authorization
             var user = await _userRepository.GetAsync(loginModel.Email);
             // если пользователь не найден, отправляем статусный код 401
             if (user is null 
-                || !_passwordService.VerifyPassword(loginModel.Password, user.Password)) 
+                || !_passwordService.VerifyPassword(loginModel.Password, user.Password)
+                || user.IsBanned) 
                 return Results.Unauthorized();
-
-            if(user.IsBanned)
-            {
-                throw new Exception("User is banned");
-            }
 
             var claims = new List<Claim>
             {
