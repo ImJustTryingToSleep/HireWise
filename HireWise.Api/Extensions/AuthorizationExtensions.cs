@@ -49,7 +49,7 @@ namespace HireWise.Api.Extensions
                 };
             });
 
-            services.AddSwaggerGen(swagger =>
+            services.AddSwaggerGen(swagger =>                                          // Вынести в Program
             {
                 //This is to generate the Default UI of Swagger Documentation
                 swagger.SwaggerDoc("v1", new OpenApiInfo

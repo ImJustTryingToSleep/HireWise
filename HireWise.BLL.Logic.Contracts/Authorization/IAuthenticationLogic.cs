@@ -6,7 +6,6 @@ namespace HireWise.BLL.Logic.Contracts.Authorization
 {
     public interface IAuthenticationLogic
     {
-        Task<IResult> GetJwtAsync(string login, string password);
         Task<IResult> GetJwtAsync(LoginModel loginModel);
     }
 }

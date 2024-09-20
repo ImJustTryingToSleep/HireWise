@@ -3,7 +3,7 @@ using System.Text;
 
 namespace HireWise.BLL.Logic.Authorization
 {
-    public class AuthOptions
+    public class AuthOptions                                                  //Вынести в  Common
     {
         public string? SecretKey { get; set; }   // ключ для шифрации
         public string? Issuer { get; set; } // издатель токена

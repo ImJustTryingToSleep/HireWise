@@ -16,10 +16,6 @@ using HireWise.BLL.Logic.UserGroupLogic;
 using HireWise.BLL.Logic.Users;
 using HireWise.DAL.Repository;
 using HireWise.DAL.Repository.Contracts;
-using FluentValidation;
-using HireWise.Common.Entities.QuestionModels.InputModels;
-using HireWise.Common.Entities.UserModels.InputModels;
-using HireWise.Common.Entities.RecordModels.InputModels;
 using HireWise.Common.Utilities;
 using HireWise.BLL.Logic.Contracts.Account;
 using HireWise.BLL.Logic.Account;
@@ -40,10 +36,7 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IAccountLogic, AccountLogic>();
 
             services.AddScoped<IPasswordService, PasswordService>();
-
-            services.AddAutoMapper(typeof(MapperConfig));              //
-                                                                      // Вынести в Program?
-            services.AddSingleton<PasswordHasher>();                 //
+            services.AddSingleton<PasswordHasher>();
 
             return services;
         }
@@ -56,15 +49,6 @@ namespace HireWise.Api.Extensions
             services.AddScoped<IGradeLevelRepository, GradeLevelRepository>();
             services.AddScoped<IUserGroupRepository, UserGroupRepository>();
             services.AddScoped<IRecordRepository, RecordRepository>();
-
-            return services;
-        }
-
-        public static IServiceCollection ConfigureValidationDependencies(this IServiceCollection services)
-        {
-            services.AddValidatorsFromAssemblyContaining<QuestionValidator>();
-            services.AddValidatorsFromAssemblyContaining<UserValidator>();
-            services.AddValidatorsFromAssemblyContaining<RecordValidator>();
 
             return services;
         }

@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using HireWise.Api.Extensions;
 using HireWise.BLL.Logic.Authorization;
 using HireWise.BLL.Logic.Contracts.Services;
@@ -13,7 +14,9 @@ AuthOptions authOptions = new();
 builder.Configuration.GetSection("AuthOptions").Bind(authOptions);
 builder.Services.AddSingleton(authOptions);
 
-builder.AddFluentValidationEndpointFilter();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.ConfigureDALDependencies();
 builder.Services.ConfigureBLLDependencies();
@@ -34,7 +37,6 @@ using (var scope = app.Services.CreateScope())
     var passwordService = services.GetRequiredService<IPasswordService>();
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
